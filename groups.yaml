@@ -1,0 +1,60 @@
+default_view:
+  view: yes
+  icon: mdi:home
+  entities:
+    - group.thermostats
+    - group.media
+    - group.laundry
+    - group.lights
+    - group.device_status
+    - group.media_players
+    - group.people
+
+thermostats:
+  name: Thermostats
+  entities:
+    - climate.front_thermostat_heating
+    - climate.back_thermostat_heating
+
+media:
+  name: Media
+  control: hidden
+  entities:
+    - sensor.living_room_remote_status
+    - remote.living_room
+    
+laundry:
+  name: Laundry
+  control: hidden
+  entities:
+    - sensor.dryer_status
+    - sensor.dryer_power
+    
+lights:
+  name: Lights
+  control: hidden
+  entities:
+    - light.living_room_track_level
+    - switch.front_door_switch
+
+device_status:
+  name: Device Status
+  control: hidden
+  entities:
+    - sensor.front_thermostat_battery
+    - sensor.front_thermostat_temperature
+    - sensor.front_thermostat_status
+    - sensor.back_thermostat_battery
+    - sensor.back_thermostat_temperature
+    - sensor.back_thermostat_status
+    - script.poll_thermostats
+
+media_players:
+  name: Media Players
+  control: hidden
+  entities: media_player.living_room, media_player.bedroom
+
+people:
+  name: People
+  control: hidden
+  entities: device_tracker.jason, device_tracker.jen

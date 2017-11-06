@@ -1,0 +1,10 @@
+switch.dryer_switch:
+  hidden: true
+sensor.dryer_current:
+  hidden: true
+sensor.dryer_energy:
+  hidden: true
+sensor.dryer_previous_reading:
+  hidden: true
+sensor.dryer_voltage:
+  hidden: true

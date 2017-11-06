@@ -1,0 +1,81 @@
+- action:
+  - alias: Gmail
+    data:
+      message: How dry do you like it?!
+      title: Laundry
+    service: notify.gmail_sms
+  alias: Laundry done email
+  condition: []
+  id: '1507960736936'
+  trigger:
+  - entity_id: sensor.computed_laundry_status
+    from: 'True'
+    platform: state
+    to: 'False'
+- action:
+  - alias: Front door light off
+    data:
+      entity_id: switch.front_door_switch
+    service: switch.turn_off
+  alias: Front door switch off at sunrise
+  condition: []
+  id: '1508052370089'
+  trigger:
+  - event: sunrise
+    offset: 00:40:00
+    platform: sun
+- action:
+  - alias: Turn light on
+    data:
+      entity_id: switch.front_door_switch
+    service: switch.turn_on
+  alias: Front door switch on at sunset
+  condition: []
+  id: '1508103995598'
+  trigger:
+  - event: sunset
+    offset: -00:40:00
+    platform: sun
+- action:
+  - alias: Turn off front thermostat
+    data:
+      entity_id: climate.front_thermostat_heating
+      operation_mode: Heat
+      temperature: 70
+    service: climate.set_temperature
+  - alias: Turn off back thermostat
+    data:
+      entity_id: climate.back_thermostat_heating
+      operation_mode: Heat
+      temperature: 71
+    service: climate.set_temperature
+  alias: Turn heat off after away for 45 minutes
+  condition:
+  - before: '11:30:00'
+    condition: time
+  id: '1508862447130'
+  trigger:
+  - entity_id: group.all_devices
+    for:
+      minutes: 45
+    platform: state
+    to: not_home
+- action:
+  - alias: Turn on front thermostat
+    data:
+      entity_id: climate.front_thermostat_heating
+      operation_mode: Heat
+      temperature: 73
+    service: climate.set_temperature
+  - alias: Turn on back thermostat
+    data:
+      entity_id: climate.back_thermostat_heating
+      operation_mode: Heat
+      temperature: 75
+    service: climate.set_temperature
+  alias: Turn heat on at 5:00PM
+  condition: []
+  id: '1508868667922'
+  trigger:
+  - at: '17:00:00'
+    platform: time

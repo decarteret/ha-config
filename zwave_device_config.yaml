@@ -1,0 +1,21 @@
+sensor.dryer_current:
+  ignored: true
+  polling_intensity: 0
+sensor.dryer_power:
+  ignored: false
+  polling_intensity: 0
+sensor.dryer_previous_reading:
+  ignored: true
+  polling_intensity: 0
+switch.dryer_switch:
+  ignored: true
+  polling_intensity: 0
+sensor.dryer_voltage:
+  ignored: true
+  polling_intensity: 0
+sensor.dryer_energy:
+  ignored: true
+  polling_intensity: 0
+climate.front_thermostat_cooling_1:
+  ignored: true
+  polling_intensity: 0
