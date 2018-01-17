@@ -36,46 +36,46 @@
   - event: sunset
     offset: -00:40:00
     platform: sun
-- action:
-  - alias: Turn off front thermostat
-    data:
-      entity_id: climate.front_thermostat_heating
-      operation_mode: Heat
-      temperature: 70
-    service: climate.set_temperature
-  - alias: Turn off back thermostat
-    data:
-      entity_id: climate.back_thermostat_heating
-      operation_mode: Heat
-      temperature: 71
-    service: climate.set_temperature
-  alias: Turn heat off after away for 45 minutes
-  condition:
-  - before: '11:30:00'
-    condition: time
-  id: '1508862447130'
-  trigger:
-  - entity_id: group.all_devices
-    for:
-      minutes: 45
-    platform: state
-    to: not_home
-- action:
-  - alias: Turn on front thermostat
-    data:
-      entity_id: climate.front_thermostat_heating
-      operation_mode: Heat
-      temperature: 73
-    service: climate.set_temperature
-  - alias: Turn on back thermostat
-    data:
-      entity_id: climate.back_thermostat_heating
-      operation_mode: Heat
-      temperature: 75
-    service: climate.set_temperature
-  alias: Turn heat on at 5:00PM
-  condition: []
-  id: '1508868667922'
-  trigger:
-  - at: '17:00:00'
-    platform: time
+# - action:
+#   - alias: Turn off front thermostat
+#     data:
+#       entity_id: climate.front_thermostat_heating
+#       operation_mode: Heat
+#       temperature: 70
+#     service: climate.set_temperature
+#   - alias: Turn off back thermostat
+#     data:
+#       entity_id: climate.back_thermostat_heating
+#       operation_mode: Heat
+#       temperature: 71
+#     service: climate.set_temperature
+#   alias: Turn heat off after away for 45 minutes
+#   condition:
+#   - before: '11:30:00'
+#     condition: time
+#   id: '1508862447130'
+#   trigger:
+#   - entity_id: group.all_devices
+#     for:
+#       minutes: 45
+#     platform: state
+#     to: not_home
+# - action:
+#   - alias: Turn on front thermostat
+#     data:
+#       entity_id: climate.front_thermostat_heating
+#       operation_mode: Heat
+#       temperature: 73
+#     service: climate.set_temperature
+#   - alias: Turn on back thermostat
+#     data:
+#       entity_id: climate.back_thermostat_heating
+#       operation_mode: Heat
+#       temperature: 75
+#     service: climate.set_temperature
+#   alias: Turn heat on at 5:00PM
+#   condition: []
+#   id: '1508868667922'
+#   trigger:
+#   - at: '17:00:00'
+#     platform: time

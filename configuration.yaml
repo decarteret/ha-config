@@ -36,9 +36,9 @@ updater:
 
 # Discover some devices automatically
 discovery:
-  ignore:
-    - roku
-    - plex_mediaserver
+ ignore:
+   - roku
+   - plex_mediaserver
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
@@ -117,7 +117,6 @@ notify:
     password: !secret gmail_password
     recipient:
       - !secret email_recipient1
-      - !secret email_recipient2
     sender_name: Home Assistant
   - name: gmail_sms
     platform: smtp
@@ -130,11 +129,9 @@ notify:
     password: !secret gmail_password
     recipient:
       - !secret sms_recipient1
-      - !secret sms_recipient2
     sender_name: Home Assistant
 
 device_tracker:
   - platform: ping
     hosts:
       jason: 192.168.0.118
-      jen: 192.168.0.122

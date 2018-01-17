@@ -57,4 +57,4 @@ media_players:
 people:
   name: People
   control: hidden
-  entities: device_tracker.jason, device_tracker.jen
+  entities: device_tracker.jason
