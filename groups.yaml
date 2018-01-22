@@ -35,6 +35,7 @@ lights:
   control: hidden
   entities:
     - light.living_room_track_level
+    - light.living_room_light_level
     - switch.front_door_switch
 
 device_status:

@@ -13,7 +13,7 @@
     platform: state
     to: 'False'
 - action:
-  - alias: Front door light off
+  - alias: Front door switch off
     data:
       entity_id: switch.front_door_switch
     service: switch.turn_off
@@ -25,7 +25,7 @@
     offset: 00:40:00
     platform: sun
 - action:
-  - alias: Turn light on
+  - alias: Front door switch on
     data:
       entity_id: switch.front_door_switch
     service: switch.turn_on
@@ -36,46 +36,34 @@
   - event: sunset
     offset: -00:40:00
     platform: sun
-# - action:
-#   - alias: Turn off front thermostat
-#     data:
-#       entity_id: climate.front_thermostat_heating
-#       operation_mode: Heat
-#       temperature: 70
-#     service: climate.set_temperature
-#   - alias: Turn off back thermostat
-#     data:
-#       entity_id: climate.back_thermostat_heating
-#       operation_mode: Heat
-#       temperature: 71
-#     service: climate.set_temperature
-#   alias: Turn heat off after away for 45 minutes
-#   condition:
-#   - before: '11:30:00'
-#     condition: time
-#   id: '1508862447130'
-#   trigger:
-#   - entity_id: group.all_devices
-#     for:
-#       minutes: 45
-#     platform: state
-#     to: not_home
-# - action:
-#   - alias: Turn on front thermostat
-#     data:
-#       entity_id: climate.front_thermostat_heating
-#       operation_mode: Heat
-#       temperature: 73
-#     service: climate.set_temperature
-#   - alias: Turn on back thermostat
-#     data:
-#       entity_id: climate.back_thermostat_heating
-#       operation_mode: Heat
-#       temperature: 75
-#     service: climate.set_temperature
-#   alias: Turn heat on at 5:00PM
-#   condition: []
-#   id: '1508868667922'
-#   trigger:
-#   - at: '17:00:00'
-#     platform: time
+- action:
+  - alias: Living room light on
+    data:
+      brightness: '75'
+      entity_id: light.living_room_light_level
+      transition: '120'
+    service: light.turn_on
+  alias: Living room light on at sunset
+  condition: []
+  id: '1516591514142'
+  trigger:
+  - event: sunset
+    offset: 00:20:00
+    platform: sun
+- action:
+  - alias: Living room light off
+    data:
+      entity_id: light.living_room_light_level
+      transition: '10'
+    service: light.turn_off
+  - alias: Living room track off
+    data:
+      entity_id: light.living_room_track_level
+      transition: '4'
+    service: light.turn_off
+  alias: Living room off at 3AM
+  condition: []
+  id: '1516591813514'
+  trigger:
+  - at: '3:00:00'
+    platform: time
