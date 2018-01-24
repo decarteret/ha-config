@@ -103,7 +103,7 @@ climate:
   - platform: zwave
   
 emulated_hue:
-  host_ip: 192.168.0.132
+  host_ip: 192.168.0.102
 
 notify:
   - name: gmail

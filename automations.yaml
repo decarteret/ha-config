@@ -48,7 +48,6 @@
   id: '1516591514142'
   trigger:
   - event: sunset
-    offset: 00:20:00
     platform: sun
 - action:
   - alias: Living room light off
@@ -61,9 +60,9 @@
       entity_id: light.living_room_track_level
       transition: '4'
     service: light.turn_off
-  alias: Living room off at 3AM
+  alias: Living room off at 2:15AM
   condition: []
   id: '1516591813514'
   trigger:
-  - at: '3:00:00'
+  - at: '2:15:00'
     platform: time
