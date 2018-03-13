@@ -19,3 +19,6 @@ sensor.dryer_energy:
 climate.front_thermostat_cooling_1:
   ignored: true
   polling_intensity: 0
+climate.back_thermostat_cooling_1:
+  ignored: true
+  polling_intensity: 0

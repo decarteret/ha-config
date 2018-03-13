@@ -1,10 +1,15 @@
-switch.dryer_switch:
-  hidden: true
-sensor.dryer_current:
-  hidden: true
-sensor.dryer_energy:
-  hidden: true
-sensor.dryer_previous_reading:
-  hidden: true
-sensor.dryer_voltage:
-  hidden: true
+# switch.dryer_switch:
+#   hidden: true
+# sensor.dryer_current:
+#   hidden: true
+# sensor.dryer_energy:
+#   hidden: true
+# sensor.dryer_previous_reading:
+#   hidden: true
+# sensor.dryer_voltage:
+#   hidden: true
+
+binary_sensor.door_field_detection:
+  friendly_name: "Entryway"
+binary_sensor.door_motion:
+  friendly_name: "Landing"
