@@ -1,0 +1,84 @@
+switch.laundry_switch:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076282880
+sensor.laundry_energy:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076495874
+sensor.laundry_previous_reading:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076495890
+sensor.laundry_power:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076496002
+sensor.laundry_voltage:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076496130
+sensor.laundry_current:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076496194
+light.living_room_track_level:
+  name:
+  platform: zwave
+  unique_id: 3-72057594093076481
+switch.front_door_switch:
+  name:
+  platform: zwave
+  unique_id: 4-72057594109837312
+sensor.front_thermostat_temperature:
+  name:
+  platform: zwave
+  unique_id: 5-72057594126811154
+climate.front_thermostat_heating:
+  name:
+  platform: zwave
+  unique_id: 5-72057594127106066
+climate.front_thermostat_cooling:
+  name:
+  platform: zwave
+  unique_id: 5-72057594127106082
+sensor.back_thermostat_temperature:
+  name:
+  platform: zwave
+  unique_id: 6-72057594143588370
+climate.back_thermostat_heating:
+  name:
+  platform: zwave
+  unique_id: 6-72057594143883282
+climate.back_thermostat_cooling:
+  name:
+  platform: zwave
+  unique_id: 6-72057594143883298
+light.living_room_light_level:
+  name:
+  platform: zwave
+  unique_id: 7-72057594160185345
+light.office_light_level:
+  name:
+  platform: zwave
+  unique_id: 8-72057594176962561
+media_player.living_room:
+  name:
+  platform: cast
+  unique_id: d481e21f-f701-60ec-0e12-d5db8937909a
+binary_sensor.door_motion:
+  name:
+  platform: hikvision
+  unique_id: 9a3b1363-886b-11b5-8459-2857be1a618f.Motion.1
+binary_sensor.door_field_detection:
+  name:
+  platform: hikvision
+  unique_id: 9a3b1363-886b-11b5-8459-2857be1a618f.Field Detection.1
+media_player.treadmill:
+  name:
+  platform: cast
+  unique_id: 5d99bde0-39d9-c8da-dc46-2303d80d7179
+media_player.fitness_2:
+  name:
+  platform: plex
+  unique_id: f5e04b53a9e72c04316493dc7f871c6a
