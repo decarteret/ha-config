@@ -38,6 +38,7 @@ lights:
     - light.living_room_track_level
     - light.living_room_light_level
     - switch.front_door_switch
+    - light.office_light_level
 
 device_status:
   name: Thermostat Statuses
@@ -54,7 +55,10 @@ device_status:
 media_players:
   name: Media Players
   control: hidden
-  entities: media_player.living_room, media_player.bedroom
+  entities:
+    - media_player.living_room
+    - media_player.treadmill
+    - media_player.fitness
 
 people:
   name: People

@@ -36,9 +36,9 @@ updater:
 
 # Discover some devices automatically
 discovery:
- ignore:
-   - roku
-   - plex_mediaserver
+#  ignore:
+#    - roku
+#    - plex_mediaserver
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
@@ -54,6 +54,7 @@ sun:
 
 # Sensors
 sensor:
+  - platform: version
   - platform: template
     sensors:
       computed_laundry_status:

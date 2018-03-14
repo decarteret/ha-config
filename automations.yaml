@@ -66,3 +66,33 @@
   trigger:
   - at: '2:15:00'
     platform: time
+- action:
+  - data:
+      color_name: red
+      entity_id: light.office_light_level
+    service: light.turn_on
+  alias: Intrusion Detected
+  condition:
+  - condition: state
+    entity_id: light.office_light_level
+    state: 'on'
+  id: '1521008562125'
+  trigger:
+  - entity_id: binary_sensor.door_motion
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      color_name: white
+      entity_id: light.office_light_level
+    service: light.turn_on
+  alias: Intrusion Clear
+  condition:
+  - condition: state
+    entity_id: light.office_light_level
+    state: 'on'
+  id: '1521009324060'
+  trigger:
+  - entity_id: binary_sensor.door_motion
+    platform: state
+    to: 'off'
