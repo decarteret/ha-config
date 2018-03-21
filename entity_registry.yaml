@@ -82,3 +82,15 @@ media_player.fitness_2:
   name:
   platform: plex
   unique_id: f5e04b53a9e72c04316493dc7f871c6a
+media_player.plex_web_chrome:
+  name:
+  platform: plex
+  unique_id: e5b44afcralmem2rbgz625u3di
+media_player.xboxsystemos:
+  name:
+  platform: plex
+  unique_id: fwevlt5l79sdkg7y4r9r4vli
+media_player.plex_web_chrome_2:
+  name:
+  platform: plex
+  unique_id: dpihqcft7bs6zfwowdn17dnu
