@@ -7,5 +7,5 @@ poll_thermostats:
     service: zwave.refresh_node
   - alias: Poll back thermostat
     data:
-      node_id: 6
+      node_id: 9
     service: zwave.refresh_node

@@ -36,9 +36,9 @@ updater:
 
 # Discover some devices automatically
 discovery:
-#  ignore:
-#    - roku
-#    - plex_mediaserver
+ ignore:
+   - roku
+   - plex_mediaserver
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
@@ -131,6 +131,9 @@ notify:
     recipient:
       - !secret sms_recipient1
     sender_name: Home Assistant
+  - name: kodi
+    platform: kodi
+    host: 192.168.0.102
 
 device_tracker:
   - platform: ping

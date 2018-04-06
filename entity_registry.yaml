@@ -42,18 +42,6 @@ climate.front_thermostat_cooling:
   name:
   platform: zwave
   unique_id: 5-72057594127106082
-sensor.back_thermostat_temperature:
-  name:
-  platform: zwave
-  unique_id: 6-72057594143588370
-climate.back_thermostat_heating:
-  name:
-  platform: zwave
-  unique_id: 6-72057594143883282
-climate.back_thermostat_cooling:
-  name:
-  platform: zwave
-  unique_id: 6-72057594143883298
 light.living_room_light_level:
   name:
   platform: zwave
@@ -94,3 +82,23 @@ media_player.plex_web_chrome_2:
   name:
   platform: plex
   unique_id: dpihqcft7bs6zfwowdn17dnu
+media_player.chrome:
+  name:
+  platform: plex
+  unique_id: hn78n45xhais5x70p7hjmket
+climate.back_thermostat_heating:
+  name:
+  platform: zwave
+  unique_id: 9-72057594194214930
+climate.back_thermostat_cooling:
+  name:
+  platform: zwave
+  unique_id: 9-72057594194214946
+sensor.back_thermostat_temperature:
+  name:
+  platform: zwave
+  unique_id: 9-72057594193920018
+media_player.chrome_2:
+  name:
+  platform: plex
+  unique_id: ew04lflfhbpgpqeut0z0voed

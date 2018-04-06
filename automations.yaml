@@ -4,7 +4,11 @@
       message: How dry do you like it?!
       title: Laundry
     service: notify.gmail_sms
-  alias: Laundry done email
+  - data:
+      message: How dry do you like it?
+      title: Laundry
+    service: notify.kodi
+  alias: Laundry done notification
   condition: []
   id: '1507960736936'
   trigger:
