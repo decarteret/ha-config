@@ -90,7 +90,6 @@ group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 
-
 binary_sensor:
   platform: hikvision
   host: 192.168.0.100
@@ -136,6 +135,6 @@ notify:
     host: 192.168.0.102
 
 device_tracker:
-  - platform: ping
-    hosts:
-      jason: 192.168.0.118
+  platform: google_maps
+  username: !secret gmail_username
+  password: !secret gmail_password

@@ -63,7 +63,7 @@ media_players:
 people:
   name: People
   control: hidden
-  entities: device_tracker.jason
+  entities: device_tracker.google_maps_111034445952431641993
 
 doors:
   name: Door Sensors
