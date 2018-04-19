@@ -1,24 +1,24 @@
-switch.laundry_switch:
+switch.laundry_plug_switch:
   name:
   platform: zwave
   unique_id: 2-72057594076282880
-sensor.laundry_energy:
+sensor.laundry_plug_energy:
   name:
   platform: zwave
   unique_id: 2-72057594076495874
-sensor.laundry_previous_reading:
+sensor.laundry_plug_previous_reading:
   name:
   platform: zwave
   unique_id: 2-72057594076495890
-sensor.laundry_power:
+sensor.laundry_plug_power:
   name:
   platform: zwave
   unique_id: 2-72057594076496002
-sensor.laundry_voltage:
+sensor.laundry_plug_voltage:
   name:
   platform: zwave
   unique_id: 2-72057594076496130
-sensor.laundry_current:
+sensor.laundry_plug_current:
   name:
   platform: zwave
   unique_id: 2-72057594076496194
@@ -54,12 +54,12 @@ media_player.living_room:
   name:
   platform: cast
   unique_id: d481e21f-f701-60ec-0e12-d5db8937909a
-binary_sensor.door_motion:
-  name:
+binary_sensor.landing:
+  name: Landing
   platform: hikvision
   unique_id: 9a3b1363-886b-11b5-8459-2857be1a618f.Motion.1
-binary_sensor.door_field_detection:
-  name:
+binary_sensor.entryway:
+  name: Entryway
   platform: hikvision
   unique_id: 9a3b1363-886b-11b5-8459-2857be1a618f.Field Detection.1
 media_player.treadmill:
@@ -102,3 +102,27 @@ media_player.chrome_2:
   name:
   platform: plex
   unique_id: ew04lflfhbpgpqeut0z0voed
+sensor.bedroom_plug_power:
+  name:
+  platform: zwave
+  unique_id: 10-72057594210713730
+sensor.bedroom_plug_voltage:
+  name:
+  platform: zwave
+  unique_id: 10-72057594210713858
+sensor.bedroom_plug_current:
+  name:
+  platform: zwave
+  unique_id: 10-72057594210713922
+sensor.bedroom_plug_previous_reading:
+  name:
+  platform: zwave
+  unique_id: 10-72057594210713618
+switch.bedroom_plug_switch:
+  name:
+  platform: zwave
+  unique_id: 10-72057594210500608
+sensor.bedroom_plug_energy:
+  name:
+  platform: zwave
+  unique_id: 10-72057594210713602

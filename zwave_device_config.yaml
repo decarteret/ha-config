@@ -1,19 +1,19 @@
-sensor.dryer_current:
+# sensor.laundry_plug_power:
+#   ignored: false
+#   polling_intensity: 0
+sensor.laundry_plug_current:
   ignored: true
   polling_intensity: 0
-sensor.dryer_power:
-  ignored: false
-  polling_intensity: 0
-sensor.dryer_previous_reading:
+sensor.laundry_plug_previous_reading:
   ignored: true
   polling_intensity: 0
-switch.dryer_switch:
+switch.laundry_plug_switch:
   ignored: true
   polling_intensity: 0
-sensor.dryer_voltage:
+sensor.laundry_plug_voltage:
   ignored: true
   polling_intensity: 0
-sensor.dryer_energy:
+sensor.laundry_plug_energy:
   ignored: true
   polling_intensity: 0
 climate.front_thermostat_cooling:

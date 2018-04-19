@@ -1,11 +1,11 @@
-poll_thermostats:
-  alias: Poll thermostats
+refresh_thermostats:
+  alias: Refresh thermostats
   sequence:
-  - alias: Poll front thermostat
+  - alias: Refresh front thermostat
     data:
       node_id: 5
     service: zwave.refresh_node
-  - alias: Poll back thermostat
+  - alias: Refresh back thermostat
     data:
       node_id: 9
     service: zwave.refresh_node

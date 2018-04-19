@@ -2,8 +2,8 @@ homeassistant:
   # Name of the location where Home Assistant is running
   name: Home Assistant
   # Location required to calculate the time the sun rises and sets
-  latitude: !secret latitude
-  longitude: !secret longitude
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
   # Impacts weather/sunrise data (altitude above sea level in meters)
   elevation: 172
   # metric for Metric, imperial for Imperial
@@ -57,13 +57,13 @@ sensor:
   - platform: version
   - platform: template
     sensors:
-      computed_laundry_status:
+      computed_laundry_plug_status:
         friendly_name: "Computed Laundry Status"
-        value_template: "{{ states.sensor.laundry_power.attributes.power_consumption > 10 }}"
-      laundry_status:
+        value_template: "{{ states.sensor.laundry_plug_power.attributes.power_consumption > 10 }}"
+      laundry_plug_status:
         friendly_name: "Laundry"
-        value_template: "{% if is_state( 'sensor.computed_laundry_status', 'True' ) %}on{% else %}off{% endif %}"
-        icon_template: "{% if is_state( 'sensor.computed_laundry_status', 'True' ) %}mdi:power-plug{% else %}mdi:power-plug-off{% endif %}"
+        value_template: "{% if is_state( 'sensor.computed_laundry_plug_status', 'True' ) %}on{% else %}off{% endif %}"
+        icon_template: "{% if is_state( 'sensor.computed_laundry_plug_status', 'True' ) %}mdi:power-plug{% else %}mdi:power-plug-off{% endif %}"
       living_room_remote_status:
         friendly_name: "Living Room TV"
         value_template: "{{ states.remote.living_room.attributes.current_activity }}"
@@ -138,3 +138,13 @@ device_tracker:
   platform: google_maps
   username: !secret gmail_username
   password: !secret gmail_password
+
+zone:
+  - name: Home
+    latitude: !secret home_latitude
+    longitude: !secret home_longitude
+    radius: 500
+  - name: Work
+    latitude: !secret work_latitude
+    longitude: !secret work_longitude
+    radius: 500

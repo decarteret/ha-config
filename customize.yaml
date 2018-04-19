@@ -1,4 +1,0 @@
-binary_sensor.door_field_detection:
-  friendly_name: "Entryway"
-binary_sensor.door_motion:
-  friendly_name: "Landing"

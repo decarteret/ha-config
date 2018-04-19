@@ -4,12 +4,12 @@ default_view:
   entities:
     - group.thermostats
     - group.media
-    - group.laundry
+    - group.other_sensors
     - group.lights
-    - group.device_status
+    - group.thermostat_extras
     - group.media_players
     - group.people
-    - group.doors
+    - group.motion_sensors
 
 thermostats:
   name: Thermostats
@@ -24,12 +24,13 @@ media:
     - sensor.living_room_remote_status
     - remote.living_room
     
-laundry:
-  name: Laundry
+other_sensors:
+  name: Other Sensors
   control: hidden
   entities:
-    - sensor.dryer_status
-    - sensor.dryer_power
+    - sensor.laundry_plug_status
+    - sensor.laundry_plug_power
+    - sensor.bedroom_plug_power
     
 lights:
   name: Lights
@@ -40,8 +41,8 @@ lights:
     - switch.front_door_switch
     - light.office_light_level
 
-device_status:
-  name: Thermostat Statuses
+thermostat_extras:
+  name: Thermostat Extras
   control: hidden
   entities:
     - sensor.front_thermostat_battery
@@ -50,7 +51,7 @@ device_status:
     - sensor.back_thermostat_battery
     - sensor.back_thermostat_temperature
     - sensor.back_thermostat_status
-    - script.poll_thermostats
+    - script.refresh_thermostats
 
 media_players:
   name: Media Players
@@ -65,9 +66,9 @@ people:
   control: hidden
   entities: device_tracker.google_maps_111034445952431641993
 
-doors:
-  name: Door Sensors
+motion_sensors:
+  name: Motion Sensors
   control: hidden
   entities:
-    - binary_sensor.door_field_detection
-    - binary_sensor.door_motion
+    - binary_sensor.entryway
+    - binary_sensor.landing
