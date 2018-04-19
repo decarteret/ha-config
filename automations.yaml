@@ -74,6 +74,7 @@
   - data:
       color_name: red
       entity_id: light.office_light_level
+      white_value: '0'
     service: light.turn_on
   alias: Intrusion Detected
   condition:
@@ -89,6 +90,7 @@
   - data:
       color_name: white
       entity_id: light.office_light_level
+      white_value: '255'
     service: light.turn_on
   alias: Intrusion Clear
   condition:
