@@ -54,7 +54,14 @@ sun:
 
 # Sensors
 sensor:
-  - platform: version
+  - platform: wunderground
+    api_key: !secret wunderground_api_key
+    name: Outdoor
+    monitored_conditions:
+      - temp_f
+      - feelslike_f
+      - weather_1d
+      - weather_2d
   - platform: template
     sensors:
       computed_laundry_plug_status:
@@ -148,3 +155,7 @@ zone:
     latitude: !secret work_latitude
     longitude: !secret work_longitude
     radius: 500
+  - name: Christina's
+    latitude: !secret christina_latitude
+    longitude: !secret christina_longitude
+    radius: 500    

@@ -2,20 +2,24 @@ default_view:
   view: yes
   icon: mdi:home
   entities:
-    - group.thermostats
-    - group.media
-    - group.other_sensors
+    - group.climate
     - group.lights
-    - group.thermostat_extras
+    - group.thermostats
+    - group.other_sensors
+    - group.media
     - group.media_players
     - group.people
     - group.motion_sensors
 
-thermostats:
-  name: Thermostats
+climate:
+  name: Climate
   entities:
     - climate.front_thermostat_heating
     - climate.back_thermostat_heating
+    - sensor.pws_temp_f
+    - sensor.pws_feelslike_f
+    - sensor.pws_weather_1d
+    - sensor.pws_weather_2d
 
 media:
   name: Media
@@ -31,6 +35,7 @@ other_sensors:
     - sensor.laundry_plug_status
     - sensor.laundry_plug_power
     - sensor.bedroom_plug_power
+    - switch.bedroom_plug_switch
     
 lights:
   name: Lights
@@ -41,8 +46,8 @@ lights:
     - switch.front_door_switch
     - light.office_light_level
 
-thermostat_extras:
-  name: Thermostat Extras
+thermostats:
+  name: Thermostats
   control: hidden
   entities:
     - sensor.front_thermostat_battery
