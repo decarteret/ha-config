@@ -8,10 +8,8 @@ views:
         entities:
           - climate.front_thermostat_heating
           - sensor.front_thermostat_status
-          - sensor.front_thermostat_battery
           - climate.back_thermostat_heating
           - sensor.back_thermostat_status
-          - sensor.back_thermostat_battery
 
       - type: entities
         title: Lights
@@ -77,6 +75,12 @@ views:
         refresh_interval: 300
         entities:
           - sensor.home_to_christinas
+
+      - type: entities
+        title: Batteries
+        entities:
+          - sensor.front_thermostat_battery
+          - sensor.back_thermostat_battery
 
 
   - title: Internet
