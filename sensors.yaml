@@ -1,41 +1,45 @@
-  - platform: wunderground
-    api_key: !secret wunderground_api_key
-    name: Outdoor
-    monitored_conditions:
-      - temp_f
-      - feelslike_f
-      - weather_1d
-      - weather_2d
+- platform: wunderground
+  api_key: !secret wunderground_api_key
+  name: Outdoor
+  monitored_conditions:
+    - temp_f
 
 
-  - platform: template
-    sensors:
-      laundry_plug_status:
-        friendly_name: "Laundry"
-        value_template: "{% if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 %}on{% else %}off{% endif %}"
-        icon_template: "{% if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 %}mdi:power-plug{% else %}mdi:power-plug-off{% endif %}"
+- platform: template
+  sensors:
+    laundry_plug_status:
+      friendly_name: "Laundry"
+      value_template: "{% if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 %}on{% else %}off{% endif %}"
+      icon_template: "{% if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 %}mdi:power-plug{% else %}mdi:power-plug-off{% endif %}"
 
 
-      living_room_remote_status:
-        friendly_name: "Living Room TV"
-        value_template: "{{ state_attr( 'remote.living_room', 'current_activity' ) }}"
+    living_room_remote_status:
+      friendly_name: "Living Room TV"
+      value_template: "{{ state_attr( 'remote.living_room', 'current_activity' ) }}"
 
 
-      front_thermostat_battery:
-        friendly_name: "Front Thermostat Battery"
-        unit_of_measurement: "%"
-        value_template: "{{ state_attr( 'zwave.front_thermostat', 'battery_level' ) }}"
+    front_thermostat_battery:
+      friendly_name: "Front Thermostat Battery"
+      unit_of_measurement: "%"
+      value_template: "{{ state_attr( 'zwave.front_thermostat', 'battery_level' ) }}"
 
-      back_thermostat_battery:
-        friendly_name: "Back Thermostat Battery"
-        unit_of_measurement: "%"
-        value_template: "{{ state_attr( 'zwave.back_thermostat', 'battery_level' ) }}"
+    back_thermostat_battery:
+      friendly_name: "Back Thermostat Battery"
+      unit_of_measurement: "%"
+      value_template: "{{ state_attr( 'zwave.back_thermostat', 'battery_level' ) }}"
 
 
-      front_thermostat_status:
-        friendly_name: "Front Thermostat Status"
-        value_template: "{{ state_attr( 'climate.front_thermostat_heating', 'operating_state' ) }}"
+    front_thermostat_status:
+      friendly_name: "Front Thermostat Status"
+      value_template: "{{ state_attr( 'climate.front_thermostat_heating', 'operating_state' ) }}"
 
-      back_thermostat_status:
-        friendly_name: "Back Thermostat Status"
-        value_template: "{{ state_attr( 'climate.back_thermostat_heating', 'operating_state' ) }}"
+    back_thermostat_status:
+      friendly_name: "Back Thermostat Status"
+      value_template: "{{ state_attr( 'climate.back_thermostat_heating', 'operating_state' ) }}"
+
+
+- platform: google_travel_time
+  name: Home to Christina's
+  api_key: !secret decartert_gmail_google_api_key
+  origin: 6411 Fremont Ave N, Seattle, WA
+  destination: 11002 12th Avenue SW, Seattle, WA

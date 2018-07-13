@@ -10,6 +10,7 @@ default_view:
     - group.media_players
     - group.people
     - group.motion_sensors
+    - group.internet
 
 climate:
   name: Climate
@@ -17,9 +18,6 @@ climate:
     - climate.front_thermostat_heating
     - climate.back_thermostat_heating
     - sensor.pws_temp_f
-    - sensor.pws_feelslike_f
-    - sensor.pws_weather_1d
-    - sensor.pws_weather_2d
 
 media:
   name: Media
@@ -77,3 +75,19 @@ motion_sensors:
   entities:
     - binary_sensor.entryway
     - binary_sensor.landing
+
+internet:
+  name: Internet
+  control: hidden
+  entities:
+    - sensor.sabnzbd_daily_total
+    - sensor.sabnzbd_weekly_total
+    - sensor.sabnzbd_monthly_total
+    - sensor.sabnzbd_disk
+    - sensor.sabnzbd_disk_free
+    - sensor.sabnzbd_left
+    - sensor.sabnzbd_queue
+    - sensor.sabnzbd_queue_count
+    - sensor.sabnzbd_speed
+    - sensor.sabnzbd_status
+    - sensor.sabnzbd_total

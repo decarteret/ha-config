@@ -15,6 +15,7 @@ homeassistant:
 
 # Enables the frontend
 frontend:
+  themes: !include themes.yaml
 
 # Enables configuration UI
 config:
@@ -41,7 +42,7 @@ discovery:
    - plex_mediaserver
 
 # Allows you to issue voice commands from the frontend in enabled browsers
-conversation:
+#conversation:
 
 # Enables support for tracking state changes over time
 history:
@@ -124,4 +125,20 @@ zone:
   - name: Christina's
     latitude: !secret christina_latitude
     longitude: !secret christina_longitude
-    radius: 500    
+    radius: 500
+
+sabnzbd:
+  api_key: !secret sabnzbd_api_key
+  host: living
+  sensors:
+    - current_status
+    - speed
+    - queue_size
+    - queue_remaining
+    - disk_size
+    - disk_free
+    - queue_count
+    - day_size
+    - week_size
+    - month_size
+    - total_size

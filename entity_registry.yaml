@@ -126,3 +126,55 @@ sensor.bedroom_plug_energy:
   name:
   platform: zwave
   unique_id: 10-72057594210713602
+media_player.microsoft_edge:
+  name:
+  platform: plex
+  unique_id: u2pt7mbaaopd
+sensor.front_thermostat_relative_humidity:
+  name:
+  platform: zwave
+  unique_id: 5-72057594126811218
+sensor.back_thermostat_relative_humidity:
+  name:
+  platform: zwave
+  unique_id: 9-72057594193920082
+sensor.pws_temp_f:
+  name:
+  platform: wunderground
+  unique_id: '@-122.350171,47.675815,temp_f'
+zwave.zstick:
+  name:
+  platform: zwave
+  unique_id: node-1
+zwave.laundry_plug:
+  name:
+  platform: zwave
+  unique_id: node-2
+zwave.living_room_track:
+  name:
+  platform: zwave
+  unique_id: node-3
+zwave.front_door_switch:
+  name:
+  platform: zwave
+  unique_id: node-4
+zwave.front_thermostat:
+  name:
+  platform: zwave
+  unique_id: node-5
+zwave.living_room_light:
+  name:
+  platform: zwave
+  unique_id: node-7
+zwave.office_light:
+  name:
+  platform: zwave
+  unique_id: node-8
+zwave.back_thermostat:
+  name:
+  platform: zwave
+  unique_id: node-9
+zwave.bedroom_plug:
+  name:
+  platform: zwave
+  unique_id: node-10

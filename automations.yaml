@@ -1,4 +1,12 @@
-- action:
+- id: '1507960736936'
+  alias: Laundry done notification
+  trigger:
+  - entity_id: sensor.laundry_plug_status
+    from: 'on'
+    platform: state
+    to: 'off'
+  condition: []
+  action:
   - alias: Gmail
     data:
       message: How dry do you like it?!
@@ -8,14 +16,6 @@
       message: How dry do you like it?
       title: Laundry
     service: notify.kodi
-  alias: Laundry done notification
-  condition: []
-  id: '1507960736936'
-  trigger:
-  - entity_id: sensor.computed_laundry_status
-    from: 'True'
-    platform: state
-    to: 'False'
 - action:
   - alias: Front door switch off
     data:
@@ -102,3 +102,16 @@
   - entity_id: binary_sensor.door_motion
     platform: state
     to: 'off'
+- action:
+  - data:
+      node_id: '9'
+    service: zwave.refresh_node
+  - data:
+      node_id: '5'
+    service: zwave.refresh_node
+  alias: Refresh Thermostats
+  condition: []
+  id: '1525907025405'
+  trigger:
+  - entity_id: sensor.pws_temp_f
+    platform: state
