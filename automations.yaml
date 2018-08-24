@@ -1,21 +1,24 @@
 - id: '1507960736936'
-  alias: Laundry done notification
+  alias: Laundry finished
   trigger:
-  - entity_id: sensor.laundry_plug_status
+  - platform: state
+    entity_id: sensor.laundry_plug_status
     from: 'on'
-    platform: state
     to: 'off'
+    for: 00:00:15
   condition: []
   action:
   - alias: Gmail
+    service: notify.gmail_sms
     data:
       message: How dry do you like it?!
       title: Laundry
-    service: notify.gmail_sms
-  - data:
+  - alias: Kodi
+    service: notify.kodi
+    data:
       message: How dry do you like it?
       title: Laundry
-    service: notify.kodi
+
 - action:
   - alias: Front door switch off
     data:
@@ -76,7 +79,7 @@
       entity_id: light.office_light_level
       white_value: '0'
     service: light.turn_on
-  alias: Intrusion Detected
+  alias: Intrusion detected
   condition:
   - condition: state
     entity_id: light.office_light_level
@@ -92,7 +95,7 @@
       entity_id: light.office_light_level
       white_value: '255'
     service: light.turn_on
-  alias: Intrusion Clear
+  alias: Intrusion cleared
   condition:
   - condition: state
     entity_id: light.office_light_level
@@ -109,7 +112,7 @@
   - data:
       node_id: '5'
     service: zwave.refresh_node
-  alias: Refresh Thermostats
+  alias: Refresh thermostats
   condition: []
   id: '1525907025405'
   trigger:

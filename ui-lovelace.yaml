@@ -38,30 +38,27 @@ views:
         - type: glance
           title: Temperatures
           entities:
-            - entity: sensor.front_thermostat_temperature
-              name: Front
             - entity: sensor.back_thermostat_temperature
               name: Back
+            - entity: sensor.front_thermostat_temperature
+              name: Front
             - entity: sensor.pws_temp_f
               name: Outside
         - type: history-graph
           refresh_interval: 300
           hours_to_show: 24
           entities:
-            - sensor.front_thermostat_temperature
-            - sensor.back_thermostat_temperature
-            - sensor.pws_temp_f
+            - entity: sensor.back_thermostat_temperature
+              name: Back
+            - entity: sensor.front_thermostat_temperature
+              name: Front
+            - entity: sensor.pws_temp_f
+              name: Outside
 
       - type: entities
         title: People
         entities:
           - device_tracker.google_maps_111034445952431641993
-
-      - type: glance
-        title: Motion Sensors
-        entities:
-          - binary_sensor.entryway
-          - binary_sensor.landing
 
       - type: entities
         show_header_toggle: false
@@ -79,8 +76,16 @@ views:
       - type: entities
         title: Batteries
         entities:
-          - sensor.front_thermostat_battery
           - sensor.back_thermostat_battery
+          - sensor.front_thermostat_battery
+
+
+  - title: Security
+    cards:
+    - type: picture-entity
+      entity: camera.front_door
+      show_state: false
+      show_name: false
 
 
   - title: Internet
@@ -97,3 +102,11 @@ views:
           - sensor.sabnzbd_queue_count
           - sensor.sabnzbd_speed
           - sensor.sabnzbd_status
+
+
+  - title: Weather
+    cards:
+    - type: iframe
+      url: https://embed.windy.com/embed2.html
+      aspect_ratio: 75%
+      title: Weather radar

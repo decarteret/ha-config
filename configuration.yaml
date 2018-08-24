@@ -21,10 +21,14 @@ frontend:
 config:
 
 http:
-  # Secrets are defined in the file secrets.yaml
-  # api_password: !secret http_password
-  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
-  # base_url: example.duckdns.org:8123
+  api_password: !secret http_password
+  ip_ban_enabled: True
+  login_attempts_threshold: 3
+  ssl_key: /etc/letsencrypt/live/home.hutenosa.com/privkey.pem
+  ssl_certificate: /etc/letsencrypt/live/home.hutenosa.com/fullchain.pem
+  trusted_networks:
+    - 192.168.0.0/24
+  base_url: https://home.hutenosa.com:8123
 
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -57,8 +61,8 @@ sun:
 sensor: !include sensors.yaml
 
 # Text to speech
-tts:
-  - platform: google
+# tts:
+#   - platform: google
 
 group: !include groups.yaml
 automation: !include automations.yaml
@@ -129,7 +133,7 @@ zone:
 
 sabnzbd:
   api_key: !secret sabnzbd_api_key
-  host: living
+  host: 192.168.0.10
   sensors:
     - current_status
     - speed
@@ -142,3 +146,10 @@ sabnzbd:
     - week_size
     - month_size
     - total_size
+
+camera:
+  - platform: generic
+    name: Front door
+    still_image_url: http://192.168.0.100/streaming/channels/102/picture
+    username: !secret hikvision_username
+    password: !secret hikvision_password
