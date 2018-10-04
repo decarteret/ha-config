@@ -9,8 +9,8 @@
   sensors:
     laundry_plug_status:
       friendly_name: "Laundry"
-      value_template: "{% if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 %}on{% else %}off{% endif %}"
-      icon_template: "{% if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 %}mdi:power-plug{% else %}mdi:power-plug-off{% endif %}"
+      value_template: "{{ 'on' if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 else 'off' }}"
+      icon_template: "{{ 'mdi:power-plug' if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 else 'mdi:power-plug-off' }}"
 
 
     living_room_remote_status:
@@ -29,13 +29,15 @@
       value_template: "{{ state_attr( 'zwave.back_thermostat', 'battery_level' ) }}"
 
 
-    front_thermostat_status:
-      friendly_name: "Front Thermostat Status"
-      value_template: "{{ state_attr( 'climate.front_thermostat_heating', 'operating_state' ) }}"
+    front_thermostat_overview:
+      friendly_name: "Front Thermostat Overview"
+      value_template: "{{ 'OFF' if is_state_attr( 'climate.front_thermostat_heating', 'operation_mode', 'off' ) else 'ON' }}/{{ state_attr( 'climate.front_thermostat_heating', 'operating_state' ) }}  {{ states( 'sensor.front_thermostat_temperature' ) }}°/{{ state_attr( 'climate.front_thermostat_heating', 'temperature' ) }}°"
+      icon_template: "{{ 'mdi:thermometer' if is_state_attr( 'climate.front_thermostat_heating', 'operating_state', 'Idle' ) else 'mdi:thermometer-lines' }}"
 
-    back_thermostat_status:
-      friendly_name: "Back Thermostat Status"
-      value_template: "{{ state_attr( 'climate.back_thermostat_heating', 'operating_state' ) }}"
+    back_thermostat_overview:
+      friendly_name: "Back Thermostat Overview"
+      value_template: "{{ 'OFF' if is_state_attr( 'climate.back_thermostat_heating', 'operation_mode', 'off' ) else 'ON' }}/{{ state_attr( 'climate.back_thermostat_heating', 'operating_state' ) }}  {{ states( 'sensor.back_thermostat_temperature' ) }}°/{{ state_attr( 'climate.back_thermostat_heating', 'temperature' ) }}°"
+      icon_template: "{{ 'mdi:thermometer' if is_state_attr( 'climate.back_thermostat_heating', 'operating_state', 'Idle' ) else 'mdi:thermometer-lines' }}"
 
 
 - platform: google_travel_time

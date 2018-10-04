@@ -3,13 +3,30 @@ views:
   - title: Home
     id: home
     cards:
-      - type: entities
-        title: Climate
-        entities:
-          - climate.front_thermostat_heating
-          - sensor.front_thermostat_status
-          - climate.back_thermostat_heating
-          - sensor.back_thermostat_status
+      - type: vertical-stack
+        cards:
+        - type: entities
+          title: Climate
+          show_header_toggle: false
+          entities:
+            - entity: sensor.back_thermostat_overview
+              name: Back
+            - entity: sensor.front_thermostat_overview
+              name: Front
+            - entity: switch.heat
+              name: Heat
+            - entity: sensor.pws_temp_f
+              name: Outside
+        - type: history-graph
+          refresh_interval: 300
+          hours_to_show: 24
+          entities:
+            - entity: sensor.front_thermostat_temperature
+              name: Front
+            - entity: sensor.back_thermostat_temperature
+              name: Back
+            - entity: sensor.pws_temp_f
+              name: Outside
 
       - type: entities
         title: Lights
@@ -32,28 +49,6 @@ views:
             name: Bedroom
           - entity: sensor.bedroom_plug_power
             name: Bedroom Power
-
-      - type: vertical-stack
-        cards:
-        - type: glance
-          title: Temperatures
-          entities:
-            - entity: sensor.back_thermostat_temperature
-              name: Back
-            - entity: sensor.front_thermostat_temperature
-              name: Front
-            - entity: sensor.pws_temp_f
-              name: Outside
-        - type: history-graph
-          refresh_interval: 300
-          hours_to_show: 24
-          entities:
-            - entity: sensor.back_thermostat_temperature
-              name: Back
-            - entity: sensor.front_thermostat_temperature
-              name: Front
-            - entity: sensor.pws_temp_f
-              name: Outside
 
       - type: entities
         title: People

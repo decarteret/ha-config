@@ -50,11 +50,11 @@ thermostats:
   entities:
     - sensor.front_thermostat_battery
     - sensor.front_thermostat_temperature
-    - sensor.front_thermostat_status
+    - sensor.front_thermostat_overview
     - sensor.back_thermostat_battery
     - sensor.back_thermostat_temperature
-    - sensor.back_thermostat_status
-    - script.refresh_thermostats
+    - sensor.back_thermostat_overview
+    - switch.heat
 
 media_players:
   name: Media Players

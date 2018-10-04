@@ -153,3 +153,16 @@ camera:
     still_image_url: http://192.168.0.100/streaming/channels/102/picture
     username: !secret hikvision_username
     password: !secret hikvision_password
+
+
+switch:
+  - platform: template
+    switches:
+      heat:
+        friendly_name: Heat Switch
+        value_template: "{{ not is_state_attr( 'climate.back_thermostat_heating', 'operation_mode', 'off' ) or not is_state_attr( 'climate.front_thermostat_heating', 'operation_mode', 'off' ) }}"
+        icon_template: "mdi:thermostat"
+        turn_on:
+          service: script.turn_heat_on
+        turn_off:
+          service: script.turn_heat_off
