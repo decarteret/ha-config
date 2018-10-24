@@ -1,4 +1,5 @@
 title: Casa de Muy
+
 views:
   - title: Home
     id: home
@@ -18,6 +19,7 @@ views:
             - entity: sensor.pws_temp_f
               name: Outside
         - type: history-graph
+          title: Temperatures
           refresh_interval: 300
           hours_to_show: 24
           entities:
@@ -74,7 +76,6 @@ views:
           - sensor.back_thermostat_battery
           - sensor.front_thermostat_battery
 
-
   - title: Security
     cards:
     - type: picture-entity
@@ -97,11 +98,4 @@ views:
           - sensor.sabnzbd_queue_count
           - sensor.sabnzbd_speed
           - sensor.sabnzbd_status
-
-
-  - title: Weather
-    cards:
-    - type: iframe
-      url: https://embed.windy.com/embed2.html
-      aspect_ratio: 75%
-      title: Weather radar
+          

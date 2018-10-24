@@ -1,23 +1,23 @@
 - id: '1507960736936'
   alias: Laundry finished
   trigger:
-  - platform: state
-    entity_id: sensor.laundry_plug_status
+  - entity_id: sensor.laundry_plug_status
+    for: 00:01:00
     from: 'on'
+    platform: state
     to: 'off'
-    for: 00:00:15
   condition: []
   action:
   - alias: Gmail
-    service: notify.gmail_sms
     data:
       message: How dry do you like it?!
       title: Laundry
+    service: notify.gmail_sms
   - alias: Kodi
-    service: notify.kodi
     data:
-      message: How dry do you like it?
+      message: How dry do you like it?!
       title: Laundry
+    service: notify.kodi
 - action:
   - alias: Front door switch off
     data:
@@ -105,7 +105,7 @@
     platform: state
     to: 'off'
 - id: '1525907025405'
-  alias: Refresh thermostats
+  alias: Sync indoor temp with outdoor temp
   trigger:
   - entity_id: sensor.pws_temp_f
     platform: state
