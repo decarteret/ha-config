@@ -21,7 +21,7 @@ frontend:
 config:
 
 http:
-  api_password: !secret http_password
+#  api_password: !secret http_password
   ip_ban_enabled: True
   login_attempts_threshold: 3
   ssl_key: /etc/letsencrypt/live/home.hutenosa.com/privkey.pem
