@@ -98,4 +98,4 @@ views:
           - sensor.sabnzbd_queue_count
           - sensor.sabnzbd_speed
           - sensor.sabnzbd_status
-          
+

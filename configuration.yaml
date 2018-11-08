@@ -21,14 +21,13 @@ frontend:
 config:
 
 http:
-#  api_password: !secret http_password
   ip_ban_enabled: True
   login_attempts_threshold: 3
-  ssl_key: /etc/letsencrypt/live/home.hutenosa.com/privkey.pem
-  ssl_certificate: /etc/letsencrypt/live/home.hutenosa.com/fullchain.pem
+  base_url: https://home.hutenosa.com:8123
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
   trusted_networks:
     - 192.168.0.0/24
-  base_url: https://home.hutenosa.com:8123
 
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -46,7 +45,7 @@ discovery:
    - plex_mediaserver
 
 # Allows you to issue voice commands from the frontend in enabled browsers
-#conversation:
+conversation:
 
 # Enables support for tracking state changes over time
 history:
@@ -61,8 +60,8 @@ sun:
 sensor: !include sensors.yaml
 
 # Text to speech
-# tts:
-#   - platform: google
+tts:
+  - platform: google
 
 group: !include groups.yaml
 automation: !include automations.yaml
@@ -81,7 +80,7 @@ climate:
   - platform: zwave
   
 emulated_hue:
-  host_ip: 192.168.0.102
+  host_ip: 192.168.0.148
 
 notify:
   - name: gmail

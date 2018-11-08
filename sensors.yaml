@@ -8,12 +8,14 @@
 - platform: template
   sensors:
     laundry_plug_status:
+      entity_id: sensor.laundry_plug_power
       friendly_name: "Laundry"
       value_template: "{{ 'on' if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 else 'off' }}"
       icon_template: "{{ 'mdi:power-plug' if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 else 'mdi:power-plug-off' }}"
 
 
     living_room_remote_status:
+      entity_id: remote.living_room
       friendly_name: "Living Room TV"
       value_template: "{{ state_attr( 'remote.living_room', 'current_activity' ) }}"
 
