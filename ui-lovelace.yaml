@@ -34,10 +34,10 @@ views:
         title: Lights
         show_header_toggle: false
         entities:
-          - light.living_room_track_level
-          - light.living_room_light_level
-          - switch.front_door_switch
-          - light.office_light_level
+          - light.living_room_track
+          - light.living_room_lamp
+          - switch.front_door
+          - light.office_lamp
 
       - type: glance
         title: Other Sensors
@@ -47,7 +47,7 @@ views:
             name: Laundry
           - entity: sensor.laundry_plug_power
             name: Laundry Power
-          - entity: switch.bedroom_plug_switch
+          - entity: switch.bedroom_plug
             name: Bedroom
           - entity: sensor.bedroom_plug_power
             name: Bedroom Power

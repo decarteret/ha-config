@@ -16,7 +16,7 @@
 
     living_room_remote_status:
       entity_id: remote.living_room
-      friendly_name: "Living Room TV"
+      friendly_name: "Living Room Remote Status"
       value_template: "{{ state_attr( 'remote.living_room', 'current_activity' ) }}"
 
 

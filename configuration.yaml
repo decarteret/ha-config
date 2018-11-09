@@ -41,8 +41,8 @@ updater:
 # Discover some devices automatically
 discovery:
  ignore:
-   - roku
-   - plex_mediaserver
+  #  - roku
+  #  - plex_mediaserver
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
@@ -63,7 +63,7 @@ sensor: !include sensors.yaml
 tts:
   - platform: google
 
-group: !include groups.yaml
+#group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 
@@ -158,7 +158,7 @@ switch:
   - platform: template
     switches:
       heat:
-        friendly_name: Heat Switch
+        friendly_name: Heat
         value_template: "{{ not is_state_attr( 'climate.back_thermostat_heating', 'operation_mode', 'off' ) or not is_state_attr( 'climate.front_thermostat_heating', 'operation_mode', 'off' ) }}"
         icon_template: "mdi:thermostat"
         turn_on:
