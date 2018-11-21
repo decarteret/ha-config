@@ -18,92 +18,92 @@
       message: How dry do you like it?!
       title: Laundry
     service: notify.kodi
-- action:
-  - alias: Front door switch off
-    data:
-      entity_id: switch.front_door_switch
-    service: switch.turn_off
+- id: '1508052370089'
   alias: Front door switch off at sunrise
-  condition: []
-  id: '1508052370089'
   trigger:
   - event: sunrise
     offset: 00:40:00
     platform: sun
-- action:
-  - alias: Front door switch on
-    data:
-      entity_id: switch.front_door_switch
-    service: switch.turn_on
-  alias: Front door switch on at sunset
   condition: []
-  id: '1508103995598'
+  action:
+  - alias: Front door switch off
+    data:
+      entity_id: switch.front_door
+    service: switch.turn_off
+- id: '1508103995598'
+  alias: Front door switch on at sunset
   trigger:
   - event: sunset
     offset: -00:40:00
     platform: sun
-- action:
-  - alias: Living room light on
-    data:
-      brightness: '75'
-      entity_id: light.living_room_light_level
-      transition: '120'
-    service: light.turn_on
-  alias: Living room light on at sunset
   condition: []
-  id: '1516591514142'
+  action:
+  - alias: Front door switch on
+    data:
+      entity_id: switch.front_door
+    service: switch.turn_on
+- id: '1516591514142'
+  alias: Living room lamp on at sunset
   trigger:
   - event: sunset
     platform: sun
-- action:
+  condition: []
+  action:
+  - alias: Living room light on
+    data:
+      brightness: '75'
+      entity_id: light.living_room_lamp
+      transition: '120'
+    service: light.turn_on
+- id: '1516591813514'
+  alias: Living room lights off at 2:15AM
+  trigger:
+  - at: '2:15:00'
+    platform: time
+  condition: []
+  action:
   - alias: Living room light off
     data:
-      entity_id: light.living_room_light_level
+      entity_id: light.living_room_lamp
       transition: '10'
     service: light.turn_off
   - alias: Living room track off
     data:
-      entity_id: light.living_room_track_level
+      entity_id: light.living_room_track
       transition: '4'
     service: light.turn_off
-  alias: Living room off at 2:15AM
-  condition: []
-  id: '1516591813514'
-  trigger:
-  - at: '2:15:00'
-    platform: time
-- action:
-  - data:
-      color_name: red
-      entity_id: light.office_light_level
-      white_value: '0'
-    service: light.turn_on
+- id: '1521008562125'
   alias: Intrusion detected
-  condition:
-  - condition: state
-    entity_id: light.office_light_level
-    state: 'on'
-  id: '1521008562125'
   trigger:
   - entity_id: binary_sensor.door_motion
     platform: state
     to: 'on'
-- action:
-  - data:
-      color_name: white
-      entity_id: light.office_light_level
-      white_value: '255'
-    service: light.turn_on
-  alias: Intrusion cleared
   condition:
   - condition: state
-    entity_id: light.office_light_level
+    entity_id: light.office_lamp
     state: 'on'
-  id: '1521009324060'
+  action:
+  - data:
+      color_name: red
+      entity_id: light.office_lamp
+      white_value: '0'
+    service: light.turn_on
+- id: '1521009324060'
+  alias: Intrusion cleared
   trigger:
   - entity_id: binary_sensor.door_motion
     platform: state
     to: 'off'
+  condition:
+  - condition: state
+    entity_id: light.office_lamp
+    state: 'on'
+  action:
+  - data:
+      color_name: white
+      entity_id: light.office_lamp
+      white_value: '255'
+    service: light.turn_on
 - id: '1525907025405'
   alias: Sync indoor temp with outdoor temp
   trigger:

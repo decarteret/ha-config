@@ -32,6 +32,12 @@
       unit_of_measurement: "%"
       value_template: "{{ state_attr( 'zwave.back_thermostat', 'battery_level' ) }}"
 
+    multi_battery:
+      entity_id: zwave.multi
+      friendly_name: "Multi Battery"
+      unit_of_measurement: "%"
+      value_template: "{{ state_attr( 'zwave.multi', 'battery_level' ) }}"
+
 
     front_thermostat_overview:
       entity_id: zwave.front_thermostat

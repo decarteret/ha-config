@@ -18,6 +18,8 @@ views:
               name: Heat
             - entity: sensor.pws_temp_f
               name: Outside
+            - entity: sensor.multi_temperature
+              name: Multi
         - type: history-graph
           title: Temperatures
           refresh_interval: 300
@@ -29,6 +31,8 @@ views:
               name: Back
             - entity: sensor.pws_temp_f
               name: Outside
+            - entity: sensor.multi_temperature
+              name: Multi
 
       - type: entities
         title: Lights
@@ -75,6 +79,7 @@ views:
         entities:
           - sensor.back_thermostat_battery
           - sensor.front_thermostat_battery
+          - sensor.multi_battery
 
   - title: Security
     cards:
@@ -99,3 +104,20 @@ views:
           - sensor.sabnzbd_speed
           - sensor.sabnzbd_status
 
+  - title: Thermostats
+    cards:
+      - type: thermostat
+        entity: climate.front_thermostat_heating
+      - type: thermostat
+        entity: climate.back_thermostat_heating
+
+  - title: Zones
+    cards:
+      - type: map
+        aspect_ratio: 125%
+        entities:
+          - device_tracker.google_maps_111034445952431641993
+          - zone.home
+          - zone.work
+          - zone.christinas
+          - zone.dream

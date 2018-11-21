@@ -41,8 +41,8 @@ updater:
 # Discover some devices automatically
 discovery:
  ignore:
-  #  - roku
-  #  - plex_mediaserver
+   - roku
+   - plex_mediaserver
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
@@ -120,15 +120,19 @@ zone:
   - name: Home
     latitude: !secret home_latitude
     longitude: !secret home_longitude
-    radius: 500
+    radius: 250
   - name: Work
     latitude: !secret work_latitude
     longitude: !secret work_longitude
-    radius: 500
+    radius: 250
   - name: Christina's
     latitude: !secret christina_latitude
     longitude: !secret christina_longitude
-    radius: 500
+    radius: 250
+  - name: Dream
+    latitude: !secret dream_latitude
+    longitude: !secret dream_longitude
+    radius: 250
 
 sabnzbd:
   api_key: !secret sabnzbd_api_key
