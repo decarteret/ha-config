@@ -1,0 +1,19 @@
+- name: home
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  radius: 250
+
+- name: "Jason work"
+  latitude: !secret jason_work_latitude
+  longitude: !secret jason_work_longitude
+  radius: 250
+
+- name: "Christina home"
+  latitude: !secret christina_home_latitude
+  longitude: !secret christina_home_longitude
+  radius: 250
+
+- name: "New home"
+  latitude: !secret new_home_latitude
+  longitude: !secret new_home_longitude
+  radius: 250

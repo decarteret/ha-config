@@ -1,77 +1,46 @@
 homeassistant:
-  # Name of the location where Home Assistant is running
-  name: Home Assistant
-  # Location required to calculate the time the sun rises and sets
+  name: Home
   latitude: !secret home_latitude
   longitude: !secret home_longitude
-  # Impacts weather/sunrise data (altitude above sea level in meters)
   elevation: 172
-  # metric for Metric, imperial for Imperial
   unit_system: imperial
-  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/Los_Angeles
-  # Customization file
   customize: !include customize.yaml
 
-# Enables the frontend
 frontend:
   themes: !include themes.yaml
 
-# Enables configuration UI
 config:
 
-http:
-  ip_ban_enabled: True
-  login_attempts_threshold: 3
-  base_url: https://home.hutenosa.com:8123
-  ssl_certificate: /ssl/fullchain.pem
-  ssl_key: /ssl/privkey.pem
-  trusted_networks:
-    - 192.168.0.0/24
+http: !include http.yaml
 
-# Checks for available updates
-# Note: This component will send some information about your system to
-# the developers to assist with development of Home Assistant.
-# For more information, please see:
-# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
 updater:
-  # Optional, allows Home Assistant developers to focus on popular components.
   include_used_components: true
 
-# Discover some devices automatically
 discovery:
  ignore:
    - roku
    - plex_mediaserver
 
-# Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
 
-# Enables support for tracking state changes over time
 history:
 
-# View all events in a logbook
 logbook:
 
-# Track the sun
 sun:
 
-# Sensors
 sensor: !include sensors.yaml
 
-# Text to speech
 tts:
   - platform: google
 
-#group: !include groups.yaml
+group: !include groups.yaml
 automation: !include automations.yaml
+
 script: !include scripts.yaml
 
-binary_sensor:
-  platform: hikvision
-  host: 192.168.0.100
-  username: !secret hikvision_username
-  password: !secret hikvision_password
+binary_sensor: !include binary_sensors.yaml
 
 zwave:
   usb_path: /dev/ttyACM0
@@ -82,90 +51,17 @@ climate:
 emulated_hue:
   host_ip: 192.168.0.148
 
-notify:
-  - name: gmail
-    platform: smtp
-    server: smtp.gmail.com
-    port: 587
-    timeout: 15
-    sender: !secret gmail_username
-    encryption: starttls
-    username: !secret gmail_username
-    password: !secret gmail_password
-    recipient:
-      - !secret email_recipient1
-    sender_name: Home Assistant
-  - name: gmail_sms
-    platform: smtp
-    server: smtp.gmail.com
-    port: 587
-    timeout: 15
-    sender: !secret gmail_username
-    encryption: starttls
-    username: !secret gmail_username
-    password: !secret gmail_password
-    recipient:
-      - !secret sms_recipient1
-    sender_name: Home Assistant
-  - name: kodi
-    platform: kodi
-    host: 192.168.0.102
+notify: !include notifiers.yaml
 
 device_tracker:
   platform: google_maps
   username: !secret gmail_username
   password: !secret gmail_password
 
-zone:
-  - name: Home
-    latitude: !secret home_latitude
-    longitude: !secret home_longitude
-    radius: 250
-  - name: Work
-    latitude: !secret work_latitude
-    longitude: !secret work_longitude
-    radius: 250
-  - name: Christina's
-    latitude: !secret christina_latitude
-    longitude: !secret christina_longitude
-    radius: 250
-  - name: Dream
-    latitude: !secret dream_latitude
-    longitude: !secret dream_longitude
-    radius: 250
+sabnzbd: !include sabnzbd.yaml
 
-sabnzbd:
-  api_key: !secret sabnzbd_api_key
-  host: 192.168.0.10
-  sensors:
-    - current_status
-    - speed
-    - queue_size
-    - queue_remaining
-    - disk_size
-    - disk_free
-    - queue_count
-    - day_size
-    - week_size
-    - month_size
-    - total_size
+camera: !include cameras.yaml
 
-camera:
-  - platform: generic
-    name: Front door
-    still_image_url: http://192.168.0.100/streaming/channels/102/picture
-    username: !secret hikvision_username
-    password: !secret hikvision_password
+switch: !include switches.yaml
 
-
-switch:
-  - platform: template
-    switches:
-      heat:
-        friendly_name: Heat
-        value_template: "{{ not is_state_attr( 'climate.back_thermostat_heating', 'operation_mode', 'off' ) or not is_state_attr( 'climate.front_thermostat_heating', 'operation_mode', 'off' ) }}"
-        icon_template: "mdi:thermostat"
-        turn_on:
-          service: script.turn_heat_on
-        turn_off:
-          service: script.turn_heat_off
+zone: !include zones.yaml

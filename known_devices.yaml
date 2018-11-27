@@ -6,6 +6,14 @@ google_maps_111034445952431641993:
   picture: https://lh5.googleusercontent.com/-T2yAu6WZKlI/AAAAAAAAAAI/AAAAAAAAAEY/2Ihsh5wdWuk/photo.jpg
   track: true
 
+google_maps_114963797368641553787:
+  hide_if_away: false
+  icon:
+  mac:
+  name: Christina
+  picture: https://lh4.googleusercontent.com/-vSl0QPvVmnM/AAAAAAAAAAI/AAAAAAAAAAA/AGDgw-idfN-Qs6zTAM2ZdNtzs5uDI0qA5g/mo/photo.jpg
+  track: true
+
 google_maps_none:
   hide_if_away: false
   icon:

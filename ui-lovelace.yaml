@@ -5,8 +5,10 @@ views:
     id: home
     cards:
       - type: vertical-stack
+        id: aaxxee
         cards:
         - type: entities
+          id: climate
           title: Climate
           show_header_toggle: false
           entities:
@@ -16,10 +18,10 @@ views:
               name: Front
             - entity: switch.heat
               name: Heat
-            - entity: sensor.pws_temp_f
-              name: Outside
             - entity: sensor.multi_temperature
               name: Multi
+            - entity: sensor.pws_temp_f
+              name: Outside
         - type: history-graph
           title: Temperatures
           refresh_interval: 300
@@ -29,10 +31,10 @@ views:
               name: Front
             - entity: sensor.back_thermostat_temperature
               name: Back
-            - entity: sensor.pws_temp_f
-              name: Outside
             - entity: sensor.multi_temperature
               name: Multi
+            - entity: sensor.pws_temp_f
+              name: Outside
 
       - type: entities
         title: Lights
@@ -60,6 +62,7 @@ views:
         title: People
         entities:
           - device_tracker.google_maps_111034445952431641993
+          - device_tracker.google_maps_114963797368641553787
 
       - type: entities
         show_header_toggle: false
@@ -117,7 +120,8 @@ views:
         aspect_ratio: 125%
         entities:
           - device_tracker.google_maps_111034445952431641993
-          - zone.home
-          - zone.work
-          - zone.christinas
-          - zone.dream
+          - device_tracker.google_maps_114963797368641553787
+          - zone.jason_home
+          - zone.jason_work
+          - zone.christina_home
+          - zone.new_home
