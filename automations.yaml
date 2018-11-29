@@ -10,12 +10,12 @@
   action:
   - alias: Gmail
     data:
-      message: How dry do you like it?!
+      message: How dry do you like it?!?
       title: Laundry
     service: notify.gmail_sms
   - alias: Kodi
     data:
-      message: How dry do you like it?!
+      message: How dry do you like it?!?
       title: Laundry
     service: notify.kodi
 - id: '1508052370089'
