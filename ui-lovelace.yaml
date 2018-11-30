@@ -42,7 +42,7 @@ views:
         entities:
           - light.living_room_track
           - light.living_room_lamp
-          - switch.front_door
+          - light.front_door
           - light.office_lamp
 
       - type: glance

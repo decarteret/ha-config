@@ -30,6 +30,8 @@ history:
 
 logbook:
 
+light: !include lights.yaml
+
 sun:
 
 sensor: !include sensors.yaml
