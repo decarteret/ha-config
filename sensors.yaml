@@ -57,3 +57,18 @@
   api_key: !secret decartert_gmail_google_api_key
   origin: 6411 Fremont Ave N, Seattle, WA
   destination: 11002 12th Avenue SW, Seattle, WA
+
+
+- platform: command_line
+  name: Garbage Collection
+  command: "python3 /config/custom_scripts/garbage_collection.py '6411 Fremont Ave N'"
+  scan_interval: 86400
+  value_template: "{{ value_json.remaining_days }}"
+  json_attributes:
+    - recycling
+    - yard_waste
+    - garbage
+    - remaining_days
+    - next_collection_date
+    - next_collection_day
+    - address    
