@@ -22,7 +22,6 @@ if Response.ok:
 
                 for Result in Results:
                         WeekDate = datetime.datetime.strptime( Result["start"], "%a, %d %b %Y" ).date()
-                        print( str( WeekDate ) + " - " + str( CurrentDate ) )
 
                         if ( WeekDate >= CurrentDate ):
                                 RemainingDays = ( WeekDate - CurrentDate ).days
