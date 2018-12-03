@@ -1,8 +1,3 @@
-resources:
-    - url: /local/entity-attributes-card.js?v=2
-      type: js
-
-
 title: Casa de Muy
 
 views:
@@ -94,13 +89,11 @@ views:
           - sensor.front_thermostat_battery
           - sensor.multi_battery
 
-      - type: custom:entity-attributes-card
+      - type: entities
         title: Garbage
-        filter:
-          include:
-            - key: sensor.garbage_collection.*
-          exclude:
-            - key: sensor.garbage_collection.friendly_name
+        entities:
+          - entity: sensor.garbage_collection_summary
+            name: Fremont
 
 
   - id: 1  # Automatically created id

@@ -13,6 +13,12 @@
       value_template: "{{ 'on' if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 else 'off' }}"
       icon_template: "{{ 'mdi:power-plug' if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 else 'mdi:power-plug-off' }}"
 
+    garbage_collection_summary:
+      entity_id: sensor.garbage_collection_summary
+      friendly_name: Garbage Collection Summary
+      value_template: "{{ state_attr( 'sensor.garbage_collection', 'next_collection_day' ) }} {{ 'with' if state_attr( 'sensor.garbage_collection', 'recycling' ) else 'without' }} recycling"
+      icon_template: "{{ 'mdi:recycle' if state_attr( 'sensor.garbage_collection', 'recycling' ) else 'mdi:delete' }}"
+
 
     living_room_remote_status:
       entity_id: remote.living_room
@@ -60,6 +66,7 @@
 
 
 - platform: command_line
+  entity_id: garbage_collection
   name: Garbage Collection
   command: "python3 /config/custom_scripts/garbage_collection.py '6411 Fremont Ave N'"
   scan_interval: 86400
@@ -71,4 +78,4 @@
     - remaining_days
     - next_collection_date
     - next_collection_day
-    - address    
+    - address
