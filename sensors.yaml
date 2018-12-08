@@ -69,7 +69,7 @@
   entity_id: garbage_collection
   name: Garbage Collection
   command: "python3 /config/custom_scripts/garbage_collection.py '6411 Fremont Ave N'"
-  scan_interval: 86400
+  scan_interval: 3600
   value_template: "{{ value_json.remaining_days }}"
   json_attributes:
     - recycling

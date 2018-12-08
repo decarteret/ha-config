@@ -20,9 +20,9 @@ updater:
   include_used_components: true
 
 discovery:
- ignore:
-   - roku
-   - plex_mediaserver
+  ignore:
+    - roku
+    - plex_mediaserver
 
 conversation:
 

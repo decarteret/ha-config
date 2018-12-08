@@ -1,6 +1,0 @@
-sensor.back_thermostat_temperature_2:
-  ignored: true
-  polling_intensity: 0
-sensor.front_thermostat_temperature_2:
-  ignored: true
-  polling_intensity: 0
