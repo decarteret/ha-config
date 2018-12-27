@@ -9,6 +9,7 @@
   password: !secret gmail_password
   recipient:
     - !secret email_recipient1
+    - !secret email_recipient2
   sender_name: Home Assistant
 
 - name: gmail_sms
@@ -22,11 +23,12 @@
   password: !secret gmail_password
   recipient:
     - !secret sms_recipient1
+    - !secret sms_recipient2
   sender_name: Home Assistant
 
 - name: kodi
   platform: kodi
-  host: 192.168.0.102
+  host: 192.168.0.13
 
 - name: slack
   platform: slack

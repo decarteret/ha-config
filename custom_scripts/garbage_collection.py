@@ -5,37 +5,52 @@ import json
 import urllib
 import pytz
 
-Address = str( sys.argv[1] )
-Encoded = urllib.parse.urlencode( { "pAddress": Address, "start": 0 } )
-Url = "https://www.seattle.gov/UTIL/WARP/CollectionCalendar/GetCollectionDays?&" + Encoded
+def GetCollectionDays( currentDate, startDate ):
 
-Response = requests.get( Url )
+        Address = str( sys.argv[1] )
+        Encoded = urllib.parse.urlencode( { "pAddress": Address, "start": startDate.strftime( "%s" ) } )
+        Url = "https://www.seattle.gov/UTIL/WARP/CollectionCalendar/GetCollectionDays?&" + Encoded
 
-Json = {}
+        Response = requests.get( Url )
 
-if Response.ok:
-        Results = Response.json()
+        Json = {}
 
-        if Results[0]["start"] is not None:
-                TimeZone = pytz.timezone( "America/Los_Angeles" )
-                CurrentDate = datetime.datetime.now( TimeZone ).date()
+        if Response.ok:
+                Results = Response.json()
 
-                for Result in Results:
-                        WeekDate = datetime.datetime.strptime( Result["start"], "%a, %d %b %Y" ).date()
+                if Results[0]["start"] is not None:
+                        for Result in Results:
+                                WeekDate = datetime.datetime.strptime( Result["start"], "%a, %d %b %Y" ).date()
 
-                        if ( WeekDate >= CurrentDate ):
-                                RemainingDays = ( WeekDate - CurrentDate ).days
+                                if ( WeekDate >= currentDate ):
+                                        RemainingDays = ( WeekDate - currentDate ).days
 
-                                Json = { 
-                                        "recycling": Result["Recycling"],
-                                        "yard_waste": Result["FoodAndYardWaste"],
-                                        "garbage": Result["Garbage"],
-                                        "remaining_days": RemainingDays,
-                                        "next_collection_day": WeekDate.strftime( "%A" ),
-                                        "next_collection_date": WeekDate.strftime( "%D" ),
-                                        "address": Address
-                                }
+                                        Json = { 
+                                                "recycling": Result["Recycling"],
+                                                "yard_waste": Result["FoodAndYardWaste"],
+                                                "garbage": Result["Garbage"],
+                                                "remaining_days": RemainingDays,
+                                                "next_collection_day": WeekDate.strftime( "%A" ),
+                                                "next_collection_date": WeekDate.strftime( "%D" ),
+                                                "address": Address
+                                        }
 
-                                break
+                                        break
+
+        return Json
+
+
+TimeZone = pytz.timezone( "America/Los_Angeles" )
+CurrentDate = datetime.datetime.now( TimeZone ).date()
+StartDate = CurrentDate
+
+Json = GetCollectionDays( CurrentDate, StartDate )
+
+if( Json == {} ):
+        StartDate = CurrentDate + datetime.timedelta( days=7 )
+        Json = GetCollectionDays( CurrentDate, StartDate )
 
 print( json.dumps( Json ) )
+
+
+

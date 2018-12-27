@@ -1,7 +1,7 @@
 title: Casa de Muy
 
 views:
-  - id: 0  # Automatically created id
+  - id: Home  # Automatically created id
     title: Home
     cards:
       - id: 1bf38070b5e645a290f9a1f55d3964ea  # Automatically created id
@@ -11,53 +11,16 @@ views:
             title: Climate
             show_header_toggle: false
             entities:
-              - entity: sensor.back_thermostat_overview
-                name: Back
-              - entity: sensor.front_thermostat_overview
-                name: Front
-              - entity: switch.heat
-                name: Heat
-              - entity: sensor.multi_temperature
-                name: Multi
               - entity: sensor.pws_temp_f
                 name: Outside
+
           - type: history-graph
             title: Temperatures
             refresh_interval: 300
             hours_to_show: 24
             entities:
-              - entity: sensor.front_thermostat_temperature
-                name: Front
-              - entity: sensor.back_thermostat_temperature
-                name: Back
-              - entity: sensor.multi_temperature
-                name: Multi
               - entity: sensor.pws_temp_f
                 name: Outside
-
-      - type: entities
-        id: c68d12a4eb1d4ee886ab943917f7cf57  # Automatically created id
-        title: Lights
-        show_header_toggle: false
-        entities:
-          - entity: light.living_room_track
-          - entity: light.living_room_lamp
-          - entity: light.front_door
-          - entity: light.office_lamp
-          - entity: light.master_bedroom
-      - id: eba82ae5eec646cb974c4285b8da08f1  # Automatically created id
-        type: glance
-        title: Other Sensors
-        show_header_toggle: false
-        entities:
-          - entity: sensor.laundry_plug_status
-            name: Laundry
-          - entity: sensor.laundry_plug_power
-            name: Laundry Power
-          - entity: switch.bedroom_plug
-            name: Bedroom
-          - entity: sensor.bedroom_plug_power
-            name: Bedroom Power
 
       - id: aae791faa9994d788f69b9f7e3e930f8  # Automatically created id
         type: entities
@@ -71,42 +34,25 @@ views:
         show_header_toggle: false
         title: Media
         entities:
-          - sensor.living_room_remote_status
-          - remote.living_room
+          - sensor.basement_remote_status
+          - remote.basement
 
       - id: 21b2ebfd44f74a359f1aa33dbfe30098  # Automatically created id
         type: history-graph
         title: Travel
         refresh_interval: 300
         entities:
-          - sensor.home_to_christinas
+          - sensor.jason_work_to_home
 
-      - id: 0cb89e7658f84f24ab3d2bc046499985  # Automatically created id
+      - id: 31b2ebf344f34a359f13a33dbfe33098  # Automatically created id
         type: entities
-        title: Batteries
-        entities:
-          - sensor.back_thermostat_battery
-          - sensor.front_thermostat_battery
-          - sensor.multi_battery
-
-      - type: entities
         title: Garbage
         entities:
           - entity: sensor.garbage_collection_summary
-            name: Fremont
+            name: Gatewood
 
 
-  - id: 1  # Automatically created id
-    title: Security
-    cards:
-      - id: 05c10df67bd149cb9daac5b0994baebd  # Automatically created id
-        type: picture-entity
-        entity: camera.front_door
-        show_state: false
-        show_name: false
-
-
-  - id: 2  # Automatically created id
+  - id: Internet  # Automatically created id
     title: Internet
     cards:
       - id: a11f0fe862e84fa893893a305cd42945  # Automatically created id
@@ -123,17 +69,8 @@ views:
           - sensor.sabnzbd_speed
           - sensor.sabnzbd_status
 
-  - id: 3  # Automatically created id
-    title: Thermostats
-    cards:
-      - id: 20e06d3f78c547bf8c7168ae21e65078  # Automatically created id
-        type: thermostat
-        entity: climate.front_thermostat_heating
-      - id: 6450da5aee1c46e4ac3933333dfef32b  # Automatically created id
-        type: thermostat
-        entity: climate.back_thermostat_heating
 
-  - id: 4  # Automatically created id
+  - id: Zones  # Automatically created id
     title: Zones
     cards:
       - id: 94310970cd1549d7a5b7408b6e5ccecc  # Automatically created id
@@ -143,6 +80,7 @@ views:
           - device_tracker.google_maps_111034445952431641993
           - device_tracker.google_maps_114963797368641553787
           - zone.home
+          - zone.jason_home
           - zone.jason_work
           - zone.christina_home
-          - zone.new_home
+          - zone.christina_work

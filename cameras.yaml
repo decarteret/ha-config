@@ -1,5 +1,19 @@
-- platform: generic
-  name: Front door
-  still_image_url: http://192.168.0.100/streaming/channels/102/picture
-  username: !secret hikvision_username
-  password: !secret hikvision_password
+# - platform: generic
+#   name: Front door
+#   still_image_url: http://192.168.0.100/streaming/channels/102/picture
+#   username: !secret hikvision_username
+#   password: !secret hikvision_password
+
+# - platform: foscam
+#   ip: 192.168.0.29
+#   port: 6969
+#   username: !secret foscam_username
+#   password: !secret foscam_password
+
+
+- platform: mjpeg
+  mjpeg_url: http://192.168.0.29:6969/videostream.cgi?user=admin&pwd=garfield7
+  username: !secret foscam_username
+  password: !secret foscam_password
+  authentication: basic
+  name: Media Room

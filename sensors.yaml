@@ -7,11 +7,16 @@
 
 - platform: template
   sensors:
-    laundry_plug_status:
-      entity_id: sensor.laundry_plug_power
-      friendly_name: "Laundry"
-      value_template: "{{ 'on' if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 else 'off' }}"
-      icon_template: "{{ 'mdi:power-plug' if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 else 'mdi:power-plug-off' }}"
+    proximity_home_summary:
+      entity_id: proximity.home
+      friendly_name: Closest To Home
+      value_template: '{{ state_attr( "proximity.home", "nearest" ) + ", " + states( "proximity.home" ) + " mi, " + state_attr( "proximity.home", "dir_of_travel" ) }}'
+
+    # laundry_plug_status:
+    #   entity_id: sensor.laundry_plug_power
+    #   friendly_name: "Laundry"
+    #   value_template: "{{ 'on' if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 else 'off' }}"
+    #   icon_template: "{{ 'mdi:power-plug' if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 else 'mdi:power-plug-off' }}"
 
     garbage_collection_summary:
       entity_id: sensor.garbage_collection_summary
@@ -20,56 +25,63 @@
       icon_template: "{{ 'mdi:recycle' if state_attr( 'sensor.garbage_collection', 'recycling' ) else 'mdi:delete' }}"
 
 
-    living_room_remote_status:
-      entity_id: remote.living_room
-      friendly_name: "Living Room Remote Status"
-      value_template: "{{ state_attr( 'remote.living_room', 'current_activity' ) }}"
+    basement_remote_status:
+      entity_id: remote.basement
+      friendly_name: "Basement Remote Status"
+      value_template: "{{ state_attr( 'remote.basement', 'current_activity' ) }}"
 
 
-    front_thermostat_battery:
-      entity_id: zwave.front_thermostat
-      friendly_name: "Front Thermostat Battery"
+    garage_door_sensor_battery:
+      entity_id: switch.garage_door_sensor_13
+      friendly_name: "Garage Door Sensor Battery"
       unit_of_measurement: "%"
-      value_template: "{{ state_attr( 'zwave.front_thermostat', 'battery_level' ) }}"
+      value_template: "{{ state_attr( 'switch.garage_door_sensor_13', 'battery_level' ) }}"
 
-    back_thermostat_battery:
-      entity_id: zwave.back_thermostat
-      friendly_name: "Back Thermostat Battery"
-      unit_of_measurement: "%"
-      value_template: "{{ state_attr( 'zwave.back_thermostat', 'battery_level' ) }}"
-
-    multi_battery:
-      entity_id: zwave.multi
-      friendly_name: "Multi Battery"
-      unit_of_measurement: "%"
-      value_template: "{{ state_attr( 'zwave.multi', 'battery_level' ) }}"
+    # multi_battery:
+    #   entity_id: zwave.multi
+    #   friendly_name: "Multi Battery"
+    #   unit_of_measurement: "%"
+    #   value_template: "{{ state_attr( 'zwave.multi', 'battery_level' ) }}"
 
 
-    front_thermostat_overview:
-      entity_id: zwave.front_thermostat
-      friendly_name: "Front Thermostat Overview"
-      value_template: "{{ 'OFF' if is_state_attr( 'climate.front_thermostat_heating', 'operation_mode', 'off' ) else 'ON' }}/{{ state_attr( 'climate.front_thermostat_heating', 'operating_state' ) }}  {{ states( 'sensor.front_thermostat_temperature' ) }}°/{{ state_attr( 'climate.front_thermostat_heating', 'temperature' ) }}°"
-      icon_template: "{{ 'mdi:thermometer' if is_state_attr( 'climate.front_thermostat_heating', 'operating_state', 'Idle' ) else 'mdi:thermometer-lines' }}"
-
-    back_thermostat_overview:
-      entity_id: zwave.back_thermostat
-      friendly_name: "Back Thermostat Overview"
-      value_template: "{{ 'OFF' if is_state_attr( 'climate.back_thermostat_heating', 'operation_mode', 'off' ) else 'ON' }}/{{ state_attr( 'climate.back_thermostat_heating', 'operating_state' ) }}  {{ states( 'sensor.back_thermostat_temperature' ) }}°/{{ state_attr( 'climate.back_thermostat_heating', 'temperature' ) }}°"
-      icon_template: "{{ 'mdi:thermometer' if is_state_attr( 'climate.back_thermostat_heating', 'operating_state', 'Idle' ) else 'mdi:thermometer-lines' }}"
+    # back_thermostat_overview:
+    #   entity_id: zwave.back_thermostat
+    #   friendly_name: "Back Thermostat Overview"
+    #   value_template: "{{ 'OFF' if is_state_attr( 'climate.back_thermostat_heating', 'operation_mode', 'off' ) else 'ON' }}/{{ state_attr( 'climate.back_thermostat_heating', 'operating_state' ) }}  {{ states( 'sensor.back_thermostat_temperature' ) }}°/{{ state_attr( 'climate.back_thermostat_heating', 'temperature' ) }}°"
+    #   icon_template: "{{ 'mdi:thermometer' if is_state_attr( 'climate.back_thermostat_heating', 'operating_state', 'Idle' ) else 'mdi:thermometer-lines' }}"
 
 
 - platform: google_travel_time
-  name: Home to Christina's
+  name: Jason work to home
   api_key: !secret decartert_gmail_google_api_key
-  origin: 6411 Fremont Ave N, Seattle, WA
-  destination: 11002 12th Avenue SW, Seattle, WA
+  origin: 500 Yale Ave N, Seattle, WA
+  destination: 6742 38th Ave SW, Seattle, WA
+
+- platform: google_travel_time
+  name: Jason home to work
+  api_key: !secret decartert_gmail_google_api_key
+  origin: 6742 38th Ave SW, Seattle, WA
+  destination: 500 Yale Ave N, Seattle, WA
+
+
+- platform: waze_travel_time
+  name: Christina work to home
+  origin: 401 Broadway, Seattle, WA
+  destination: 6742 38th Ave SW, Seattle, WA
+  region: 'US'
+
+- platform: waze_travel_time
+  name: Christina home to work
+  origin: 6742 38th Ave SW, Seattle, WA
+  destination: 401 Broadway, Seattle, WA
+  region: 'US'
 
 
 - platform: command_line
   entity_id: garbage_collection
   name: Garbage Collection
-  command: "python3 /config/custom_scripts/garbage_collection.py '6411 Fremont Ave N'"
-  scan_interval: 3600
+  command: "python3 /config/custom_scripts/garbage_collection.py '6742 38th Ave SW'"
+  scan_interval: 1800
   value_template: "{{ value_json.remaining_days }}"
   json_attributes:
     - recycling

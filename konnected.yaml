@@ -1,0 +1,48 @@
+access_token: !secret konnected_access_token
+
+devices:
+
+  - id: bcddc2827231
+    binary_sensors:
+      - zone: 1
+        type: motion
+        name: Entry Motion
+      - zone: 2
+        type: motion
+        name: Basement Motion
+      - zone: 3
+        type: door
+        name: Front Door
+      - zone: 4
+        type: door
+        name: Garage Entry Door
+      - zone: 5
+        type: door
+        name: Basement Door
+      - zone: 6
+        type: door
+        name: Family Room Door
+    switches:
+      - zone: out
+        name: Siren
+
+  - id: b4e62d2716cf
+    binary_sensors:
+      - zone: 1
+        type: door
+        name: Master Bedroom Door
+      # - zone: 2
+      #   type: window
+      #   name: window 8
+      # - zone: 3
+      #   type: window
+      #   name: window 9
+      # - zone: 4
+      #   type: window
+      #   name: window 10
+      # - zone: 5
+      #   type: window
+      #   name: window 11
+      # - zone: 6
+      #   type: window
+      #   name: window 12
