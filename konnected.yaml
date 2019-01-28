@@ -34,9 +34,11 @@ devices:
       # - zone: 2
       #   type: window
       #   name: window 8
-      # - zone: 3
-      #   type: window
-      #   name: window 9
+    switches:
+      - zone: 3
+        name: Garage Door
+        momentary: 1000
+        activation: high
       # - zone: 4
       #   type: window
       #   name: window 10

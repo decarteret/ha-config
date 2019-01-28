@@ -49,9 +49,9 @@ binary_sensor: !include binary_sensors.yaml
 # zwave:
 #   usb_path: /dev/ttyACM0
 
-# climate:
-#   - platform: zwave
-  
+ecobee:
+  api_key: !secret ecobee_api_key
+
 # emulated_hue:
 #   host_ip: 192.168.0.148
 
@@ -85,3 +85,5 @@ konnected: !include konnected.yaml
 
 # alarm_control_panel:
 #   - platform: manual
+
+# media_player: !include media_players.yaml

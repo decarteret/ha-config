@@ -10,10 +10,9 @@
 #   username: !secret foscam_username
 #   password: !secret foscam_password
 
-
-- platform: mjpeg
-  mjpeg_url: http://192.168.0.29:6969/videostream.cgi?user=admin&pwd=garfield7
-  username: !secret foscam_username
-  password: !secret foscam_password
-  authentication: basic
-  name: Media Room
+# - platform: mjpeg
+#   mjpeg_url: http://192.168.0.29:6969/videostream.cgi?user=admin&pwd=garfield7
+#   username: !secret foscam_username
+#   password: !secret foscam_password
+#   authentication: basic
+#   name: Media Room

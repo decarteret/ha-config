@@ -1,0 +1,14 @@
+- platform: monoprice
+  port: /dev/ttyUSB0
+  zones:
+    11:
+      name: Media Room
+    12:
+      name: Living Room
+    13:
+      name: Deck
+    14:
+      name: Master Bedroom
+  sources:
+    5:
+      name: House Audio

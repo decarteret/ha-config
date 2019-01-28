@@ -1,8 +1,8 @@
-- platform: wunderground
-  api_key: !secret wunderground_api_key
-  name: Outdoor
-  monitored_conditions:
-    - temp_f
+# - platform: wunderground
+#   api_key: !secret wunderground_api_key
+#   name: Outdoor
+#   monitored_conditions:
+#     - temp_f
 
 
 - platform: template
@@ -11,6 +11,12 @@
       entity_id: proximity.home
       friendly_name: Closest To Home
       value_template: '{{ state_attr( "proximity.home", "nearest" ) + ", " + states( "proximity.home" ) + " mi, " + state_attr( "proximity.home", "dir_of_travel" ) }}'
+
+    outdoor_temperature:
+      entity_id: weather.thermostat
+      friendly_name: Outdoor Temperature
+      value_template: "{{ state_attr( 'weather.thermostat', 'temperature' ) }}"
+      unit_of_measurement: "°F"
 
     # laundry_plug_status:
     #   entity_id: sensor.laundry_plug_power
@@ -25,10 +31,10 @@
       icon_template: "{{ 'mdi:recycle' if state_attr( 'sensor.garbage_collection', 'recycling' ) else 'mdi:delete' }}"
 
 
-    basement_remote_status:
-      entity_id: remote.basement
-      friendly_name: "Basement Remote Status"
-      value_template: "{{ state_attr( 'remote.basement', 'current_activity' ) }}"
+    media_remote_status:
+      entity_id: remote.media
+      friendly_name: "Media Remote Status"
+      value_template: "{{ state_attr( 'remote.media', 'current_activity' ) }}"
 
 
     garage_door_sensor_battery:
@@ -44,34 +50,27 @@
     #   value_template: "{{ state_attr( 'zwave.multi', 'battery_level' ) }}"
 
 
-    # back_thermostat_overview:
-    #   entity_id: zwave.back_thermostat
-    #   friendly_name: "Back Thermostat Overview"
-    #   value_template: "{{ 'OFF' if is_state_attr( 'climate.back_thermostat_heating', 'operation_mode', 'off' ) else 'ON' }}/{{ state_attr( 'climate.back_thermostat_heating', 'operating_state' ) }}  {{ states( 'sensor.back_thermostat_temperature' ) }}°/{{ state_attr( 'climate.back_thermostat_heating', 'temperature' ) }}°"
-    #   icon_template: "{{ 'mdi:thermometer' if is_state_attr( 'climate.back_thermostat_heating', 'operating_state', 'Idle' ) else 'mdi:thermometer-lines' }}"
-
-
 - platform: google_travel_time
-  name: Jason work to home
+  name: Jason Work To Home
   api_key: !secret decartert_gmail_google_api_key
   origin: 500 Yale Ave N, Seattle, WA
   destination: 6742 38th Ave SW, Seattle, WA
 
 - platform: google_travel_time
-  name: Jason home to work
+  name: Jason Home To Work
   api_key: !secret decartert_gmail_google_api_key
   origin: 6742 38th Ave SW, Seattle, WA
   destination: 500 Yale Ave N, Seattle, WA
 
 
 - platform: waze_travel_time
-  name: Christina work to home
+  name: Christina Work To Home
   origin: 401 Broadway, Seattle, WA
   destination: 6742 38th Ave SW, Seattle, WA
   region: 'US'
 
 - platform: waze_travel_time
-  name: Christina home to work
+  name: Christina Home To Work
   origin: 6742 38th Ave SW, Seattle, WA
   destination: 401 Broadway, Seattle, WA
   region: 'US'
@@ -81,7 +80,7 @@
   entity_id: garbage_collection
   name: Garbage Collection
   command: "python3 /config/custom_scripts/garbage_collection.py '6742 38th Ave SW'"
-  scan_interval: 1800
+  scan_interval: 21600
   value_template: "{{ value_json.remaining_days }}"
   json_attributes:
     - recycling
