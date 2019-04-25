@@ -2,13 +2,22 @@
   port: /dev/ttyUSB0
   zones:
     11:
-      name: Media Room
+      name: Media Room Speakers
     12:
-      name: Living Room
+      name: Living Room Speakers
     13:
-      name: Deck
+      name: Master Bedroom Speakers
     14:
-      name: Master Bedroom
+      name: Deck Speakers
+    # 15:
+    #   name: Living Room Speakers 2
+    # 16:
+    #   name: Living Room Speakers 3
   sources:
     5:
       name: House Audio
+
+
+- platform: spotify
+  client_id: !secret spotify_client_id
+  client_secret: !secret spotify_client_secret

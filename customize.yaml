@@ -1,0 +1,19 @@
+binary_sensor.garage_door_13:
+  device_class: garage_door
+  initial_state: off
+
+binary_sensor.basement_motion:
+  initial_state: off
+binary_sensor.entry_motion:
+  initial_state: off
+
+binary_sensor.basement_door:
+  initial_state: off
+binary_sensor.family_room_door:
+  initial_state: off
+binary_sensor.front_door:
+  initial_state: off
+binary_sensor.garage_entry_door:
+  initial_state: off
+binary_sensor.master_bedroom_door:
+  initial_state: off

@@ -36,8 +36,8 @@ devices:
       #   name: window 8
     switches:
       - zone: 3
-        name: Garage Door
-        momentary: 1000
+        name: Garage Door Opener
+        momentary: 750
         activation: high
       # - zone: 4
       #   type: window

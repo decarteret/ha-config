@@ -8,6 +8,11 @@ homeassistant:
   customize: !include customize.yaml
   whitelist_external_dirs:
     - /config/www
+  # auth_providers:
+  #   - type: trusted_networks
+  #     trusted_networks:
+  #       - 192.168.0.0/24
+
 
 frontend:
   themes: !include themes.yaml
@@ -20,9 +25,8 @@ updater:
   include_used_components: true
 
 discovery:
-  # ignore:
-    # - roku
-    # - harmony
+  ignore:
+    - igd
 
 conversation:
 
@@ -40,20 +44,17 @@ tts:
   - platform: google
 
 group: !include groups.yaml
-automation: !include automations.yaml
+
+#automation: !include automations.yaml
 
 script: !include scripts.yaml
 
-binary_sensor: !include binary_sensors.yaml
+system_health:
 
-# zwave:
-#   usb_path: /dev/ttyACM0
+binary_sensor: !include binary_sensors.yaml
 
 ecobee:
   api_key: !secret ecobee_api_key
-
-# emulated_hue:
-#   host_ip: 192.168.0.148
 
 notify: !include notifiers.yaml
 
@@ -61,8 +62,6 @@ device_tracker:
   platform: google_maps
   username: !secret gmail_username
   password: !secret gmail_password
-
-sabnzbd: !include sabnzbd.yaml
 
 camera: !include cameras.yaml
 
@@ -78,12 +77,25 @@ proximity:
     unit_of_measurement: mi
 
 vera:
-  vera_controller_url: http://192.168.0.28:3480/
-  exclude: [15]
+  vera_controller_url: http://192.168.0.14:3480/
+  lights: [52,53,54]
 
 konnected: !include konnected.yaml
 
-# alarm_control_panel:
-#   - platform: manual
+alarm_control_panel:
+  - platform: manual
+    pending_time: 0
 
-# media_player: !include media_players.yaml
+media_player: !include media_players.yaml
+
+person:
+  - name: Jason
+    id: 1
+    user_id: cc4f673a3a1c411291f545210bdcf3b2
+    device_trackers:
+      - device_tracker.google_maps_111034445952431641993
+  - name: Christina
+    id: 2
+    user_id: 7658fe32e5274233988db3c427078757
+    device_trackers:
+      - device_tracker.google_maps_114963797368641553787

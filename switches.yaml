@@ -1,10 +1,15 @@
-# - platform: template
-#   switches:
-#     heat:
-#       friendly_name: Heat
-#       value_template: "{{ not is_state_attr( 'climate.back_thermostat_heating', 'operation_mode', 'off' ) or not is_state_attr( 'climate.front_thermostat_heating', 'operation_mode', 'off' ) }}"
-#       icon_template: "mdi:thermostat"
-#       turn_on:
-#         service: script.turn_heat_on
-#       turn_off:
-#         service: script.turn_heat_off
+- platform: template
+  switches:
+    media_remote:
+      entity_id: remote.media
+      friendly_name: "Media Remote"
+      value_template: "{{ is_state( 'remote.media', 'on' ) }}"
+      turn_on:
+        service: remote.turn_on
+        data:
+          entity_id: remote.media
+          activity: Watch TV
+      turn_off:
+        service: remote.turn_off
+        data:
+          entity_id: remote.media

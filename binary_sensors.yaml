@@ -3,10 +3,10 @@
 # username: !secret hikvision_username
 # password: !secret hikvision_password
 
-- platform: template
-  sensors:
-    garage_door:
-      entity_id: switch.garage_door_sensor_13
-      friendly_name: Garage Door
-      device_class: garage_door
-      value_template: '{{ state_attr( "switch.garage_door_sensor_13", "device_tripped" ) }}'
+# - platform: template
+#   sensors:
+#     garage_door:
+#       entity_id: switch.garage_door_sensor_13
+#       friendly_name: Garage Door
+#       device_class: garage_door
+#       value_template: '{{ state_attr( "switch.garage_door_sensor_13", "device_tripped" ) }}'

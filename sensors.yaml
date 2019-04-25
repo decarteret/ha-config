@@ -1,10 +1,3 @@
-# - platform: wunderground
-#   api_key: !secret wunderground_api_key
-#   name: Outdoor
-#   monitored_conditions:
-#     - temp_f
-
-
 - platform: template
   sensors:
     proximity_home_summary:
@@ -18,17 +11,24 @@
       value_template: "{{ state_attr( 'weather.thermostat', 'temperature' ) }}"
       unit_of_measurement: "°F"
 
-    # laundry_plug_status:
-    #   entity_id: sensor.laundry_plug_power
-    #   friendly_name: "Laundry"
-    #   value_template: "{{ 'on' if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 else 'off' }}"
-    #   icon_template: "{{ 'mdi:power-plug' if state_attr( 'sensor.laundry_plug_power', 'power_consumption' ) | int > 10 else 'mdi:power-plug-off' }}"
+    hvac_status:
+      entity_id: climate.thermostat
+      friendly_name: HVAC Status
+      value_template: "{{ state_attr( 'climate.thermostat', 'operation' ) + ( ' (with aux)' if state_attr( 'climate.thermostat', 'aux_heat' ) == 'on' else '' ) }}"
+      icon_template: "mdi:thermostat"
 
     garbage_collection_summary:
       entity_id: sensor.garbage_collection_summary
       friendly_name: Garbage Collection Summary
       value_template: "{{ state_attr( 'sensor.garbage_collection', 'next_collection_day' ) }} {{ 'with' if state_attr( 'sensor.garbage_collection', 'recycling' ) else 'without' }} recycling"
       icon_template: "{{ 'mdi:recycle' if state_attr( 'sensor.garbage_collection', 'recycling' ) else 'mdi:delete' }}"
+
+    
+    roborock_status:
+      entity_id: vacuum.roborock
+      friendly_name: Roborock Status
+      value_template: "{{ state_attr( 'vacuum.roborock', 'status' ) }}"
+      icon_template: "mdi:robot-vacuum"
 
 
     media_remote_status:
@@ -63,21 +63,21 @@
   destination: 500 Yale Ave N, Seattle, WA
 
 
-- platform: waze_travel_time
-  name: Christina Work To Home
-  origin: 401 Broadway, Seattle, WA
-  destination: 6742 38th Ave SW, Seattle, WA
-  region: 'US'
+# - platform: waze_travel_time
+#   name: Christina Work To Home
+#   origin: 401 Broadway, Seattle, WA
+#   destination: 6742 38th Ave SW, Seattle, WA
+#   region: 'US'
 
-- platform: waze_travel_time
-  name: Christina Home To Work
-  origin: 6742 38th Ave SW, Seattle, WA
-  destination: 401 Broadway, Seattle, WA
-  region: 'US'
+# - platform: waze_travel_time
+#   name: Christina Home To Work
+#   origin: 6742 38th Ave SW, Seattle, WA
+#   destination: 401 Broadway, Seattle, WA
+#   region: 'US'
 
 
 - platform: command_line
-  entity_id: garbage_collection
+#  entity_id: garbage_collection
   name: Garbage Collection
   command: "python3 /config/custom_scripts/garbage_collection.py '6742 38th Ave SW'"
   scan_interval: 21600
