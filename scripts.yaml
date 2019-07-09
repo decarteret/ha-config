@@ -1,0 +1,6 @@
+i3s_120_precondition:
+  alias: i3s_120_precondition
+  sequence:
+  - data:
+      vin: !secret bmw_vin
+    service: bmw_connected_drive.activate_air_conditioning

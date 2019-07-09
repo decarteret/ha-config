@@ -41,7 +41,8 @@ sun:
 sensor: !include sensors.yaml
 
 tts:
-  - platform: google
+  - platform: google_translate
+    service_name: google_say
 
 group: !include groups.yaml
 
@@ -63,7 +64,7 @@ device_tracker:
   username: !secret gmail_username
   password: !secret gmail_password
 
-camera: !include cameras.yaml
+#camera: !include cameras.yaml
 
 switch: !include switches.yaml
 
@@ -89,13 +90,9 @@ alarm_control_panel:
 media_player: !include media_players.yaml
 
 person:
-  - name: Jason
-    id: 1
-    user_id: cc4f673a3a1c411291f545210bdcf3b2
-    device_trackers:
-      - device_tracker.google_maps_111034445952431641993
-  - name: Christina
-    id: 2
-    user_id: 7658fe32e5274233988db3c427078757
-    device_trackers:
-      - device_tracker.google_maps_114963797368641553787
+
+bmw_connected_drive:
+  bmw_i3s:
+    username: !secret bmw_username
+    password: !secret bmw_password
+    region: north_america

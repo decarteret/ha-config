@@ -24,10 +24,10 @@
       icon_template: "{{ 'mdi:recycle' if state_attr( 'sensor.garbage_collection', 'recycling' ) else 'mdi:delete' }}"
 
     
-    roborock_status:
-      entity_id: vacuum.roborock
-      friendly_name: Roborock Status
-      value_template: "{{ state_attr( 'vacuum.roborock', 'status' ) }}"
+    rockrobo_status:
+      entity_id: vacuum.rockrobo
+      friendly_name: Rockrobo Status
+      value_template: "{{ state_attr( 'vacuum.rockrobo', 'status' ) }}"
       icon_template: "mdi:robot-vacuum"
 
 
@@ -43,6 +43,13 @@
       unit_of_measurement: "%"
       value_template: "{{ state_attr( 'switch.garage_door_sensor_13', 'battery_level' ) }}"
 
+
+    i3s_120_target_mileage:
+      entity_id: sensor.i3s_120_mileage
+      friendly_name: i3s Target Mileage
+      unit_of_measurement: mi
+      value_template: "{{ ( ( ( as_timestamp(now()) - as_timestamp('2019-5-17 00:00:00') ) | float / 60 / 1440 ) * 27.39726 ) | int }}"
+
     # multi_battery:
     #   entity_id: zwave.multi
     #   friendly_name: "Multi Battery"
@@ -53,14 +60,14 @@
 - platform: google_travel_time
   name: Jason Work To Home
   api_key: !secret decartert_gmail_google_api_key
-  origin: 500 Yale Ave N, Seattle, WA
+  origin: 255 S King Street, Seattle, WA
   destination: 6742 38th Ave SW, Seattle, WA
 
 - platform: google_travel_time
   name: Jason Home To Work
   api_key: !secret decartert_gmail_google_api_key
   origin: 6742 38th Ave SW, Seattle, WA
-  destination: 500 Yale Ave N, Seattle, WA
+  destination: 255 S King Street, Seattle, WA
 
 
 # - platform: waze_travel_time

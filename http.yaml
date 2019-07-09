@@ -1,5 +1,5 @@
 base_url: https://home.hutenosa.com:8123
-ssl_certificate: /ssl/fullchain1.pem
-ssl_key: /ssl/privkey1.pem
+ssl_certificate: /ssl/live/home.hutenosa.com/fullchain.pem
+ssl_key: /ssl/live/home.hutenosa.com/privkey.pem
 ip_ban_enabled: True
 login_attempts_threshold: 10

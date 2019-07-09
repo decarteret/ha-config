@@ -34,3 +34,10 @@
   platform: slack
   default_channel: "#home"
   api_key: !secret slack_api
+
+
+- name: Web Push
+  platform: html5
+  vapid_pub_key: !secret vapid_pub_key
+  vapid_prv_key: !secret vapid_prv_key
+  vapid_email: !secret email_recipient1

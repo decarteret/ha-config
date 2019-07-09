@@ -6,9 +6,9 @@
 - name: "Jason work"
   latitude: !secret jason_work_latitude
   longitude: !secret jason_work_longitude
-  radius: 175
+  radius: 150
 
 - name: "Christina work"
   latitude: !secret christina_work_latitude
   longitude: !secret christina_work_longitude
-  radius: 225
+  radius: 150
