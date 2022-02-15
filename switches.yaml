@@ -1,15 +1,9 @@
-- platform: template
-  switches:
-    media_remote:
-      entity_id: remote.media
-      friendly_name: "Media Remote"
-      value_template: "{{ is_state( 'remote.media', 'on' ) }}"
-      turn_on:
-        service: remote.turn_on
-        data:
-          entity_id: remote.media
-          activity: Watch TV
-      turn_off:
-        service: remote.turn_off
-        data:
-          entity_id: remote.media
+- platform: rest
+  name: "Network Devices"
+  resource: http://192.168.0.5:5000/api/statusAll
+  body_on: '{ "Set": false }'
+  body_off: '{ "Set": true }'
+  is_on_template: "{{ value_json.active }}"
+  verify_ssl: false
+  headers:
+      Content-Type: application/json

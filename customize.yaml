@@ -4,6 +4,3 @@ binary_sensor.garage_door_13:
 
 vacuum.rockrobo:
   friendly_name: Rockrobo
-
-sensor.i3s_120_charging_level_hv:
-  unit_of_measurement: "%"

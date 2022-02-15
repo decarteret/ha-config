@@ -2,13 +2,3 @@
   latitude: !secret home_latitude
   longitude: !secret home_longitude
   radius: 170
-
-- name: "Jason work"
-  latitude: !secret jason_work_latitude
-  longitude: !secret jason_work_longitude
-  radius: 150
-
-- name: "Christina work"
-  latitude: !secret christina_work_latitude
-  longitude: !secret christina_work_longitude
-  radius: 150

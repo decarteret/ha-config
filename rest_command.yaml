@@ -1,0 +1,13 @@
+network_devices_on:
+  url: http://192.168.0.5:5000/api/statusAll
+  method: post
+  payload: '{ "Set": false }'
+  verify_ssl: false
+  content_type: application/json
+
+network_devices_off:
+  url: http://192.168.0.5:5000/api/statusAll
+  method: post
+  payload: '{ "Set": true }'
+  verify_ssl: false
+  content_type: application/json

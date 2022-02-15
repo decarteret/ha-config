@@ -5,8 +5,9 @@ homeassistant:
   elevation: 172
   unit_system: imperial
   time_zone: America/Los_Angeles
+  external_url: https://home.hutenosa.com:8123
   customize: !include customize.yaml
-  whitelist_external_dirs:
+  allowlist_external_dirs:
     - /config/www
   # auth_providers:
   #   - type: trusted_networks
@@ -22,11 +23,8 @@ config:
 http: !include http.yaml
 
 updater:
-  include_used_components: true
 
 discovery:
-  ignore:
-    - igd
 
 conversation:
 
@@ -35,6 +33,8 @@ history:
 logbook:
 
 light: !include lights.yaml
+
+rest_command: !include rest_command.yaml
 
 sun:
 
@@ -52,17 +52,14 @@ script: !include scripts.yaml
 
 system_health:
 
+mobile_app:
+
 binary_sensor: !include binary_sensors.yaml
 
 ecobee:
   api_key: !secret ecobee_api_key
 
 notify: !include notifiers.yaml
-
-device_tracker:
-  platform: google_maps
-  username: !secret gmail_username
-  password: !secret gmail_password
 
 #camera: !include cameras.yaml
 
@@ -78,21 +75,13 @@ proximity:
     unit_of_measurement: mi
 
 vera:
-  vera_controller_url: http://192.168.0.14:3480/
-  lights: [52,53,54]
+  vera_controller_url: http://192.168.0.11:3480/
 
 konnected: !include konnected.yaml
 
 alarm_control_panel:
   - platform: manual
-    pending_time: 0
 
 media_player: !include media_players.yaml
 
 person:
-
-bmw_connected_drive:
-  bmw_i3s:
-    username: !secret bmw_username
-    password: !secret bmw_password
-    region: north_america

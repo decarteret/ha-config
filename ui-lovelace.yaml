@@ -51,25 +51,6 @@ views:
           - entity: sensor.garbage_collection_summary
             name: Gatewood
 
-
-  - id: Internet  # Automatically created id
-    title: Internet
-    cards:
-      - id: a11f0fe862e84fa893893a305cd42945  # Automatically created id
-        type: entities
-        title: SABnzbd
-        entities:
-          - sensor.sabnzbd_daily_total
-          - sensor.sabnzbd_weekly_total
-          - sensor.sabnzbd_monthly_total
-          - sensor.sabnzbd_total
-          - sensor.sabnzbd_left
-          - sensor.sabnzbd_queue
-          - sensor.sabnzbd_queue_count
-          - sensor.sabnzbd_speed
-          - sensor.sabnzbd_status
-
-
   - id: Zones  # Automatically created id
     title: Zones
     cards:

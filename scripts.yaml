@@ -1,6 +1,14 @@
-i3s_120_precondition:
-  alias: i3s_120_precondition
+lock_front_door:
+  alias: Unlock Front Door
   sequence:
-  - data:
-      vin: !secret bmw_vin
-    service: bmw_connected_drive.activate_air_conditioning
+  - service: lock.unlock
+    target:
+      entity_id: lock.front_door_55
+  mode: single
+garage_door_opener:
+  sequence:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.garage_door_opener
+  mode: single
+  alias: Garage Door Opener

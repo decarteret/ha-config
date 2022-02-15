@@ -1,3 +1,0 @@
-# - platform: switch
-#   name: Front Door
-#   entity_id: switch.front_door

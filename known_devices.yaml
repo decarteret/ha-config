@@ -21,10 +21,26 @@ google_maps_none:
   name: google maps none
   picture:
   track: true
-i3s_120:
+
+google_maps_decarteret_gmail_com:
   hide_if_away: false
-  icon: mdi:car
+  icon:
   mac:
-  name: i3s 120
+  name: google maps decarteret gmail com
+  picture:
+  track: true
+
+edgeos_christina_iphone:
+  hide_if_away: false
+  icon:
+  mac: CHRISTINA-IPHONE
+  name: EdgeOS Christina-iPhone
+  picture:
+  track: true
+
+edgeos_jason_pixel5:
+  name: EdgeOS Jason-Pixel5
+  mac: JASON-PIXEL5
+  icon:
   picture:
   track: true

@@ -1,99 +1,29 @@
 - platform: template
   sensors:
     proximity_home_summary:
-      entity_id: proximity.home
       friendly_name: Closest To Home
       value_template: '{{ state_attr( "proximity.home", "nearest" ) + ", " + states( "proximity.home" ) + " mi, " + state_attr( "proximity.home", "dir_of_travel" ) }}'
 
     outdoor_temperature:
-      entity_id: weather.thermostat
       friendly_name: Outdoor Temperature
       value_template: "{{ state_attr( 'weather.thermostat', 'temperature' ) }}"
       unit_of_measurement: "°F"
 
     hvac_status:
-      entity_id: climate.thermostat
       friendly_name: HVAC Status
-      value_template: "{{ state_attr( 'climate.thermostat', 'operation' ) + ( ' (with aux)' if state_attr( 'climate.thermostat', 'aux_heat' ) == 'on' else '' ) }}"
+      value_template: "{{ state_attr( 'climate.thermostat', 'hvac_action' ) + ( ' (with aux)' if state_attr( 'climate.thermostat', 'aux_heat' ) == 'on' else '' ) }}"
       icon_template: "mdi:thermostat"
 
     garbage_collection_summary:
-      entity_id: sensor.garbage_collection_summary
-      friendly_name: Garbage Collection Summary
-      value_template: "{{ state_attr( 'sensor.garbage_collection', 'next_collection_day' ) }} {{ 'with' if state_attr( 'sensor.garbage_collection', 'recycling' ) else 'without' }} recycling"
-      icon_template: "{{ 'mdi:recycle' if state_attr( 'sensor.garbage_collection', 'recycling' ) else 'mdi:delete' }}"
-
-    
-    rockrobo_status:
-      entity_id: vacuum.rockrobo
-      friendly_name: Rockrobo Status
-      value_template: "{{ state_attr( 'vacuum.rockrobo', 'status' ) }}"
-      icon_template: "mdi:robot-vacuum"
-
+      friendly_name: "Garbage Summary"
+      value_template: "{{ 'Recycling' if not now().isocalendar()[1] % 2 else 'No recycling' }} this week."
+      icon_template: "{{ 'mdi:recycle' if not now().isocalendar()[1] % 2 else 'mdi:delete' }}"
 
     media_remote_status:
-      entity_id: remote.media
       friendly_name: "Media Remote Status"
       value_template: "{{ state_attr( 'remote.media', 'current_activity' ) }}"
 
-
     garage_door_sensor_battery:
-      entity_id: switch.garage_door_sensor_13
       friendly_name: "Garage Door Sensor Battery"
       unit_of_measurement: "%"
       value_template: "{{ state_attr( 'switch.garage_door_sensor_13', 'battery_level' ) }}"
-
-
-    i3s_120_target_mileage:
-      entity_id: sensor.i3s_120_mileage
-      friendly_name: i3s Target Mileage
-      unit_of_measurement: mi
-      value_template: "{{ ( ( ( as_timestamp(now()) - as_timestamp('2019-5-17 00:00:00') ) | float / 60 / 1440 ) * 27.39726 ) | int }}"
-
-    # multi_battery:
-    #   entity_id: zwave.multi
-    #   friendly_name: "Multi Battery"
-    #   unit_of_measurement: "%"
-    #   value_template: "{{ state_attr( 'zwave.multi', 'battery_level' ) }}"
-
-
-- platform: google_travel_time
-  name: Jason Work To Home
-  api_key: !secret decartert_gmail_google_api_key
-  origin: 255 S King Street, Seattle, WA
-  destination: 6742 38th Ave SW, Seattle, WA
-
-- platform: google_travel_time
-  name: Jason Home To Work
-  api_key: !secret decartert_gmail_google_api_key
-  origin: 6742 38th Ave SW, Seattle, WA
-  destination: 255 S King Street, Seattle, WA
-
-
-# - platform: waze_travel_time
-#   name: Christina Work To Home
-#   origin: 401 Broadway, Seattle, WA
-#   destination: 6742 38th Ave SW, Seattle, WA
-#   region: 'US'
-
-# - platform: waze_travel_time
-#   name: Christina Home To Work
-#   origin: 6742 38th Ave SW, Seattle, WA
-#   destination: 401 Broadway, Seattle, WA
-#   region: 'US'
-
-
-- platform: command_line
-#  entity_id: garbage_collection
-  name: Garbage Collection
-  command: "python3 /config/custom_scripts/garbage_collection.py '6742 38th Ave SW'"
-  scan_interval: 21600
-  value_template: "{{ value_json.remaining_days }}"
-  json_attributes:
-    - recycling
-    - yard_waste
-    - garbage
-    - remaining_days
-    - next_collection_date
-    - next_collection_day
-    - address

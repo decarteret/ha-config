@@ -3,6 +3,10 @@ access_token: !secret konnected_access_token
 devices:
 
   - id: bcddc2827231
+    discovery: true
+    # discovery: false
+    # host: 192.168.0.13
+    # port: 16548
     binary_sensors:
       - zone: 1
         type: motion
@@ -27,6 +31,10 @@ devices:
         name: Siren
 
   - id: b4e62d2716cf
+    discovery: true
+    # discovery: false
+    # host: 192.168.0.14
+    # port: 10561
     binary_sensors:
       - zone: 1
         type: door
