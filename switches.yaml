@@ -1,9 +1,9 @@
 - platform: rest
   name: "Network Devices"
   resource: http://192.168.0.5:5000/api/statusAll
-  body_on: '{ "Set": false }'
-  body_off: '{ "Set": true }'
+  body_on: '{ "bad": false }'
+  body_off: '{ "bad": true }'
   is_on_template: "{{ value_json.active }}"
   verify_ssl: false
   headers:
-      Content-Type: application/json
+    Content-Type: application/json

@@ -1,13 +1,13 @@
-network_devices_on:
+network_devices_good:
   url: http://192.168.0.5:5000/api/statusAll
   method: post
-  payload: '{ "Set": false }'
+  payload: '{ "bad": false }'
   verify_ssl: false
   content_type: application/json
 
-network_devices_off:
+network_devices_bad:
   url: http://192.168.0.5:5000/api/statusAll
   method: post
-  payload: '{ "Set": true }'
+  payload: '{ "bad": true }'
   verify_ssl: false
   content_type: application/json

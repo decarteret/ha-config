@@ -27,3 +27,15 @@
       friendly_name: "Garage Door Sensor Battery"
       unit_of_measurement: "%"
       value_template: "{{ state_attr( 'switch.garage_door_sensor_13', 'battery_level' ) }}"
+
+
+- platform: rest
+  name: Network Devices Status
+  resource: http://192.168.0.5:5000/api/statusAll
+  verify_ssl: false
+  headers:
+    Content-Type: application/json
+  value_template: "{{ value_json.badCount }}/{{ value_json.totalCount }}"
+  json_attributes:
+    - badCount
+    - totalCount
