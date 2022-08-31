@@ -1,4 +1,4 @@
-ssl_certificate: /ssl/live/home.hutenosa.com/fullchain.pem
-ssl_key: /ssl/live/home.hutenosa.com/privkey.pem
+ssl_certificate: /ssl/live/home.hutenosa.com-0003/fullchain.pem
+ssl_key: /ssl/live/home.hutenosa.com-0003/privkey.pem
 ip_ban_enabled: True
 login_attempts_threshold: 10

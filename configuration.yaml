@@ -22,8 +22,6 @@ config:
 
 http: !include http.yaml
 
-updater:
-
 discovery:
 
 conversation:
@@ -46,7 +44,7 @@ tts:
 
 group: !include groups.yaml
 
-#automation: !include automations.yaml
+automation: !include automations.yaml
 
 script: !include scripts.yaml
 
@@ -70,12 +68,12 @@ zone: !include zones.yaml
 proximity:
   home:
     devices:
-      - device_tracker.google_maps_111034445952431641993
-      - device_tracker.google_maps_114963797368641553787
+      - person.jason
+      - person.christina
     unit_of_measurement: mi
 
-vera:
-  vera_controller_url: http://192.168.0.11:3480/
+#vera:
+#  vera_controller_url: http://192.168.0.11:3480/
 
 konnected: !include konnected.yaml
 

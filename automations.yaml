@@ -1,20 +1,136 @@
-- id: '1507960736936'
-  alias: Laundry finished
+- id: '1661980780598'
+  alias: Garage notification
+  description: ''
   trigger:
-  - entity_id: sensor.laundry_plug_status
-    for: 00:01:00
-    from: 'on'
-    platform: state
-    to: 'off'
+  - platform: state
+    entity_id:
+    - person.jason
+    - person.christina
+    from: home
+    to: not_home
+  condition:
+  - condition: state
+    entity_id: binary_sensor.garage_door_13
+    state: 'on'
+  action:
+  - service: notify.notify
+    data:
+      title: Garage door
+      message: '{{ "Someone" if trigger.to_state is undefined else trigger.to_state.attributes.friendly_name
+        }} left home and the door is open.'
+  mode: single
+- id: '1661981510976'
+  alias: Lights on - outdoor
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: 0
   condition: []
   action:
-  - alias: Gmail
+  - service: light.turn_on
+    data: {}
+    target:
+      entity_id:
+      - light.back_outside_63
+      - light.front_outside_54
+      - light.side_outside_61
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.random_plug_6
+  mode: single
+- id: '1661981651423'
+  alias: Lights off - outdoor
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: 0
+  condition: []
+  action:
+  - service: light.turn_off
+    data: {}
+    target:
+      entity_id:
+      - light.back_outside_63
+      - light.front_outside_54
+      - light.side_outside_61
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id: switch.random_plug_6
+  mode: single
+- id: '1661981850676'
+  alias: Lights off - deck
+  description: ''
+  trigger:
+  - platform: time
+    at: 00:00:00
+  condition: []
+  action:
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id: switch.random_plug_6
+  mode: single
+- id: '1661982325379'
+  alias: Thermostat - home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - group.people
+    to: home
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+  condition: []
+  action:
+  - device_id: c04b21ba8b2647aab4729b24b902f2b4
+    domain: climate
+    entity_id: climate.thermostat
+    type: set_preset_mode
+    preset_mode: Home
+  mode: single
+- id: '1661982421955'
+  alias: Thermostat - away
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - group.people
+    to: away
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+  condition: []
+  action:
+  - device_id: c04b21ba8b2647aab4729b24b902f2b4
+    domain: climate
+    entity_id: climate.thermostat
+    type: set_preset_mode
+    preset_mode: Away
+  mode: single
+- id: '1661983077808'
+  alias: Front door notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - person.jason
+    - person.christina
+    from: home
+    to: not_home
+  condition:
+  - condition: state
+    entity_id: lock.front_door_55
+    state: unlocked
+  action:
+  - service: notify.notify
     data:
-      message: How dry do you like it?!
-      title: Laundry
-    service: notify.gmail_sms
-  - alias: Kodi
-    data:
-      message: How dry do you like it?!
-      title: Laundry
-    service: notify.kodi
+      message: '{{ "Someone" if trigger.to_state is undefined else trigger.to_state.attributes.friendly_name
+        }} left home and the door is unlocked.'
+  mode: single
