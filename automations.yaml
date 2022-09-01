@@ -35,10 +35,7 @@
       - light.back_outside_63
       - light.front_outside_54
       - light.side_outside_61
-  - service: switch.turn_on
-    data: {}
-    target:
-      entity_id: switch.random_plug_6
+      - light.random_plug
   mode: single
 - id: '1661981651423'
   alias: Lights off - outdoor
@@ -56,10 +53,7 @@
       - light.back_outside_63
       - light.front_outside_54
       - light.side_outside_61
-  - service: switch.turn_off
-    data: {}
-    target:
-      entity_id: switch.random_plug_6
+      - light.random_plug
   mode: single
 - id: '1661981850676'
   alias: Lights off - deck
@@ -69,10 +63,10 @@
     at: 00:00:00
   condition: []
   action:
-  - service: switch.turn_off
+  - service: light.turn_off
     data: {}
     target:
-      entity_id: switch.random_plug_6
+      entity_id: light.random_plug
   mode: single
 - id: '1661982325379'
   alias: Thermostat - home
@@ -129,6 +123,7 @@
   action:
   - service: notify.devices
     data:
+      title: Front door
       message: '{{ "Someone" if trigger.to_state is undefined else trigger.to_state.attributes.friendly_name
         }} left home and the door is unlocked.'
   mode: single

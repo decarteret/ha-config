@@ -1,8 +1,8 @@
 homeassistant:
   #name: Home
-  #latitude: !secret home_latitude
-  #longitude: !secret home_longitude
-  #elevation: 172
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  elevation: 172
   #unit_system: imperial
   #time_zone: America/Los_Angeles
   #external_url: https://home.hutenosa.com:8123
