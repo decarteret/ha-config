@@ -83,3 +83,7 @@ alarm_control_panel:
 media_player: !include media_players.yaml
 
 person:
+
+template: !include templates.yaml
+
+cover: !include covers.yaml

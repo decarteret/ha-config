@@ -2,7 +2,7 @@
   sensors:
     proximity_home_summary:
       friendly_name: Closest To Home
-      value_template: '{{ state_attr( "proximity.home", "nearest" ) + ", " + states( "proximity.home" ) + " mi, " + state_attr( "proximity.home", "dir_of_travel" ) }}'
+      value_template: '{{ state_attr( "proximity.home", "nearest" ) + ", " + iif( is_state( "proximity.home", "0"), "", states( "proximity.home" ) + " mi, " ) + state_attr( "proximity.home", "dir_of_travel" ) }}'
 
     outdoor_temperature:
       friendly_name: Outdoor Temperature
@@ -22,11 +22,6 @@
     media_remote_status:
       friendly_name: "Media Remote Status"
       value_template: "{{ state_attr( 'remote.media', 'current_activity' ) }}"
-
-    garage_door_sensor_battery:
-      friendly_name: "Garage Door Sensor Battery"
-      unit_of_measurement: "%"
-      value_template: "{{ state_attr( 'switch.garage_door_sensor_13', 'battery_level' ) }}"
 
 
 - platform: rest

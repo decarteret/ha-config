@@ -1,14 +1,20 @@
-lock_front_door:
-  alias: Unlock Front Door
-  sequence:
-  - service: lock.unlock
-    target:
-      entity_id: lock.front_door_55
+# for garage door - found in covers.yaml
+close_garage_door:
+  alias: Close Garage Door
   mode: single
-garage_door_opener:
   sequence:
-  - service: switch.turn_on
-    target:
+    - condition: state
+      entity_id: binary_sensor.garage_door_13
+      state: 'on'
+    - service: switch.turn_on
       entity_id: switch.garage_door_opener
+
+open_garage_door:
+  alias: Open Garage Door
   mode: single
-  alias: Garage Door Opener
+  sequence:
+    - condition: state
+      entity_id: binary_sensor.garage_door_13
+      state: 'off'
+    - service: switch.turn_on
+      entity_id: switch.garage_door_opener

@@ -7,9 +7,6 @@ people:
 garmin:
   name: Garmin
   entities:
-    - switch.garage_door_opener
-    - script.lock_front_door
+    - cover.garage_door
     - lock.front_door_55
-    - binary_sensor.garage_door_13
-    - sensor.garbage_collection_summary
-    - person.christina
+    - light.smart_led_light_bulb_62
