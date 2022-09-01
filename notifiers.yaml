@@ -41,3 +41,9 @@
 #   vapid_pub_key: !secret vapid_pub_key
 #   vapid_prv_key: !secret vapid_prv_key
 #   vapid_email: !secret email_recipient1
+
+- name: Devices
+  platform: group
+  services:
+    - service: mobile_app_s22
+    - service: mobile_app_iphone_13

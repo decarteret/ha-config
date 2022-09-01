@@ -13,7 +13,7 @@
     entity_id: binary_sensor.garage_door_13
     state: 'on'
   action:
-  - service: notify.notify
+  - service: notify.devices
     data:
       title: Garage door
       message: '{{ "Someone" if trigger.to_state is undefined else trigger.to_state.attributes.friendly_name
@@ -78,14 +78,13 @@
   alias: Thermostat - home
   description: ''
   trigger:
-  - platform: state
-    entity_id:
-    - group.people
-    to: home
+  - platform: numeric_state
+    entity_id: zone.home
     for:
       hours: 0
       minutes: 1
       seconds: 0
+    above: '0'
   condition: []
   action:
   - device_id: c04b21ba8b2647aab4729b24b902f2b4
@@ -98,14 +97,13 @@
   alias: Thermostat - away
   description: ''
   trigger:
-  - platform: state
-    entity_id:
-    - group.people
-    to: away
+  - platform: numeric_state
+    entity_id: zone.home
     for:
       hours: 0
       minutes: 1
       seconds: 0
+    below: '1'
   condition: []
   action:
   - device_id: c04b21ba8b2647aab4729b24b902f2b4
@@ -129,7 +127,7 @@
     entity_id: lock.front_door_55
     state: unlocked
   action:
-  - service: notify.notify
+  - service: notify.devices
     data:
       message: '{{ "Someone" if trigger.to_state is undefined else trigger.to_state.attributes.friendly_name
         }} left home and the door is unlocked.'
