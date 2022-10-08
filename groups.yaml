@@ -1,12 +1,6 @@
-people:
-  name: People
-  entities:
-    - person.jason
-    - person.christina
-
-garmin:
-  name: Garmin
+watch_devices:
+  name: Watch Devices
   entities:
     - cover.garage_door
-    - lock.front_door_55
-    - light.smart_led_light_bulb_62
+    - lock.front_door_lock
+    - light.primary_bedroom_desk_light

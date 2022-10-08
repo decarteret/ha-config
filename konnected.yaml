@@ -38,7 +38,7 @@ devices:
     binary_sensors:
       - zone: 1
         type: door
-        name: Master Bedroom Door
+        name: Main Bedroom Door
       # - zone: 2
       #   type: window
       #   name: window 8

@@ -1,0 +1,61 @@
+- id: '1664688504178'
+  name: Outside Lights on
+  entities:
+    light.outside_basement_light:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 39
+      friendly_name: Outside Basement Light
+      supported_features: 32
+      state: 'on'
+    light.outside_entryway_light:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 46
+      friendly_name: Outside Entryway Light
+      supported_features: 32
+      state: 'on'
+    light.outside_garage_light:
+      supported_color_modes:
+      - onoff
+      color_mode: onoff
+      friendly_name: Outside Garage Light
+      supported_features: 0
+      state: 'on'
+    light.outside_main_light:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 3
+      friendly_name: Outside Main Light
+      supported_features: 32
+      state: 'on'
+    light.outside_main_accent:
+      supported_color_modes:
+      - onoff
+      color_mode: onoff
+      friendly_name: Outside Main Accent
+      supported_features: 0
+      state: 'on'
+    light.primary_bedroom_accent:
+      supported_color_modes:
+      - onoff
+      color_mode: onoff
+      friendly_name: Primary Bedroom Accent
+      supported_features: 0
+      state: 'on'
+  metadata:
+    light.outside_basement_light:
+      entity_only: true
+    light.outside_entryway_light:
+      entity_only: true
+    light.outside_garage_light:
+      entity_only: true
+    light.outside_main_light:
+      entity_only: true
+    light.outside_main_accent:
+      entity_only: true
+    light.primary_bedroom_accent:
+      entity_only: true

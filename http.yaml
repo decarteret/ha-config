@@ -1,4 +1,6 @@
-ssl_certificate: /ssl/live/home.hutenosa.com-0003/fullchain.pem
-ssl_key: /ssl/live/home.hutenosa.com-0003/privkey.pem
-ip_ban_enabled: True
+use_x_forwarded_for: true
+trusted_proxies:
+  - 192.168.0.5
+  - 172.17.0.0/24
+ip_ban_enabled: true
 login_attempts_threshold: 10

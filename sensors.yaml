@@ -1,36 +1,24 @@
 - platform: template
   sensors:
     proximity_home_summary:
+      unique_id: sensorproximityhomesummary
       friendly_name: Closest To Home
       value_template: '{{ state_attr( "proximity.home", "nearest" ) + ", " + iif( is_state( "proximity.home", "0"), "", states( "proximity.home" ) + " mi, " ) + state_attr( "proximity.home", "dir_of_travel" ) }}'
 
     outdoor_temperature:
+      unique_id: sensoroutdoortemperature
       friendly_name: Outdoor Temperature
       value_template: "{{ state_attr( 'weather.thermostat', 'temperature' ) }}"
       unit_of_measurement: "°F"
 
     hvac_status:
+      unique_id: sensorhvacstatus
       friendly_name: HVAC Status
       value_template: "{{ state_attr( 'climate.thermostat', 'hvac_action' ) + ( ' (with aux)' if state_attr( 'climate.thermostat', 'aux_heat' ) == 'on' else '' ) }}"
       icon_template: "mdi:thermostat"
 
     garbage_collection_summary:
+      unique_id: sensorgarbagecollectionsummary
       friendly_name: "Garbage Summary"
-      value_template: "{{ 'Recycling' if not now().isocalendar()[1] % 2 else 'No recycling' }} this week."
+      value_template: "{{ 'Recycling' if not now().isocalendar()[1] % 2 else 'No recycling' }} this week"
       icon_template: "{{ 'mdi:recycle' if not now().isocalendar()[1] % 2 else 'mdi:delete' }}"
-
-    media_remote_status:
-      friendly_name: "Media Remote Status"
-      value_template: "{{ state_attr( 'remote.media', 'current_activity' ) }}"
-
-
-- platform: rest
-  name: Network Devices Status
-  resource: http://192.168.0.5:5000/api/statusAll
-  verify_ssl: false
-  headers:
-    Content-Type: application/json
-  value_template: "{{ value_json.badCount }}/{{ value_json.totalCount }}"
-  json_attributes:
-    - badCount
-    - totalCount

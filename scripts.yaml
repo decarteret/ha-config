@@ -1,20 +1,125 @@
-# for garage door - found in covers.yaml
 close_garage_door:
   alias: Close Garage Door
   mode: single
   sequence:
-    - condition: state
-      entity_id: binary_sensor.garage_door_13
-      state: 'on'
-    - service: switch.turn_on
-      entity_id: switch.garage_door_opener
-
+  - condition: state
+    entity_id: binary_sensor.garage_door
+    state: 'on'
+  - service: switch.turn_on
+    entity_id: switch.garage_door_opener
 open_garage_door:
   alias: Open Garage Door
   mode: single
   sequence:
-    - condition: state
-      entity_id: binary_sensor.garage_door_13
-      state: 'off'
-    - service: switch.turn_on
-      entity_id: switch.garage_door_opener
+  - condition: state
+    entity_id: binary_sensor.garage_door
+    state: 'off'
+  - service: switch.turn_on
+    entity_id: switch.garage_door_opener
+play_chill_music:
+  alias: Play Chill Music
+  sequence:
+  - service: media_player.turn_on
+    target:
+      entity_id:
+      - media_player.primary_bedroom_speakers
+      - media_player.living_room_speakers
+      - media_player.media_room_speakers
+      - media_player.house_audio
+    data: {}
+  - service: media_player.volume_set
+    target:
+      entity_id:
+      - media_player.primary_bedroom_speakers
+      - media_player.living_room_speakers
+      - media_player.media_room_speakers
+      - media_player.house_audio
+    data:
+      volume_level: 0.5
+  - service: spotcast.start
+    data:
+      device_name: Home Group
+      random_song: true
+      shuffle: true
+      category: 0JQ5DAqbMKFFzDl7qN9Apr
+  mode: single
+  icon: mdi:music
+set_light_timer:
+  alias: Set Light Timer
+  fields:
+    entity_id:
+      name: Entity name
+      description: Which light to operate.
+      required: true
+      selector:
+        entity:
+          domain: light
+    duration:
+      name: Duration
+      description: How long the timer should run.
+      default: 120
+      selector:
+        number:
+          min: 5
+          max: 300
+          unit_of_measurement: seconds
+    brightness_pct:
+      name: Brightness
+      description: How bright the light should be when it turns on.
+      default: 30
+      selector:
+        number:
+          min: 1
+          max: 100
+          unit_of_measurement: '%'
+    start_entity_id:
+      name: Start from entity
+      description: Which entity will start the timer; otherwise start immediately.
+      selector:
+        entity:
+          domain:
+          - binary_sensor
+    only_when_on:
+      name: Only when on
+      description: Only when the target light is on.
+      selector:
+        boolean:
+    allow_daytime:
+      name: Allow daytime
+      description: All day or only when the sun is below the horizon.
+      selector:
+        boolean:
+  variables:
+    timer_entity_id: timer.{{ entity_id[6:] }}_timer
+    is_on: '{{ is_state( entity_id, ''on'' ) }}'
+    should_start: '{{ is_state( start_entity_id, ''off'' ) if start_entity_id is defined
+      else true }}'
+  sequence:
+  - condition: template
+    value_template: '{{ not (only_when_on if only_when_on is defined else false) or
+      is_on }}'
+  - condition: template
+    value_template: '{{ (allow_daytime if allow_daytime is defined else false) or
+      is_state(''sun.sun'', ''below_horizon'' ) }}'
+  - if:
+    - condition: template
+      value_template: '{{ is_state( timer_entity_id, ''idle'' ) }}'
+    then:
+    - service: light.turn_on
+      data:
+        entity_id: '{{ entity_id }}'
+        brightness_pct: '{{ brightness_pct if brightness_pct else 30 }}'
+        transition: 2
+  - service: timer.start
+    data:
+      entity_id: '{{ timer_entity_id }}'
+      duration: '{{ duration if duration else 120 }}'
+  - if:
+    - condition: template
+      value_template: '{{ not should_start }}'
+    then:
+    - service: timer.pause
+      data:
+        entity_id: '{{ timer_entity_id }}'
+  mode: queued
+  max: 10

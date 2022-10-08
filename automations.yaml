@@ -1,5 +1,5 @@
 - id: notification_garage
-  alias: Notification - garage
+  alias: Notification for Garage Door
   description: ''
   trigger:
   - platform: state
@@ -10,53 +10,17 @@
     to: not_home
   condition:
   - condition: state
-    entity_id: binary_sensor.garage_door_13
+    entity_id: binary_sensor.garage_door
     state: 'on'
   action:
   - service: notify.devices
     data:
-      title: Garage door
+      title: Garage Door
       message: '{{ "Someone" if trigger.to_state is undefined else trigger.to_state.attributes.friendly_name
         }} left home and the door is open.'
   mode: single
-- id: lights_on_sunset
-  alias: Lights on - sunset
-  description: ''
-  trigger:
-  - platform: sun
-    event: sunset
-    offset: 0
-  condition: []
-  action:
-  - service: light.turn_on
-    data: {}
-    target:
-      entity_id:
-      - light.back_outside_63
-      - light.front_outside_54
-      - light.side_outside_61
-      - light.random_plug
-  mode: single
-- id: lights_off_sunrise
-  alias: Lights off - sunrise
-  description: ''
-  trigger:
-  - platform: sun
-    event: sunrise
-    offset: 0
-  condition: []
-  action:
-  - service: light.turn_off
-    data: {}
-    target:
-      entity_id:
-      - light.back_outside_63
-      - light.front_outside_54
-      - light.side_outside_61
-      - light.random_plug
-  mode: single
 - id: lights_off_midnight
-  alias: Lights off - midnight
+  alias: Lights off at midnight
   description: ''
   trigger:
   - platform: time
@@ -66,48 +30,12 @@
   - service: light.turn_off
     data: {}
     target:
-      entity_id: light.random_plug
-  mode: single
-- id: thermostat_home
-  alias: Thermostat - home
-  description: ''
-  trigger:
-  - platform: numeric_state
-    entity_id: zone.home
-    for:
-      hours: 0
-      minutes: 1
-      seconds: 0
-    above: '0'
-  condition: []
-  action:
-  - device_id: c04b21ba8b2647aab4729b24b902f2b4
-    domain: climate
-    entity_id: climate.thermostat
-    type: set_preset_mode
-    preset_mode: Home
-  mode: single
-- id: thermostat_away
-  alias: Thermostat - away
-  description: ''
-  trigger:
-  - platform: numeric_state
-    entity_id: zone.home
-    for:
-      hours: 0
-      minutes: 1
-      seconds: 0
-    below: '1'
-  condition: []
-  action:
-  - device_id: c04b21ba8b2647aab4729b24b902f2b4
-    domain: climate
-    entity_id: climate.thermostat
-    type: set_preset_mode
-    preset_mode: Away
+      entity_id:
+      - light.outside_main_accent
+      - light.primary_bedroom_accent
   mode: single
 - id: notification_front_door
-  alias: Notification - front door
+  alias: Notification for Front Door Lock
   description: ''
   trigger:
   - platform: state
@@ -118,12 +46,343 @@
     to: not_home
   condition:
   - condition: state
-    entity_id: lock.front_door_55
+    entity_id: lock.front_door_lock
     state: unlocked
   action:
   - service: notify.devices
     data:
-      title: Front door
+      title: Front Door Lock
       message: '{{ "Someone" if trigger.to_state is undefined else trigger.to_state.attributes.friendly_name
         }} left home and the door is unlocked.'
+  mode: single
+- id: shield_turns_off
+  alias: Shield turns off
+  description: When the TV turns off, turn the light to 20% for 2 minutes and then
+    shut off.
+  trigger:
+  - platform: state
+    entity_id:
+    - media_player.shield
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  condition: []
+  action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 0
+  - if:
+    - condition: state
+      entity_id: media_player.shield
+      state: 'off'
+    then:
+    - service: light.turn_on
+      data:
+        brightness: 40
+      target:
+        entity_id:
+        - light.outside_entryway_light
+    - service: script.set_light_timer
+      data:
+        entity_id: light.media_room_light
+        brightness_pct: 10
+    - service: script.set_light_timer
+      data:
+        entity_id: light.entryway_light
+        brightness_pct: 10
+  mode: single
+- id: front_door_unlocked
+  alias: Front Door unlocked
+  description: When the door is unlocked from the outside, if it's after sunset, turn
+    on the entryway light.
+  trigger:
+  - platform: event
+    event_type: zwave_js_notification
+    event_data:
+      node_id: 13
+      event_label: Keypad unlock operation
+  condition: []
+  action:
+  - service: script.set_light_timer
+    data:
+      entity_id: light.entryway_light
+      brightness_pct: 40
+  mode: single
+- id: scene_for_primary_bedroom_accent
+  alias: Scene for Primary Bedroom Accent
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 25
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.property_key == "001" and trigger.event.data.value
+          == "KeyPressed2x" }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          brightness_pct: 5
+        target:
+          entity_id: light.primary_bedroom_desk_light
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.property_key == "002" and trigger.event.data.value
+          == "KeyPressed2x" }}'
+      sequence:
+      - service: light.turn_off
+        data: {}
+        target:
+          entity_id: light.primary_bedroom_desk_light
+  mode: single
+- id: scene_for_main_stair_accent
+  alias: Scene for Main Stair Accent
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 33
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.property_key == "001" and trigger.event.data.value
+          == "KeyPressed3x" }}'
+      sequence:
+      - service: lock.unlock
+        data: {}
+        target:
+          entity_id: lock.front_door_lock
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.property_key == "002" and trigger.event.data.value
+          == "KeyPressed3x" }}'
+      sequence:
+      - service: lock.lock
+        data: {}
+        target:
+          entity_id: lock.front_door_lock
+  mode: single
+- id: garage_door_entry_changed
+  alias: Garage Entry Door changed
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.garage_entry_door
+  condition: []
+  action:
+  - service: script.set_light_timer
+    data:
+      entity_id: light.garage_light
+      start_entity_id: binary_sensor.garage_entry_door
+  - service: script.set_light_timer
+    data:
+      entity_id: light.laundry_light
+      start_entity_id: binary_sensor.garage_entry_door
+  mode: single
+- id: garage_door_opener_pressed
+  alias: Garage Door Opener pressed
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.garage_door_opener
+    to: 'on'
+  condition: []
+  action:
+  - service: script.set_light_timer
+    data:
+      entity_id: light.garage_light
+      duration: 180
+  mode: single
+- id: '1664861499979'
+  alias: Home Zone changed
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - zone.home
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: zone.home
+        above: 0
+      sequence:
+      - device_id: c04b21ba8b2647aab4729b24b902f2b4
+        domain: climate
+        entity_id: climate.thermostat
+        type: set_preset_mode
+        preset_mode: none
+    - conditions:
+      - condition: numeric_state
+        entity_id: zone.home
+        below: 1
+      sequence:
+      - device_id: c04b21ba8b2647aab4729b24b902f2b4
+        domain: climate
+        entity_id: climate.thermostat
+        type: set_preset_mode
+        preset_mode: Away
+  mode: single
+- id: sun_changed
+  alias: Sun changed
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sun.sun
+    from: above_horizon
+    to: below_horizon
+  - platform: state
+    entity_id:
+    - sun.sun
+    from: below_horizon
+    to: above_horizon
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: sun.sun
+        state: above_horizon
+      sequence:
+      - service: light.turn_off
+        data: {}
+        target:
+          entity_id:
+          - light.outside_basement_light
+          - light.outside_entryway_light
+          - light.outside_garage_light
+          - light.outside_main_accent
+          - light.outside_main_light
+    - conditions:
+      - condition: state
+        entity_id: sun.sun
+        state: below_horizon
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.outside_lights_on
+        metadata: {}
+  mode: single
+- id: upstairs_hallway_light_on
+  alias: Upstairs Hallway Light on
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.upstairs_hallway_sensor_motion
+  - platform: state
+    entity_id:
+    - light.upstairs_hallway_light
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+    enabled: true
+  condition: []
+  action:
+  - service: script.set_light_timer
+    data:
+      must_be_on: false
+      entity_id: light.upstairs_hallway_light
+      allow_daytime: false
+      start_entity_id: binary_sensor.upstairs_hallway_sensor_motion
+  mode: single
+- id: kitchen_light_on
+  alias: Kitchen Light on
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.kitchen_sensor_motion
+  condition: []
+  action:
+  - service: script.set_light_timer
+    data:
+      entity_id: light.kitchen_light
+      start_entity_id: binary_sensor.kitchen_sensor_motion
+  mode: single
+- id: entryway_motion_changed
+  alias: Entryway Motion changed
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.entryway_motion
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 5
+  condition: []
+  action:
+  - service: script.set_light_timer
+    data:
+      entity_id: light.entryway_light
+      only_when_on: true
+      allow_daytime: true
+  - service: script.set_light_timer
+    data:
+      entity_id: light.main_hallway_light
+      only_when_on: true
+      allow_daytime: true
+  - service: script.set_light_timer
+    data:
+      entity_id: light.kitchen_light
+      only_when_on: true
+      allow_daytime: true
+  - service: script.set_light_timer
+    data:
+      entity_id: light.laundry_light
+      only_when_on: true
+      allow_daytime: true
+  - service: script.set_light_timer
+    data:
+      entity_id: light.media_room_light
+      only_when_on: true
+      allow_daytime: true
+  mode: single
+- id: '1665128885904'
+  alias: Generic Light Timer idle
+  description: ''
+  trigger:
+  - platform: event
+    event_type: timer.finished
+  condition:
+  - condition: template
+    value_template: '{{ trigger.event.data.entity_id[-12:] == ''_light_timer'' }}'
+  action:
+  - service: light.turn_off
+    data:
+      transition: 15
+    target:
+      entity_id: light.{{ trigger.event.data.entity_id[6:-6] }}
+  mode: queued
+  max: 10
+- id: '1665173700970'
+  alias: Generic Light off
+  description: ''
+  trigger:
+  - platform: event
+    event_type: state_changed
+  condition:
+  - condition: template
+    value_template: "{{ trigger.event.data.entity_id.startswith('light.')\n   and
+      trigger.event.data.old_state is not none\n   and trigger.event.data.old_state.state
+      == 'on' \n   and trigger.event.data.new_state is not none\n   and trigger.event.data.new_state.state
+      == 'off' }}"
+  action: []
   mode: single
