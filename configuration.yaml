@@ -24,6 +24,7 @@ recorder:
       - binary_sensor.s22_*
     entities:
       - script.set_light_timer
+      - script.light_timer
     domains:
       - automation
 
@@ -37,7 +38,11 @@ rest_command: !include rest_command.yaml
 
 sun:
 
+template: !include templates.yaml
+
 sensor: !include sensors.yaml
+
+binary_sensor: !include binary_sensors.yaml
 
 tts:
   - platform: google_translate
@@ -52,8 +57,6 @@ script: !include scripts.yaml
 system_health:
 
 mobile_app:
-
-binary_sensor: !include binary_sensors.yaml
 
 ecobee:
   api_key: !secret ecobee_api_key
@@ -82,8 +85,6 @@ media_player: !include media_players.yaml
 
 person:
 
-template: !include templates.yaml
-
 cover: !include covers.yaml
 
 scene: !include scenes.yaml
@@ -91,4 +92,3 @@ scene: !include scenes.yaml
 spotcast:
   sp_dc: !secret sp_dc
   sp_key: !secret sp_key
-

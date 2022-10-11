@@ -55,61 +55,26 @@
       message: '{{ "Someone" if trigger.to_state is undefined else trigger.to_state.attributes.friendly_name
         }} left home and the door is unlocked.'
   mode: single
-- id: shield_turns_off
-  alias: Shield turns off
-  description: When the TV turns off, turn the light to 20% for 2 minutes and then
-    shut off.
-  trigger:
-  - platform: state
-    entity_id:
-    - media_player.shield
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 0
-  condition: []
-  action:
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 1
-      milliseconds: 0
-  - if:
-    - condition: state
-      entity_id: media_player.shield
-      state: 'off'
-    then:
-    - service: light.turn_on
-      data:
-        brightness: 40
-      target:
-        entity_id:
-        - light.outside_entryway_light
-    - service: script.set_light_timer
-      data:
-        entity_id: light.media_room_light
-        brightness_pct: 10
-    - service: script.set_light_timer
-      data:
-        entity_id: light.entryway_light
-        brightness_pct: 10
-  mode: single
 - id: front_door_unlocked
-  alias: Front Door unlocked
-  description: When the door is unlocked from the outside, if it's after sunset, turn
-    on the entryway light.
+  alias: Entryway Light on
+  description: ''
   trigger:
   - platform: event
     event_type: zwave_js_notification
     event_data:
       node_id: 13
       event_label: Keypad unlock operation
+    enabled: false
+  - platform: state
+    entity_id:
+    - binary_sensor.front_door
   condition: []
   action:
-  - service: script.set_light_timer
+  - service: script.light_timer
     data:
-      entity_id: light.entryway_light
-      brightness_pct: 40
+      light_entity_id: light.entryway_light
+      brightness_pct: 30
+      sensor_entity_id: binary_sensor.front_door
   mode: single
 - id: scene_for_primary_bedroom_accent
   alias: Scene for Primary Bedroom Accent
@@ -173,7 +138,7 @@
           entity_id: lock.front_door_lock
   mode: single
 - id: garage_door_entry_changed
-  alias: Garage Entry Door changed
+  alias: Laundry Light on
   description: ''
   trigger:
   - platform: state
@@ -181,29 +146,30 @@
     - binary_sensor.garage_entry_door
   condition: []
   action:
-  - service: script.set_light_timer
+  - service: script.light_timer
     data:
-      entity_id: light.garage_light
-      start_entity_id: binary_sensor.garage_entry_door
-  - service: script.set_light_timer
-    data:
-      entity_id: light.laundry_light
-      start_entity_id: binary_sensor.garage_entry_door
+      light_entity_id: light.laundry_light
+      sensor_entity_id: binary_sensor.garage_entry_door
+      duration: 120
   mode: single
 - id: garage_door_opener_pressed
-  alias: Garage Door Opener pressed
+  alias: Garage Light on
   description: ''
   trigger:
   - platform: state
     entity_id:
     - switch.garage_door_opener
     to: 'on'
+  - platform: state
+    entity_id:
+    - binary_sensor.garage_entry_door
   condition: []
   action:
-  - service: script.set_light_timer
+  - service: script.light_timer
     data:
-      entity_id: light.garage_light
-      duration: 180
+      light_entity_id: light.garage_light
+      duration: 120
+      sensor_entity_id: binary_sensor.garage_entry_door
   mode: single
 - id: '1664861499979'
   alias: Home Zone changed
@@ -284,23 +250,13 @@
   - platform: state
     entity_id:
     - binary_sensor.upstairs_hallway_sensor_motion
-  - platform: state
-    entity_id:
-    - light.upstairs_hallway_light
-    to: 'on'
-    for:
-      hours: 0
-      minutes: 1
-      seconds: 0
-    enabled: true
   condition: []
   action:
-  - service: script.set_light_timer
+  - service: script.light_timer
     data:
-      must_be_on: false
-      entity_id: light.upstairs_hallway_light
-      allow_daytime: false
-      start_entity_id: binary_sensor.upstairs_hallway_sensor_motion
+      light_entity_id: light.upstairs_hallway_light
+      sensor_entity_id: binary_sensor.upstairs_hallway_sensor_motion
+      brightness_pct: 15
   mode: single
 - id: kitchen_light_on
   alias: Kitchen Light on
@@ -311,10 +267,11 @@
     - binary_sensor.kitchen_sensor_motion
   condition: []
   action:
-  - service: script.set_light_timer
+  - service: script.light_timer
     data:
-      entity_id: light.kitchen_light
-      start_entity_id: binary_sensor.kitchen_sensor_motion
+      light_entity_id: light.kitchen_light
+      sensor_entity_id: binary_sensor.kitchen_sensor_motion
+      duration: 120
   mode: single
 - id: entryway_motion_changed
   alias: Entryway Motion changed
@@ -329,32 +286,23 @@
       seconds: 5
   condition: []
   action:
-  - service: script.set_light_timer
+  - service: script.light_timer
     data:
-      entity_id: light.entryway_light
-      only_when_on: true
-      allow_daytime: true
-  - service: script.set_light_timer
+      light_entity_id: light.entryway_light
+      on_when: never
+  - service: script.light_timer
     data:
-      entity_id: light.main_hallway_light
-      only_when_on: true
-      allow_daytime: true
-  - service: script.set_light_timer
+      light_entity_id: light.main_hallway_light
+      on_when: never
+  - service: script.light_timer
     data:
-      entity_id: light.kitchen_light
-      only_when_on: true
-      allow_daytime: true
-  - service: script.set_light_timer
+      light_entity_id: light.media_room_light
+      on_when: never
+  - service: script.light_timer
     data:
-      entity_id: light.laundry_light
-      only_when_on: true
-      allow_daytime: true
-  - service: script.set_light_timer
-    data:
-      entity_id: light.media_room_light
-      only_when_on: true
-      allow_daytime: true
-  mode: single
+      light_entity_id: light.main_stair_light
+      on_when: never
+  mode: restart
 - id: '1665128885904'
   alias: Generic Light Timer idle
   description: ''
@@ -372,17 +320,77 @@
       entity_id: light.{{ trigger.event.data.entity_id[6:-6] }}
   mode: queued
   max: 10
-- id: '1665173700970'
-  alias: Generic Light off
+- id: '1665260150319'
+  alias: Upstairs Bathroom Light on
   description: ''
   trigger:
-  - platform: event
-    event_type: state_changed
+  - platform: state
+    entity_id:
+    - binary_sensor.upstairs_bathroom_sensor_motion
+  - platform: state
+    entity_id:
+    - fan.upstairs_bathroom_fan
+    to: 'off'
+  condition: []
+  action:
+  - service: script.light_timer
+    data:
+      light_entity_id: light.upstairs_bathroom_light
+      sensor_entity_id: binary_sensor.upstairs_bathroom_hybrid_sensor
+      brightness_pct: 50
+      on_when: always
+  mode: single
+- id: '1665359352254'
+  alias: Shield turns off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - media_player.shield_adb
+    to: 'off'
   condition:
-  - condition: template
-    value_template: "{{ trigger.event.data.entity_id.startswith('light.')\n   and
-      trigger.event.data.old_state is not none\n   and trigger.event.data.old_state.state
-      == 'on' \n   and trigger.event.data.new_state is not none\n   and trigger.event.data.new_state.state
-      == 'off' }}"
-  action: []
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  action:
+  - service: light.turn_on
+    data:
+      brightness: 15
+      transition: 1
+    target:
+      entity_id:
+      - light.outside_entryway_light
+      - light.media_room_light
+      - light.entryway_light
+  mode: single
+- id: '1665394808229'
+  alias: Upstairs Bathroom Fan on
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.upstairs_bathroom_sensor_humidity
+    above: 68
+  - platform: state
+    entity_id:
+    - fan.upstairs_bathroom_fan
+    to: 'on'
+  condition: []
+  action:
+  - service: automation.trigger
+    data: {}
+    target:
+      entity_id: automation.upstairs_bathroom_light_on
+  - wait_for_trigger:
+    - platform: numeric_state
+      entity_id: sensor.upstairs_bathroom_sensor_humidity
+      below: 66
+    timeout:
+      hours: 0
+      minutes: 30
+      seconds: 0
+      milliseconds: 0
+  - service: fan.turn_off
+    data: {}
+    target:
+      entity_id: fan.upstairs_bathroom_fan
   mode: single

@@ -1,0 +1,24 @@
+sensor:
+  - name: Proximity Sensor
+    unique_id: proximityhomesensor
+    state: '{{ state_attr( "proximity.home", "nearest" ) + ", " + iif( is_state( "proximity.home", "0"), "", states( "proximity.home" ) + " mi, " ) + state_attr( "proximity.home", "dir_of_travel" ) }}'
+
+  - name: Outdoor Temperature Sensor
+    unique_id: outdoortemperaturesensor
+    state: "{{ state_attr( 'weather.thermostat', 'temperature' ) }}"
+    unit_of_measurement: "°F"
+
+  - name: HVAC Status Sensor
+    unique_id: hvacstatussensor
+    state: "{{ state_attr( 'climate.thermostat', 'hvac_action' ) + ( ' (with aux)' if state_attr( 'climate.thermostat', 'aux_heat' ) == 'on' else '' ) }}"
+    icon: "mdi:thermostat"
+
+  - name: Garbage Pickup Sensor
+    unique_id: garbagepickupsummary
+    state: "{{ iif( iif( now().isocalendar()[2]>2, (now().isocalendar()[1]+1)%2, now().isocalendar()[1]%2 ), 'No recycling', 'Recycling') + ' ' + ('tomorrow' if now().isocalendar()[2]==1 else 'today' if now().isocalendar()[2]==2 else 'next Tuesday') }}"
+    icon: "{{ iif( iif( now().isocalendar()[2]>2, (now().isocalendar()[1]+1)%2, now().isocalendar()[1]%2 ), 'mdi:delete', 'mdi:recycle' ) }}"
+
+binary_sensor:
+  - name: Upstairs Bathroom Hybrid Sensor
+    unique_id: upstairsbathroomhybridsensor
+    state: "{{ is_state( 'fan.upstairs_bathroom_fan', 'on' ) or is_state( 'binary_sensor.upstairs_bathroom_sensor_motion', 'on' ) }}"

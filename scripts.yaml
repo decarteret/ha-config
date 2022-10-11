@@ -57,7 +57,7 @@ set_light_timer:
     duration:
       name: Duration
       description: How long the timer should run.
-      default: 120
+      default: 60
       selector:
         number:
           min: 5
@@ -109,11 +109,11 @@ set_light_timer:
       data:
         entity_id: '{{ entity_id }}'
         brightness_pct: '{{ brightness_pct if brightness_pct else 30 }}'
-        transition: 2
+        transition: 1
   - service: timer.start
     data:
       entity_id: '{{ timer_entity_id }}'
-      duration: '{{ duration if duration else 120 }}'
+      duration: '{{ duration if duration else 60 }}'
   - if:
     - condition: template
       value_template: '{{ not should_start }}'
@@ -123,3 +123,89 @@ set_light_timer:
         entity_id: '{{ timer_entity_id }}'
   mode: queued
   max: 10
+light_timer:
+  alias: Light Timer
+  mode: queued
+  max: 10
+  fields:
+    light_entity_id:
+      name: Light entity
+      description: Which light to operate.
+      required: true
+      selector:
+        entity:
+          domain: light
+    duration:
+      name: Duration
+      description: How long the timer should run.
+      default: 60
+      selector:
+        number:
+          min: 5
+          max: 300
+          unit_of_measurement: seconds
+    brightness_pct:
+      name: Brightness
+      description: How bright the light should be when it turns on.
+      default: 25
+      selector:
+        number:
+          min: 1
+          max: 100
+          unit_of_measurement: '%'
+    sensor_entity_id:
+      name: Sensor entity
+      description: Which sensor to monitor
+      selector:
+        entity:
+          domain:
+          - binary_sensor
+    on_when:
+      name: Turn on when
+      description: When this light can automatically turn on.
+      default: nighttime
+      selector:
+        select:
+          options:
+          - nighttime
+          - always
+          - never
+  variables:
+    sensor_entity_id: '{{ '''' if sensor_entity_id is undefined else sensor_entity_id
+      }}'
+    timer_entity_id: timer.{{ light_entity_id[6:] }}_timer
+    brightness: '{{ 25 if brightness_pct is undefined else brightness_pct }}'
+    duration: '{{ 60 if duration is undefined else duration }}'
+    is_light_off: '{{ is_state(light_entity_id, ''off'') }}'
+    is_timer_idle: '{{ is_state(timer_entity_id, ''idle'') }}'
+    is_paused: '{{ is_state(sensor_entity_id, ''on'') }}'
+    is_nighttime: '{{ is_state(''sun.sun'', ''below_horizon'') }}'
+    on_when: '{{ ''nighttime'' if on_when is undefined else on_when }}'
+    can_turn_on: '{{ (on_when == ''always'') or (on_when == ''nighttime'' and is_nighttime)
+      }}'
+  sequence:
+  - if:
+    - condition: template
+      value_template: '{{ is_timer_idle and is_light_off and not can_turn_on }}'
+    then:
+    - stop: There is nothing to do.
+  - if:
+    - condition: template
+      value_template: '{{ is_timer_idle and can_turn_on }}'
+    then:
+    - service: light.turn_on
+      data:
+        entity_id: '{{ light_entity_id }}'
+        brightness_pct: '{{ brightness }}'
+        transition: 1
+  - service: timer.start
+    data:
+      entity_id: '{{ timer_entity_id }}'
+      duration: '{{ duration }}'
+  - if:
+    - condition: template
+      value_template: '{{ is_paused }}'
+    then:
+    - service: timer.pause
+      data:
+        entity_id: '{{ timer_entity_id }}'
