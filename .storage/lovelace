@@ -1,0 +1,1796 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace",
+  "data": {
+    "config": {
+      "title": "Gatewood",
+      "views": [
+        {
+          "id": "Home",
+          "title": "Home",
+          "type": "sidebar",
+          "badges": [],
+          "cards": [
+            {
+              "entities": [
+                {
+                  "entity": "climate.thermostat"
+                },
+                {
+                  "entity": "lock.main_door_lock"
+                },
+                {
+                  "entity": "cover.garage_door"
+                },
+                {
+                  "entity": "remote.media_room_remote",
+                  "name": "Media Room TV",
+                  "icon": "mdi:television-box"
+                },
+                {
+                  "entity": "vacuum.robot_vacuum"
+                },
+                {
+                  "entity": "sensor.garbage_pickup_sensor"
+                }
+              ],
+              "type": "entities"
+            },
+            {
+              "type": "custom:auto-entities",
+              "show_empty": false,
+              "card": {
+                "type": "entities",
+                "show_header_toggle": false
+              },
+              "filter": {
+                "include": [
+                  {
+                    "domain": "/(light|fan)/",
+                    "options": {
+                      "secondary_info": "last-changed"
+                    },
+                    "sort": {
+                      "method": "last_changed"
+                    }
+                  },
+                  {
+                    "entity_id": "binary_sensor.*_door"
+                  },
+                  {
+                    "entity_id": "cover.garage_door",
+                    "state": "open",
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
+                  },
+                  {
+                    "entity_id": "lock.main_door_lock",
+                    "state": "unlocked",
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
+                  },
+                  {
+                    "entity_id": "sensor.hvac_status_sensor",
+                    "not": {
+                      "state": "idle"
+                    },
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
+                  },
+                  {
+                    "entity_id": "vacuum.robot_vacuum",
+                    "not": {
+                      "state": "docked"
+                    },
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
+                  },
+                  {
+                    "entity_id": "switch.floating_switch"
+                  },
+                  {
+                    "domain": "automation",
+                    "state": "off"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "state": "off"
+                  },
+                  {
+                    "entity_id": "light.outside_*"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain",
+                "reverse": true
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities",
+                "title": "Timers"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "domain": "timer",
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
+                  }
+                ],
+                "exclude": [
+                  {
+                    "state": "idle"
+                  }
+                ]
+              },
+              "show_empty": false
+            },
+            {
+              "type": "custom:auto-entities",
+              "show_empty": false,
+              "card": {
+                "type": "entities",
+                "title": "Media"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "entity_id": "media_player.*_speakers"
+                  },
+                  {
+                    "entity_id": "media_player.family_room_sound_bar"
+                  },
+                  {
+                    "entity_id": "media_player.house_audio",
+                    "options": {
+                      "type": "custom:mini-media-player"
+                    }
+                  },
+                  {
+                    "entity_id": "media_player.*_android_tv"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "state": "off"
+                  },
+                  {
+                    "state": "unavailable"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain",
+                "reverse": true
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities",
+                "show_header_toggle": false
+              },
+              "filter": {
+                "include": [
+                  {
+                    "domain": "automation",
+                    "state": "off"
+                  }
+                ],
+                "exclude": []
+              },
+              "show_empty": false
+            },
+            {
+              "entities": [
+                {
+                  "entity": "person.jason"
+                },
+                {
+                  "entity": "person.christina"
+                },
+                {
+                  "entity": "sensor.proximity_sensor"
+                }
+              ],
+              "show_header_toggle": false,
+              "type": "entities"
+            },
+            {
+              "entity": "weather.thermostat",
+              "type": "weather-forecast",
+              "view_layout": {
+                "position": "sidebar"
+              }
+            },
+            {
+              "type": "custom:apexcharts-card",
+              "color_list": [
+                "#e76f51",
+                "#f4a261",
+                "#e9c46a",
+                "#264653",
+                "#267158"
+              ],
+              "all_series_config": {
+                "stroke_width": 3,
+                "fill_raw": "last"
+              },
+              "layout": "minimal",
+              "series": [
+                {
+                  "entity": "sensor.primary_bedroom_temperature",
+                  "name": "Primary"
+                },
+                {
+                  "entity": "sensor.thermostat_temperature",
+                  "name": "Main"
+                },
+                {
+                  "entity": "sensor.laundry_sensor_temperature",
+                  "name": "Laundry"
+                },
+                {
+                  "entity": "sensor.basement_hallway_sensor_temperature",
+                  "name": "Basement"
+                },
+                {
+                  "entity": "sensor.outdoor_temperature_sensor",
+                  "name": "Outdoor"
+                }
+              ],
+              "view_layout": {
+                "position": "sidebar"
+              }
+            },
+            {
+              "type": "custom:apexcharts-card",
+              "color_list": [
+                "#e76f51",
+                "#f4a261",
+                "#e9c46a",
+                "#264653",
+                "#267158"
+              ],
+              "all_series_config": {
+                "stroke_width": 3,
+                "fill_raw": "last"
+              },
+              "layout": "minimal",
+              "series": [
+                {
+                  "entity": "sensor.upstairs_bathroom_sensor_humidity",
+                  "name": "Upstairs Bathroom"
+                },
+                {
+                  "entity": "sensor.thermostat_humidity",
+                  "name": "Main"
+                },
+                {
+                  "entity": "sensor.laundry_sensor_humidity",
+                  "name": "Laundry"
+                },
+                {
+                  "entity": "sensor.basement_hallway_sensor_humidity",
+                  "name": "Basement"
+                }
+              ],
+              "view_layout": {
+                "position": "sidebar"
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Areas",
+          "path": "areas",
+          "cards": [
+            {
+              "type": "vertical-stack",
+              "cards": [
+                {
+                  "show_name": true,
+                  "show_icon": false,
+                  "type": "button",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/area-main"
+                  },
+                  "name": "Main",
+                  "hold_action": {
+                    "action": "none"
+                  }
+                },
+                {
+                  "show_name": true,
+                  "show_icon": false,
+                  "type": "button",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/area-media-room"
+                  },
+                  "name": "Media Room",
+                  "hold_action": {
+                    "action": "none"
+                  }
+                },
+                {
+                  "show_name": true,
+                  "show_icon": false,
+                  "type": "button",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/area-kitchen"
+                  },
+                  "name": "Kitchen",
+                  "hold_action": {
+                    "action": "none"
+                  }
+                },
+                {
+                  "show_name": true,
+                  "show_icon": false,
+                  "type": "button",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/area-outside"
+                  },
+                  "name": "Outside",
+                  "hold_action": {
+                    "action": "none"
+                  }
+                },
+                {
+                  "show_name": true,
+                  "show_icon": false,
+                  "type": "button",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/area-family-room"
+                  },
+                  "name": "Family Room",
+                  "hold_action": {
+                    "action": "none"
+                  }
+                },
+                {
+                  "show_name": true,
+                  "show_icon": false,
+                  "type": "button",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/area-primary"
+                  },
+                  "name": "Primary",
+                  "hold_action": {
+                    "action": "none"
+                  }
+                },
+                {
+                  "show_name": true,
+                  "show_icon": false,
+                  "type": "button",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/area-laundry"
+                  },
+                  "name": "Laundry",
+                  "hold_action": {
+                    "action": "none"
+                  }
+                },
+                {
+                  "show_name": true,
+                  "show_icon": false,
+                  "type": "button",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/area-garage"
+                  },
+                  "name": "Garage",
+                  "hold_action": {
+                    "action": "none"
+                  }
+                },
+                {
+                  "show_name": true,
+                  "show_icon": false,
+                  "type": "button",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/area-upstairs"
+                  },
+                  "name": "Upstairs",
+                  "hold_action": {
+                    "action": "none"
+                  }
+                },
+                {
+                  "show_name": true,
+                  "show_icon": false,
+                  "type": "button",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/area-upstairs-bathroom"
+                  },
+                  "name": "Upstairs Bathroom",
+                  "hold_action": {
+                    "action": "none"
+                  }
+                },
+                {
+                  "show_name": true,
+                  "show_icon": false,
+                  "type": "button",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/area-olive-bedroom"
+                  },
+                  "name": "Olive Bedroom",
+                  "hold_action": {
+                    "action": "none"
+                  }
+                },
+                {
+                  "show_name": true,
+                  "show_icon": false,
+                  "type": "button",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/area-lincoln-bedroom"
+                  },
+                  "name": "Lincoln Bedroom",
+                  "hold_action": {
+                    "action": "none"
+                  }
+                },
+                {
+                  "show_name": true,
+                  "show_icon": false,
+                  "type": "button",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/area-basement"
+                  },
+                  "name": "Basement",
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "show_state": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Media",
+          "type": "sidebar",
+          "badges": [],
+          "cards": [
+            {
+              "entities": [
+                {
+                  "entity": "media_player.media_room_speakers"
+                },
+                {
+                  "entity": "media_player.family_room_speakers"
+                },
+                {
+                  "entity": "media_player.primary_bedroom_speakers"
+                },
+                {
+                  "entity": "media_player.outside_speakers"
+                }
+              ],
+              "title": "House Speakers",
+              "type": "entities",
+              "show_header_toggle": true,
+              "view_layout": {
+                "position": "main"
+              }
+            },
+            {
+              "type": "media-control",
+              "entity": "media_player.family_room_bar",
+              "view_layout": {
+                "position": "sidebar"
+              }
+            },
+            {
+              "type": "media-control",
+              "entity": "media_player.house_group_cast",
+              "view_layout": {
+                "position": "sidebar"
+              }
+            },
+            {
+              "entity": "media_player.house_speakers_cast",
+              "type": "media-control",
+              "view_layout": {
+                "position": "sidebar"
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Groups",
+          "path": "groups",
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities",
+                "title": "Sensors",
+                "show_header_toggle": false
+              },
+              "filter": {
+                "include": [
+                  {
+                    "entity_id": "binary_sensor.*motion",
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
+                  },
+                  {
+                    "entity_id": "binary_sensor.*door",
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
+                  },
+                  {
+                    "entity_id": "lock.front_door",
+                    "options": {
+                      "secondary_info": "last-changed",
+                      "name": "Front Door Lock"
+                    }
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "binary_sensor.front_door_lock_current_status_of_the_door"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "last_changed",
+                "reverse": true,
+                "ignore_case": false,
+                "numeric": false
+              },
+              "show_empty": true
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities",
+                "title": "Lights",
+                "state_color": false
+              },
+              "filter": {
+                "include": [
+                  {
+                    "domain": "light",
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "light.*_accent"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "last_changed",
+                "reverse": true
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities",
+                "title": "Accents"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "entity_id": "light.*_accent",
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "last_changed",
+                "ignore_case": false,
+                "numeric": false,
+                "reverse": true
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities",
+                "title": "Fans",
+                "state_color": false
+              },
+              "filter": {
+                "include": [
+                  {
+                    "entity_id": "fan.*_fan",
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
+                  }
+                ]
+              },
+              "sort": {
+                "method": "last_changed",
+                "reverse": true
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities",
+                "title": "Timers",
+                "state_color": false
+              },
+              "filter": {
+                "include": [
+                  {
+                    "domain": "timer",
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
+                  }
+                ]
+              },
+              "sort": {
+                "method": "last_updated",
+                "numeric": false,
+                "ignore_case": false,
+                "reverse": true
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities",
+                "title": "Temperatures"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "entity_id": "sensor.*_temperature"
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "entity_id"
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities",
+                "title": "Media Player Devices"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "entity_id": "media_player.*_speakers"
+                  },
+                  {
+                    "entity_id": "media_player.*_box"
+                  },
+                  {
+                    "entity_id": "media_player.*_bar"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities",
+                "title": "Media Player Casts"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "entity_id": "media_player.*_cast"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "title": "Car",
+          "path": "car",
+          "cards": [
+            {
+              "type": "button",
+              "tap_action": {
+                "action": "toggle"
+              },
+              "entity": "switch.garage_door_opener"
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Phones",
+          "path": "phones",
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "device": "Pixel 7"
+                  }
+                ],
+                "exclude": []
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "device": "iPhone 13"
+                  }
+                ],
+                "exclude": []
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Cameras",
+          "path": "cameras",
+          "badges": [],
+          "cards": [
+            {
+              "type": "picture-elements",
+              "entity": "camera.amcrest_camera",
+              "camera_image": "camera.amcrest_camera",
+              "camera_view": "live",
+              "elements": [
+                {
+                  "type": "icon",
+                  "icon": "mdi:arrow-up",
+                  "style": {
+                    "background": "rgba(255, 255, 255, 0.25)",
+                    "right": "25px",
+                    "bottom": "50px"
+                  },
+                  "tap_action": {
+                    "action": "call-service",
+                    "service": "amcrest.ptz_control",
+                    "data": {
+                      "entity_id": "camera.amcrest_camera",
+                      "movement": "up"
+                    }
+                  }
+                },
+                {
+                  "type": "icon",
+                  "icon": "mdi:arrow-down",
+                  "style": {
+                    "background": "rgba(255, 255, 255, 0.25)",
+                    "right": "25px",
+                    "bottom": "0px"
+                  },
+                  "tap_action": {
+                    "action": "call-service",
+                    "service": "amcrest.ptz_control",
+                    "data": {
+                      "entity_id": "camera.amcrest_camera",
+                      "movement": "down"
+                    }
+                  }
+                },
+                {
+                  "type": "icon",
+                  "icon": "mdi:arrow-left",
+                  "style": {
+                    "background": "rgba(255, 255, 255, 0.25)",
+                    "right": "50px",
+                    "bottom": "25px"
+                  },
+                  "tap_action": {
+                    "action": "call-service",
+                    "service": "amcrest.ptz_control",
+                    "data": {
+                      "entity_id": "camera.amcrest_camera",
+                      "movement": "left"
+                    }
+                  }
+                },
+                {
+                  "type": "icon",
+                  "icon": "mdi:arrow-right",
+                  "style": {
+                    "background": "rgba(255, 255, 255, 0.25)",
+                    "right": "0px",
+                    "bottom": "25px"
+                  },
+                  "tap_action": {
+                    "action": "call-service",
+                    "service": "amcrest.ptz_control",
+                    "data": {
+                      "entity_id": "camera.amcrest_camera",
+                      "movement": "right"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "show_state": false,
+              "show_name": false,
+              "camera_view": "auto",
+              "type": "picture-entity",
+              "entity": "camera.rockrobo_map"
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Area - Main",
+          "path": "area-main",
+          "subview": true,
+          "type": "sidebar",
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Main",
+                    "domain": "/(light|fan)/",
+                    "options": {
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "tap_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  },
+                  {
+                    "area": "Main",
+                    "domain": "lock",
+                    "options": {
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "toggle"
+                      },
+                      "tap_action": {
+                        "action": "more-info"
+                      }
+                    }
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "domain",
+                "reverse": false
+              }
+            },
+            {
+              "type": "thermostat",
+              "entity": "climate.thermostat"
+            },
+            {
+              "type": "history-graph",
+              "entities": [
+                {
+                  "entity": "climate.thermostat"
+                }
+              ],
+              "view_layout": {
+                "position": "main"
+              },
+              "hours_to_show": 12
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Main",
+                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "*node_status"
+                  },
+                  {
+                    "entity_id": "*_lock_*"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Area - Media Room",
+          "path": "area-media-room",
+          "subview": true,
+          "type": "sidebar",
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Media Room",
+                    "domain": "/(light|fan|media_player|remote)/",
+                    "options": {
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "tap_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "/(blaster|cast)/"
+                  },
+                  {
+                    "entity_id": "media_player.media_room_box"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
+              }
+            },
+            {
+              "type": "media-control",
+              "entity": "media_player.media_room_box"
+            },
+            {
+              "type": "custom:vacuum-card",
+              "entity": "vacuum.robot_vacuum",
+              "image": "default",
+              "compact_view": false,
+              "show_name": false,
+              "show_status": true,
+              "show_toolbar": true
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Media Room",
+                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "*node_status"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Area - Outside",
+          "path": "area-outside",
+          "subview": true,
+          "type": "sidebar",
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Outside",
+                    "domain": "/(light|fan|media_player)/",
+                    "options": {
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "tap_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "domain"
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Outside",
+                    "domain": "/(automation|timer|sensor|binary_sensor|scene)/"
+                  },
+                  {
+                    "entity_id": "sun.sun"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "*node_status"
+                  },
+                  {
+                    "entity_id": "*main_accent_*"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Area - Kitchen",
+          "path": "area-kitchen",
+          "subview": true,
+          "type": "sidebar",
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Kitchen",
+                    "domain": "/(light|fan|climate|lock|media_player|vacuum)/",
+                    "options": {
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "more-info"
+                      }
+                    }
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "domain"
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Kitchen",
+                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "*node_status"
+                  },
+                  {
+                    "entity_id": "*battery*"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Area - Family Room",
+          "path": "area-family-room",
+          "subview": true,
+          "type": "sidebar",
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Family Room",
+                    "domain": "/(light|fan|climate|lock|media_player|vacuum)/",
+                    "options": {
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "tap_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  },
+                  {
+                    "entity_id": "switch.floating_switch",
+                    "options": {
+                      "name": "Family Room Floor Lamp",
+                      "icon": "mdi:floor-lamp",
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "tap_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "*cast*"
+                  },
+                  {
+                    "entity_id": "media_player.family_room_box"
+                  },
+                  {
+                    "entity_id": "media_player.family_room_bar"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Family Room",
+                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "*node_status"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            },
+            {
+              "type": "media-control",
+              "entity": "media_player.family_room_box"
+            },
+            {
+              "type": "media-control",
+              "entity": "media_player.family_room_bar"
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Area - Primary",
+          "path": "area-primary",
+          "subview": true,
+          "type": "sidebar",
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "/(Primary)/",
+                    "domain": "/(light|climate|lock|media_player|vacuum|fan)/",
+                    "options": {
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "tap_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "domain"
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "/(Primary)/",
+                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "*node_status"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Area - Upstairs",
+          "path": "area-upstairs",
+          "subview": true,
+          "type": "sidebar",
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Upstairs",
+                    "domain": "/(light|climate|lock|media_player|vacuum|fan)/",
+                    "options": {
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "tap_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "domain"
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Upstairs",
+                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "*node_status"
+                  },
+                  {
+                    "entity_id": "*battery*"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Area - Laundry",
+          "path": "area-laundry",
+          "subview": true,
+          "type": "sidebar",
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Laundry",
+                    "domain": "/(light|climate|lock|media_player|vacuum|fan)/",
+                    "options": {
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "tap_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "domain"
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Laundry",
+                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "/(node_status|battery|tamper)/"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Area - Garage",
+          "path": "area-garage",
+          "subview": true,
+          "type": "sidebar",
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Garage",
+                    "domain": "/(light|media_player|fan)/",
+                    "options": {
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "tap_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  },
+                  {
+                    "area": "Garage",
+                    "domain": "cover",
+                    "options": {
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "toggle"
+                      },
+                      "tap_action": {
+                        "action": "more-info"
+                      }
+                    }
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "domain"
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Garage",
+                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "/(node_status|battery|tamper)/"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Area - Upstairs Bathroom",
+          "path": "area-upstairs-bathroom",
+          "subview": true,
+          "type": "sidebar",
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Upstairs Bathroom",
+                    "domain": "/(light|media_player|fan)/",
+                    "options": {
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "tap_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "domain"
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Upstairs Bathroom",
+                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "/(node_status|battery|tamper)/"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Area - Olive Bedroom",
+          "path": "area-olive-bedroom",
+          "subview": true,
+          "type": "sidebar",
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Olive Bedroom",
+                    "domain": "/(light|media_player|fan)/",
+                    "options": {
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "tap_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "domain"
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Olive Bedroom",
+                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "/(node_status|battery|tamper)/"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Area - Lincoln Bedroom",
+          "path": "area-lincoln-bedroom",
+          "subview": true,
+          "type": "sidebar",
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Lincoln Bedroom",
+                    "domain": "/(light|media_player|fan)/",
+                    "options": {
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "tap_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "domain"
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Lincoln Bedroom",
+                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "/(node_status|battery|tamper)/"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Area - Basement",
+          "path": "area-basement",
+          "subview": true,
+          "type": "sidebar",
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Basement",
+                    "domain": "/(light|fan)/",
+                    "options": {
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "tap_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "domain"
+              }
+            },
+            {
+              "type": "media-control",
+              "entity": "media_player.basement_box"
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Basement",
+                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "/(node_status|battery|tamper)/"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

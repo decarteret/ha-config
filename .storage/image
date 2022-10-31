@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "image",
+  "data": {
+    "items": [
+      {
+        "id": "2cda5c39b58e8428f1c0e60dd3dd84b0",
+        "filesize": 698800,
+        "content_type": "image/jpeg",
+        "name": "PXL_20220723_210726234.jpg",
+        "uploaded_at": "2022-08-31T22:12:35.803541+00:00"
+      },
+      {
+        "id": "acba61361b79bce007e6cfe4b2a07057",
+        "filesize": 573002,
+        "content_type": "image/jpeg",
+        "name": "christina.jpg",
+        "uploaded_at": "2022-08-31T22:17:16.836584+00:00"
+      },
+      {
+        "id": "898de17edb598a2b626b0564b905b683",
+        "filesize": 421050,
+        "content_type": "image/jpeg",
+        "name": "jason.jpg",
+        "uploaded_at": "2022-08-31T22:19:57.826818+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "http",
+  "data": {
+    "use_x_forwarded_for": true,
+    "trusted_proxies": [
+      "192.168.0.5",
+      "172.17.0.0"
+    ],
+    "ip_ban_enabled": true,
+    "login_attempts_threshold": 10,
+    "ssl_profile": "modern",
+    "server_port": 8123,
+    "cors_allowed_origins": [
+      "https://cast.home-assistant.io"
+    ]
+  }
+}

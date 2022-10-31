@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "timer",
+  "data": {
+    "items": [
+      {
+        "id": "upstairs_hallway_motion_timer",
+        "name": "Upstairs Hallway Light Timer",
+        "restore": false,
+        "duration": "0:00:00"
+      },
+      {
+        "id": "kitchen_light_timer",
+        "name": "Kitchen Light Timer",
+        "duration": "0:00:00",
+        "restore": false
+      },
+      {
+        "id": "garage_light_timer",
+        "name": "Garage Light Timer",
+        "duration": "0:00:00",
+        "restore": false
+      },
+      {
+        "id": "laundry_light_timer",
+        "name": "Laundry Light Timer",
+        "duration": "0:00:00",
+        "restore": false
+      },
+      {
+        "id": "entryway_light_timer",
+        "name": "Entryway Light Timer",
+        "duration": "0:00:00",
+        "restore": false
+      },
+      {
+        "id": "main_hallway_light_timer",
+        "name": "Main Hallway Light Timer",
+        "duration": "0:00:00",
+        "restore": false
+      },
+      {
+        "id": "media_room_light_timer",
+        "name": "Media Room Light Timer",
+        "duration": "0:00:00",
+        "restore": false
+      },
+      {
+        "id": "upstairs_bathroom_light_timer",
+        "name": "Upstairs Bathroom Light Timer",
+        "restore": false,
+        "duration": "0:00:00"
+      },
+      {
+        "id": "primary_bedroom_desk_light_timer",
+        "name": "Primary Bedroom Desk Light Timer",
+        "restore": false,
+        "duration": "0:00:00"
+      },
+      {
+        "id": "main_stair_light_timer",
+        "name": "Main Stair Light Timer",
+        "restore": false,
+        "duration": "0:00:00"
+      },
+      {
+        "id": "basement_hallway_light_timer",
+        "name": "Basement Hallway Light Timer",
+        "duration": "0:00:00",
+        "restore": false
+      },
+      {
+        "id": "kitchen_pantry_light_timer",
+        "name": "Kitchen Pantry Light Timer",
+        "duration": "0:00:00",
+        "restore": false
+      },
+      {
+        "id": "basement_stair_light",
+        "name": "Basement Stair Light Timer",
+        "duration": "0:00:00",
+        "restore": false
+      },
+      {
+        "id": "basement_light_timer",
+        "name": "Basement Light Timer",
+        "duration": "0:00:00",
+        "restore": false
+      }
+    ]
+  }
+}

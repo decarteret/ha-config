@@ -1,7 +1,8 @@
-*
-!*.yaml
-!scenes
+/*
 !.gitignore
+!*.yaml
+!/.storage
+
+/.storage/*.*
 secrets.yaml
-zwcfg_0xe6e7feb7.xml
 ip_bans.yaml

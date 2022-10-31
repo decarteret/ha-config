@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace_resources",
+  "data": {
+    "items": [
+      {
+        "id": "c8bb4fa36a1c401c90ce8c37934a7d51",
+        "type": "module",
+        "url": "/local/mini-media-player-bundle.js?v=1.16.4"
+      },
+      {
+        "url": "/local/vacuum-card.js",
+        "type": "module",
+        "id": "b4ae71a44e814db78aae8374ae61d8a0"
+      },
+      {
+        "url": "/local/auto-entities.js",
+        "type": "module",
+        "id": "73d5d57d81284cb68a68409ee76b54cd"
+      },
+      {
+        "url": "/local/mini-graph-card-bundle.js?v=0.11.0",
+        "type": "module",
+        "id": "40b1a87b03624f398d890397c1d54667"
+      },
+      {
+        "url": "/local/apexcharts-card.js?v=1.11",
+        "type": "module",
+        "id": "8aaeba3092234713bf68c528def165c7"
+      },
+      {
+        "url": "/themes/fonts.css",
+        "type": "css",
+        "id": "227ca74d88b94eddbe965932979162be"
+      },
+      {
+        "url": "/local/button-card.js?v=3.4.2",
+        "type": "module",
+        "id": "b91528d309d742a9bd6c64d6e94b9600"
+      },
+      {
+        "url": "/local/slider-button-card.js?v=1.10.9",
+        "type": "module",
+        "id": "b69c19c07bf245b382f53fff914b7f47"
+      },
+      {
+        "url": "/local/slider-entity-row.js?v=1.1",
+        "type": "module",
+        "id": "92e31e2ac92a45d2b182534a28d27d14"
+      }
+    ]
+  }
+}
