@@ -3,6 +3,9 @@
 !*.yaml
 !/.storage
 
+# remove files with extensions; we only want to keep files that dont have extensions
 /.storage/*.*
+
+/.storage/auth
 secrets.yaml
 ip_bans.yaml
