@@ -15,10 +15,28 @@ sensor:
 
   - name: Garbage Pickup Sensor
     unique_id: garbagepickupsummary
-    state: "{{ iif( iif( now().isocalendar()[2]>2, (now().isocalendar()[1]+1)%2, now().isocalendar()[1]%2 ), 'No recycling', 'Recycling') + ' ' + ('tomorrow' if now().isocalendar()[2]==1 else 'today' if now().isocalendar()[2]==2 else 'next Tuesday') }}"
-    icon: "{{ iif( iif( now().isocalendar()[2]>2, (now().isocalendar()[1]+1)%2, now().isocalendar()[1]%2 ), 'mdi:delete', 'mdi:recycle' ) }}"
+    state: >
+      {% set now = now().isocalendar() %}
+      {{ iif( iif( now[2]>2, (now[1]+1)%2, now[1]%2 ), 'No recycling', 'Recycling') + ' ' + ('tomorrow' if now[2]==1 else 'today' if now[2]==2 else 'next Tuesday') }}
+    icon: >
+      {% set now = now().isocalendar() %}
+      {{ iif( iif( now[2]>2, (now[1]+1)%2, now[1]%2 ), 'mdi:delete', 'mdi:recycle' ) }}
 
 binary_sensor:
   - name: Upstairs Bathroom Hybrid Sensor
     unique_id: upstairsbathroomhybridsensor
     state: "{{ is_state( 'fan.upstairs_bathroom_fan', 'on' ) or is_state( 'binary_sensor.upstairs_bathroom_sensor_motion', 'on' ) }}"
+
+  - name: Entryway Motion
+    unique_id: entrywaymotion
+    state: "{{ is_state( 'binary_sensor.raw_entryway_motion', 'on' ) }}"
+    device_class: motion
+    delay_off:
+      seconds: 10
+
+  - name: Basement Motion
+    unique_id: basementmotion
+    state: "{{ is_state( 'binary_sensor.raw_basement_motion', 'on' ) }}"
+    device_class: motion
+    delay_off:
+      seconds: 10

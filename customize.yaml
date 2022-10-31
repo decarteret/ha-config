@@ -2,8 +2,11 @@ binary_sensor.garage_door:
   device_class: garage_door
   initial_state: off
 
+binary_sensor.garage_entry_door:
+  initial_state: off
+
 vacuum.rockrobo:
   friendly_name: Rockrobo
 
-media_player.shield:
+media_player.media_room_box:
   initial_state: off

@@ -68,16 +68,22 @@
   - platform: state
     entity_id:
     - binary_sensor.main_door
-  condition: []
+  - platform: state
+    entity_id:
+    - binary_sensor.entryway_motion
+  condition:
+  - condition: state
+    entity_id: media_player.media_room_box
+    state: 'off'
   action:
   - service: script.light_timer
     data:
       light_entity_id: light.entryway_light
       brightness_pct: 35
-      sensor_entity_id: binary_sensor.main_door
+      sensor_entity_id: binary_sensor.entryway_motion
   mode: single
-- id: scene_primary_bedroom_accent
-  alias: Scene - Primary Bedroom Accent
+- id: zwave_primary_bedroom_accent
+  alias: Zwave - Primary Bedroom Accent
   description: ''
   trigger:
   - platform: event
@@ -107,8 +113,8 @@
         target:
           entity_id: light.primary_bedroom_desk_light
   mode: single
-- id: scene_main_stair_accent
-  alias: Scene - Main Stair Accent
+- id: zwave_main_stair_accent
+  alias: Zwave - Main Stair Accent
   description: ''
   trigger:
   - platform: event
@@ -175,7 +181,7 @@
       sensor_entity_id: binary_sensor.garage_entry_door
       on_when: always
   mode: single
-- id: '1664861499979'
+- id: home_zone_changed
   alias: Home Zone changed
   description: ''
   trigger:
@@ -276,38 +282,28 @@
       light_entity_id: light.kitchen_light
       sensor_entity_id: binary_sensor.kitchen_sensor_motion
       duration: 120
+  - service: script.light_timer
+    data:
+      light_entity_id: light.kitchen_pantry_light
+      sensor_entity_id: binary_sensor.kitchen_sensor_motion
+      on_when: never
   mode: single
-- id: entryway_motion_changed
-  alias: Entryway Motion changed
+- id: timer_main_stair_light
+  alias: Timer - Main Stair Light
   description: ''
   trigger:
   - platform: state
     entity_id:
     - binary_sensor.entryway_motion
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 5
   condition: []
   action:
   - service: script.light_timer
     data:
-      light_entity_id: light.entryway_light
-      on_when: never
-  - service: script.light_timer
-    data:
-      light_entity_id: light.media_room_light
-      on_when: never
-  - service: script.light_timer
-    data:
-      light_entity_id: light.main_hallway_light
-      on_when: never
-  - service: script.light_timer
-    data:
       light_entity_id: light.main_stair_light
       on_when: never
+      sensor_entity_id: binary_sensor.entryway_motion
   mode: restart
-- id: '1665128885904'
+- id: generic_light_timer_idle
   alias: Generic Light Timer idle
   description: ''
   trigger:
@@ -330,10 +326,13 @@
   trigger:
   - platform: state
     entity_id:
-    - binary_sensor.upstairs_bathroom_sensor_motion
+    - binary_sensor.upstairs_bathroom_hybrid_sensor
+    from: 'off'
+    to: 'on'
   - platform: state
     entity_id:
-    - fan.upstairs_bathroom_fan
+    - binary_sensor.upstairs_bathroom_hybrid_sensor
+    from: 'on'
     to: 'off'
   condition: []
   action:
@@ -344,13 +343,13 @@
       brightness_pct: 50
       on_when: always
   mode: single
-- id: shield_turns_off
-  alias: Shield turns off
+- id: media_room_box_changed
+  alias: Media Room Box changed
   description: ''
   trigger:
   - platform: state
     entity_id:
-    - media_player.media_room_android_tv
+    - media_player.media_room_box
   condition:
   - condition: state
     entity_id: sun.sun
@@ -359,27 +358,24 @@
   - choose:
     - conditions:
       - condition: state
-        entity_id: media_player.media_room_android_tv
+        entity_id: media_player.media_room_box
         state: playing
+      - condition: template
+        value_template: '{{ state_attr("light.media_room_light", "brightness")|int(99)/2.6
+          > 7 }}'
       sequence:
       - service: light.turn_on
         data:
           brightness_pct: 1
         target:
           entity_id: light.outside_entryway_light
-    - conditions:
-      - condition: state
-        entity_id: media_player.media_room_android_tv
-        state: paused
-      sequence:
-      - service: light.turn_on
-        data:
-          brightness_pct: 5
+      - service: light.turn_off
+        data: {}
         target:
           entity_id: light.media_room_light
     - conditions:
       - condition: state
-        entity_id: media_player.media_room_android_tv
+        entity_id: media_player.media_room_box
         state: 'off'
       sequence:
       - service: light.turn_on
@@ -391,37 +387,30 @@
           - light.entryway_light
           - light.media_room_light
           - light.outside_entryway_light
-  mode: single
+  mode: restart
 - id: timer_upstairs_bathroom_fan
   alias: Timer - Upstairs Bathroom Fan
   description: ''
   trigger:
-  - platform: numeric_state
-    entity_id: sensor.upstairs_bathroom_sensor_humidity
-    above: 66
+  - platform: state
+    entity_id:
+    - sensor.upstairs_bathroom_sensor_humidity
   condition: []
   action:
-  - service: fan.turn_on
-    data: {}
-    target:
-      entity_id: fan.upstairs_bathroom_fan
-  - service: automation.trigger
-    data: {}
-    target:
-      entity_id: automation.upstairs_bathroom_light_on
-  - wait_for_trigger:
-    - platform: numeric_state
+  - if:
+    - condition: numeric_state
       entity_id: sensor.upstairs_bathroom_sensor_humidity
-      below: 66
-    timeout:
-      hours: 0
-      minutes: 30
-      seconds: 0
-      milliseconds: 0
-  - service: fan.turn_off
-    data: {}
-    target:
-      entity_id: fan.upstairs_bathroom_fan
+      above: 66
+    then:
+    - service: fan.turn_on
+      data: {}
+      target:
+        entity_id: fan.upstairs_bathroom_fan
+    else:
+    - service: fan.turn_off
+      data: {}
+      target:
+        entity_id: fan.upstairs_bathroom_fan
   mode: single
 - id: timer_basement_hallway_light
   alias: Timer - Basement Hallway Light
@@ -451,4 +440,179 @@
       light_entity_id: light.kitchen_pantry_light
       sensor_entity_id: binary_sensor.kitchen_sensor_motion
       on_when: never
+  mode: single
+- id: timer_basement_stair_light
+  alias: Timer - Basement Stair Light
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.basement_hallway_sensor_motion
+  condition: []
+  action:
+  - service: script.light_timer
+    data:
+      light_entity_id: light.basement_stair_light
+      sensor_entity_id: binary_sensor.basement_hallway_sensor_motion
+      on_when: never
+  mode: single
+- id: timer_basement_light
+  alias: Timer - Basement Light
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.basement_motion
+  condition: []
+  action:
+  - service: script.light_timer
+    data:
+      light_entity_id: light.basement_light
+      sensor_entity_id: binary_sensor.basement_motion
+      on_when: nighttime
+      duration: 300
+  mode: single
+- id: zwave_kitchen_accent
+  alias: Zwave - Kitchen Accent
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 18
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.property_key == "001" and trigger.event.data.value
+          == "KeyPressed2x" }}'
+      sequence:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.floating_switch
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.property_key == "002" and trigger.event.data.value
+          == "KeyPressed2x" }}'
+      sequence:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.floating_switch
+  mode: single
+- id: zwave_media_room_light
+  alias: Zwave - Media Room Light
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 30
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.property_key == "001" and trigger.event.data.value
+          == "KeyPressed3x" }}'
+      sequence:
+      - service: select.select_option
+        data:
+          option: Watch TV
+        target:
+          entity_id: select.media_room_remote_activities
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.property_key == "002" and trigger.event.data.value
+          == "KeyPressed3x" }}'
+      sequence:
+      - service: select.select_option
+        data:
+          option: PowerOff
+        target:
+          entity_id: select.media_room_remote_activities
+  mode: single
+- id: zwave_basement_light
+  alias: Zwave - Basement Light
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 60
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.property_key == "001" and trigger.event.data.value
+          == "KeyPressed3x" }}'
+      sequence:
+      - service: automation.turn_on
+        data: {}
+        target:
+          entity_id: automation.timer_basement_light
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.property_key == "002" and trigger.event.data.value
+          == "KeyPressed3x" }}'
+      sequence:
+      - service: automation.turn_off
+        data: {}
+        target:
+          entity_id: automation.timer_basement_light
+      - service: timer.cancel
+        data: {}
+        target:
+          entity_id:
+          - timer.basement_light_timer
+  mode: single
+- id: tag_main_door
+  alias: Tag - Main Door
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 8c3fcd2a-35a9-424e-a333-2773186667c5
+  condition: []
+  action:
+  - service: lock.unlock
+    data: {}
+    target:
+      entity_id: lock.main_door_lock
+  mode: single
+- id: timer_media_room_light
+  alias: Timer - Media Room Light
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.entryway_motion
+  condition:
+  - condition: state
+    entity_id: media_player.media_room_box
+    state: 'off'
+  action:
+  - service: script.light_timer
+    data:
+      light_entity_id: light.media_room_light
+      sensor_entity_id: binary_sensor.entryway_motion
+      on_when: never
+      duration: 120
+  mode: single
+- id: timer_main_hallway_light
+  alias: Timer - Main Hallway Light
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.entryway_motion
+  condition: []
+  action:
+  - service: script.light_timer
+    data:
+      light_entity_id: light.main_hallway_light
+      on_when: never
+      sensor_entity_id: binary_sensor.entryway_motion
   mode: single

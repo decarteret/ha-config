@@ -16,7 +16,7 @@ devices:
         name: Basement Motion
       - zone: 3
         type: door
-        name: Front Door
+        name: Main Door
       - zone: 4
         type: door
         name: Garage Entry Door
@@ -38,7 +38,7 @@ devices:
     binary_sensors:
       - zone: 1
         type: door
-        name: Main Bedroom Door
+        name: Primary Bedroom Door
       # - zone: 2
       #   type: window
       #   name: window 8

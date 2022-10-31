@@ -7,7 +7,7 @@ homeassistant:
     - /config/www
 
 frontend:
-  themes: !include themes.yaml
+  themes: !include_dir_merge_named themes
 
 default_config:
 
@@ -19,12 +19,11 @@ conversation:
 
 recorder:
   exclude:
-    entity_globs:
-      - sensor.s22_*
-      - binary_sensor.s22_*
+    entity_globs: []
     entities:
-      - script.set_light_timer
       - script.light_timer
+      - binary_sensor.raw_entryway_motion
+      - binary_sensor.raw_basement_motion
     domains:
       - automation
 
@@ -92,3 +91,8 @@ scene: !include scenes.yaml
 spotcast:
   sp_dc: !secret sp_dc
   sp_key: !secret sp_key
+
+amcrest:
+  host: 192.168.0.134
+  username: admin
+  password: Secure7.

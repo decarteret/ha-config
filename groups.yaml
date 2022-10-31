@@ -2,5 +2,5 @@ watch_devices:
   name: Watch Devices
   entities:
     - cover.garage_door
-    - lock.front_door_lock
+    - lock.main_door_lock
     - light.primary_bedroom_desk_light
