@@ -72,9 +72,15 @@
     entity_id:
     - binary_sensor.entryway_motion
   condition:
-  - condition: state
-    entity_id: media_player.media_room_box
-    state: 'off'
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: '{{ is_state( trigger.entity_id, ''off'' ) }}'
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: media_player.media_room_box
+        state: playing
   action:
   - service: script.light_timer
     data:
@@ -153,7 +159,16 @@
   - platform: state
     entity_id:
     - binary_sensor.laundry_sensor_motion
-  condition: []
+  condition:
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: '{{ is_state( trigger.entity_id, ''off'' ) }}'
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: media_player.media_room_box
+        state: playing
   action:
   - service: script.light_timer
     data:
@@ -361,7 +376,7 @@
         entity_id: media_player.media_room_box
         state: playing
       - condition: template
-        value_template: '{{ state_attr("light.media_room_light", "brightness")|int(99)/2.6
+        value_template: '{{ state_attr("light.media_room_light", "brightness")|int(99)/2.55
           > 7 }}'
       sequence:
       - service: light.turn_on
@@ -469,7 +484,6 @@
     data:
       light_entity_id: light.basement_light
       sensor_entity_id: binary_sensor.basement_motion
-      on_when: nighttime
       duration: 300
   mode: single
 - id: zwave_kitchen_accent

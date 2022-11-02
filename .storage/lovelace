@@ -562,6 +562,9 @@
                 "exclude": [
                   {
                     "entity_id": "binary_sensor.front_door_lock_current_status_of_the_door"
+                  },
+                  {
+                    "entity_id": "binary_sensor.raw_*"
                   }
                 ]
               },

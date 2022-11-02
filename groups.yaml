@@ -1,6 +1,5 @@
-watch_devices:
-  name: Watch Devices
+quick_devices:
+  name: Quick Devices
   entities:
     - cover.garage_door
     - lock.main_door_lock
-    - light.primary_bedroom_desk_light
