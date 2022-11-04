@@ -1732,6 +1732,14 @@
           "path": "area-basement",
           "subview": true,
           "type": "sidebar",
+          "visible": [
+            {
+              "user": "20aa2c2d60ea4ff98376de38506134e3"
+            },
+            {
+              "user": "0f075d0c1338459891ff6551b52896b9"
+            }
+          ],
           "badges": [],
           "cards": [
             {

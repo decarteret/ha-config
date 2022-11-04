@@ -97,35 +97,39 @@ light_timer:
     timer_entity_id: timer.{{ light_entity_id[6:] }}_timer
     brightness: '{{ 25 if brightness_pct is undefined else brightness_pct }}'
     duration: '{{ 60 if duration is undefined else duration }}'
-    is_light_off: '{{ is_state(light_entity_id, ''off'') }}'
-    is_timer_idle: '{{ is_state(timer_entity_id, ''idle'') }}'
-    is_paused: '{{ is_state(sensor_entity_id, ''on'') }}'
+    is_motion: '{{ is_state(sensor_entity_id, ''on'') }}'
+    is_idle: '{{ is_state(timer_entity_id, ''idle'') }}'
+    is_light_on: '{{ is_state(light_entity_id, ''on'') }}'
     is_nighttime: '{{ is_state(''sun.sun'', ''below_horizon'') }}'
     on_when: '{{ ''nighttime'' if on_when is undefined else on_when }}'
-    can_turn_on: '{{ (on_when == ''always'') or (on_when == ''nighttime'' and is_nighttime)
+    is_allowed_on: '{{ (on_when == ''always'') or (on_when == ''nighttime'' and is_nighttime)
       }}'
   sequence:
   - if:
     - condition: template
-      value_template: '{{ is_timer_idle and is_light_off and not can_turn_on }}'
+      value_template: '{{ is_motion and not is_allowed_on }}'
     then:
-    - stop: There is nothing to do.
+    - stop: Not allowed to turn on light.
   - if:
     - condition: template
-      value_template: '{{ is_timer_idle and can_turn_on }}'
+      value_template: '{{ is_motion and is_idle }}'
     then:
     - service: light.turn_on
       data:
         entity_id: '{{ light_entity_id }}'
         brightness_pct: '{{ brightness }}'
         transition: 1
-  - service: timer.start
-    data:
-      entity_id: '{{ timer_entity_id }}'
-      duration: '{{ duration }}'
   - if:
     - condition: template
-      value_template: '{{ is_paused }}'
+      value_template: '{{ is_motion or not is_idle or is_light_on }}'
+    then:
+    - service: timer.start
+      data:
+        entity_id: '{{ timer_entity_id }}'
+        duration: '{{ duration }}'
+  - if:
+    - condition: template
+      value_template: '{{ is_motion }}'
     then:
     - service: timer.pause
       data:
