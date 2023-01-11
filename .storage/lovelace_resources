@@ -48,6 +48,16 @@
         "url": "/local/slider-entity-row.js?v=1.1",
         "type": "module",
         "id": "92e31e2ac92a45d2b182534a28d27d14"
+      },
+      {
+        "url": "/local/frigate-hass-card.js?v=4.0.0",
+        "type": "module",
+        "id": "8df751972c3b4152883203c9863e7f5b"
+      },
+      {
+        "url": "/webrtc/webrtc-camera.js?v2.3.1",
+        "type": "module",
+        "id": "65484b9abad34010b267e1814cb5e19e"
       }
     ]
   }

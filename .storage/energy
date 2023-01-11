@@ -8,16 +8,26 @@
         "type": "grid",
         "flow_from": [
           {
-            "stat_energy_from": "sensor.floating_switch_electric_consumption_kwh",
+            "stat_energy_from": "sensor.outside_main_accent_electric_consumption_kwh",
             "stat_cost": null,
-            "entity_energy_from": "sensor.floating_switch_electric_consumption_kwh",
             "entity_energy_price": null,
             "number_energy_price": 0.11
           },
           {
-            "stat_energy_from": "sensor.outside_main_accent_electric_consumption_kwh",
+            "stat_energy_from": "sensor.family_room_floor_lamp_switch_electric_consumption_kwh",
             "stat_cost": null,
-            "entity_energy_from": "sensor.outside_main_accent_electric_consumption_kwh",
+            "entity_energy_price": null,
+            "number_energy_price": 0.11
+          },
+          {
+            "stat_energy_from": "sensor.office_desk_light_electric_consumption_kwh",
+            "stat_cost": null,
+            "entity_energy_price": null,
+            "number_energy_price": 11.0
+          },
+          {
+            "stat_energy_from": "sensor.primary_bedroom_office_monitor_switch_electric_consumption_kwh",
+            "stat_cost": null,
             "entity_energy_price": null,
             "number_energy_price": 0.11
           }
@@ -26,6 +36,19 @@
         "cost_adjustment_day": 0.0
       }
     ],
-    "device_consumption": []
+    "device_consumption": [
+      {
+        "stat_consumption": "sensor.family_room_floor_lamp_switch_electric_consumption_kwh"
+      },
+      {
+        "stat_consumption": "sensor.office_desk_light_electric_consumption_kwh"
+      },
+      {
+        "stat_consumption": "sensor.outside_main_accent_electric_consumption_kwh"
+      },
+      {
+        "stat_consumption": "sensor.primary_bedroom_office_monitor_switch_electric_consumption_kwh"
+      }
+    ]
   }
 }

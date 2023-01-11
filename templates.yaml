@@ -27,6 +27,10 @@ binary_sensor:
     unique_id: upstairsbathroomhybridsensor
     state: "{{ is_state( 'fan.upstairs_bathroom_fan', 'on' ) or is_state( 'binary_sensor.upstairs_bathroom_sensor_motion', 'on' ) }}"
 
+  - name: Basement Hallway Hybrid Sensor
+    unique_id: basementhallwayhybridsensor
+    state: "{{ is_state( 'binary_sensor.basement_hallway_sensor_motion', 'on' ) or is_state( 'binary_sensor.basement_stair_sensor_motion', 'on' ) }}"
+
   - name: Entryway Motion
     unique_id: entrywaymotion
     state: "{{ is_state( 'binary_sensor.raw_entryway_motion', 'on' ) }}"

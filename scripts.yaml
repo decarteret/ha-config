@@ -79,16 +79,15 @@ light_timer:
       description: Which sensor to monitor
       selector:
         entity:
-          domain:
-          - binary_sensor
+          domain: binary_sensor
     on_when:
       name: Turn on when
       description: When this light can automatically turn on.
-      default: nighttime
+      default: dark
       selector:
         select:
           options:
-          - nighttime
+          - dark
           - always
           - never
   variables:
@@ -100,19 +99,19 @@ light_timer:
     is_motion: '{{ is_state(sensor_entity_id, ''on'') }}'
     is_idle: '{{ is_state(timer_entity_id, ''idle'') }}'
     is_light_on: '{{ is_state(light_entity_id, ''on'') }}'
-    is_nighttime: '{{ is_state(''sun.sun'', ''below_horizon'') }}'
-    on_when: '{{ ''nighttime'' if on_when is undefined else on_when }}'
-    is_allowed_on: '{{ (on_when == ''always'') or (on_when == ''nighttime'' and is_nighttime)
+    is_dark: '{{ states( ''sensor.estimated_illuminance'' )|int(8000) < 8000 }}'
+    on_when: '{{ ''dark'' if on_when is undefined else on_when }}'
+    is_allowed_on: '{{ (on_when == ''always'') or (on_when == ''dark'' and is_dark)
       }}'
   sequence:
   - if:
     - condition: template
-      value_template: '{{ is_motion and not is_allowed_on }}'
+      value_template: '{{ is_motion and not ( is_allowed_on or is_light_on ) }}'
     then:
-    - stop: Not allowed to turn on light.
+    - stop: Nothing to do.
   - if:
     - condition: template
-      value_template: '{{ is_motion and is_idle }}'
+      value_template: '{{ is_motion and is_idle and is_allowed_on }}'
     then:
     - service: light.turn_on
       data:
@@ -134,3 +133,19 @@ light_timer:
     - service: timer.pause
       data:
         entity_id: '{{ timer_entity_id }}'
+test:
+  alias: Test
+  mode: single
+  fields:
+    entities:
+      name: Entities
+      required: true
+      selector:
+        entity:
+          domain: light
+          multiple: true
+  sequence:
+  - service: light.turn_on
+    data: {}
+    target:
+      entity_id: '{{ entities }}'

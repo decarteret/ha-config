@@ -32,7 +32,7 @@
     target:
       entity_id:
       - light.outside_main_accent
-      - light.primary_bedroom_accent
+      - light.primary_bedroom_controller
   mode: single
 - id: notification_main_door
   alias: Notification - Main Door Lock
@@ -83,39 +83,39 @@
   - service: script.light_timer
     data:
       light_entity_id: light.entryway_light
-      brightness_pct: 35
       sensor_entity_id: binary_sensor.entryway_motion
+      brightness_pct: 40
   mode: single
 - id: zwave_primary_bedroom_accent
-  alias: Zwave - Primary Bedroom Accent
+  alias: Zwave - Primary Bedroom Controller
   description: ''
   trigger:
   - platform: event
     event_type: zwave_js_value_notification
     event_data:
-      node_id: 25
+      node_id: 84
   condition: []
   action:
   - choose:
     - conditions:
       - condition: template
-        value_template: '{{ trigger.event.data.property_key == "001" and trigger.event.data.value
-          == "KeyPressed2x" }}'
+        value_template: '{{ trigger.event.data.property_key == "002" and trigger.event.data.value
+          == "KeyPressed" }}'
       sequence:
-      - service: light.turn_on
+      - service: light.toggle
         data:
-          brightness_pct: 5
+          brightness: 1
         target:
           entity_id: light.primary_bedroom_desk_light
     - conditions:
       - condition: template
-        value_template: '{{ trigger.event.data.property_key == "002" and trigger.event.data.value
+        value_template: '{{ trigger.event.data.property_key == "004" and trigger.event.data.value
           == "KeyPressed2x" }}'
       sequence:
-      - service: light.turn_off
+      - service: switch.toggle
         data: {}
         target:
-          entity_id: light.primary_bedroom_desk_light
+          entity_id: switch.primary_bedroom_office_monitor_switch
   mode: single
 - id: zwave_main_stair_accent
   alias: Zwave - Main Stair Accent
@@ -159,13 +159,22 @@
     - binary_sensor.laundry_sensor_motion
   condition:
   - condition: template
-    value_template: '{% set playing = is_state( ''media_player.media_room_box'', ''playing''
+    value_template: '{% set is_playing = is_state( ''media_player.media_room_box'',
+      ''playing'' ) %}
+
+      {% set is_motion = is_state( ''binary_sensor.laundry_sensor_motion'', ''on''
       ) %}
 
-      {% set motion = is_state( ''binary_sensor.laundry_sensor_motion'', ''on'' )
-      %}
-
-      {{ not (playing and motion) }}'
+      {{ not (is_playing and is_motion) }}'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: light.laundry_light
+      state: 'on'
+    - condition: numeric_state
+      entity_id: sensor.laundry_sensor_illuminance
+      below: 75
+    enabled: false
   action:
   - service: script.light_timer
     data:
@@ -223,47 +232,6 @@
         entity_id: climate.thermostat
         type: set_preset_mode
         preset_mode: Away
-  mode: single
-- id: sun_changed
-  alias: Sun changed
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - sun.sun
-    from: above_horizon
-    to: below_horizon
-  - platform: state
-    entity_id:
-    - sun.sun
-    from: below_horizon
-    to: above_horizon
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: sun.sun
-        state: above_horizon
-      sequence:
-      - service: light.turn_off
-        data: {}
-        target:
-          entity_id:
-          - light.outside_basement_light
-          - light.outside_entryway_light
-          - light.outside_garage_light
-          - light.outside_main_accent
-          - light.outside_main_light
-    - conditions:
-      - condition: state
-        entity_id: sun.sun
-        state: below_horizon
-      sequence:
-      - service: scene.turn_on
-        target:
-          entity_id: scene.outside_lights_on
-        metadata: {}
   mode: single
 - id: timer_upstairs_hallway_light
   alias: Timer - Upstairs Hallway Light
@@ -346,7 +314,15 @@
     - binary_sensor.upstairs_bathroom_hybrid_sensor
     from: 'on'
     to: 'off'
-  condition: []
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: light.upstairs_bathroom_light
+      state: 'on'
+    - condition: numeric_state
+      entity_id: sensor.upstairs_bathroom_sensor_illuminance
+      below: 75
   action:
   - service: script.light_timer
     data:
@@ -362,25 +338,23 @@
   - platform: state
     entity_id:
     - media_player.media_room_box
-  condition:
-  - condition: state
-    entity_id: sun.sun
-    state: below_horizon
   action:
   - choose:
     - conditions:
       - condition: state
         entity_id: media_player.media_room_box
         state: playing
-      - condition: template
-        value_template: '{{ state_attr("light.media_room_light", "brightness")|int(99)/2.55
-          > 7 }}'
       sequence:
-      - service: light.turn_on
+      - service: light.turn_off
         data:
-          brightness_pct: 1
+          transition: 2
         target:
-          entity_id: light.outside_entryway_light
+          entity_id:
+          - light.entryway_light
+          - light.laundry_light
+      - condition: template
+        value_template: '{{ state_attr(''light.media_room_light'', ''brightness'')|int(0)>13
+          }}'
       - service: light.turn_off
         data: {}
         target:
@@ -390,15 +364,17 @@
         entity_id: media_player.media_room_box
         state: 'off'
       sequence:
+      - condition: state
+        entity_id: sun.sun
+        state: below_horizon
       - service: light.turn_on
         data:
-          brightness_pct: 15
-          transition: 1
+          transition: 2
+          brightness_pct: 25
         target:
           entity_id:
           - light.entryway_light
           - light.media_room_light
-          - light.outside_entryway_light
   mode: restart
 - id: timer_upstairs_bathroom_fan
   alias: Timer - Upstairs Bathroom Fan
@@ -410,9 +386,10 @@
   condition: []
   action:
   - if:
-    - condition: numeric_state
-      entity_id: sensor.upstairs_bathroom_sensor_humidity
-      above: 66
+    - condition: template
+      value_template: '{% set bathroom = states("sensor.upstairs_bathroom_sensor_humidity")|float(0)
+        %} {% set main = states("sensor.thermostat_humidity")|float(0) %} {{ bathroom
+        >  main + 7.5 }}'
     then:
     - service: fan.turn_on
       data: {}
@@ -430,13 +407,18 @@
   trigger:
   - platform: state
     entity_id:
-    - binary_sensor.basement_hallway_sensor_motion
+    - binary_sensor.basement_hallway_hybrid_sensor
   condition: []
   action:
   - service: script.light_timer
     data:
-      sensor_entity_id: binary_sensor.basement_hallway_sensor_motion
+      light_entity_id: light.basement_stair_light
+      on_when: always
+      sensor_entity_id: binary_sensor.basement_hallway_hybrid_sensor
+  - service: script.light_timer
+    data:
       light_entity_id: light.basement_hallway_light
+      sensor_entity_id: binary_sensor.basement_hallway_hybrid_sensor
   mode: single
 - id: timer_kitchen_pantry_light
   alias: Timer - Kitchen Pantry Light
@@ -451,21 +433,6 @@
     data:
       light_entity_id: light.kitchen_pantry_light
       sensor_entity_id: binary_sensor.kitchen_sensor_motion
-      on_when: never
-  mode: single
-- id: timer_basement_stair_light
-  alias: Timer - Basement Stair Light
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.basement_hallway_sensor_motion
-  condition: []
-  action:
-  - service: script.light_timer
-    data:
-      light_entity_id: light.basement_stair_light
-      sensor_entity_id: binary_sensor.basement_hallway_sensor_motion
       on_when: never
   mode: single
 - id: timer_basement_light
@@ -502,7 +469,7 @@
       - service: switch.turn_on
         data: {}
         target:
-          entity_id: switch.floating_switch
+          entity_id: switch.family_room_floor_lamp_switch
     - conditions:
       - condition: template
         value_template: '{{ trigger.event.data.property_key == "002" and trigger.event.data.value
@@ -511,7 +478,7 @@
       - service: switch.turn_off
         data: {}
         target:
-          entity_id: switch.floating_switch
+          entity_id: switch.family_room_floor_lamp_switch
   mode: single
 - id: zwave_media_room_light
   alias: Zwave - Media Room Light
@@ -626,4 +593,72 @@
       light_entity_id: light.main_hallway_light
       on_when: never
       sensor_entity_id: binary_sensor.entryway_motion
+  mode: single
+- id: '1669057661233'
+  alias: Tag - Office Light
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 32866474-cc6d-4eeb-a3d7-d3f7a2ff15c9
+  condition: []
+  action:
+  - service: switch.toggle
+    data: {}
+    target:
+      entity_id: switch.office_desk_light
+  mode: single
+- id: '1669142702191'
+  alias: Darkness turns outside lights on
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.estimated_illuminance
+    above: 500
+  - platform: numeric_state
+    entity_id: sensor.estimated_illuminance
+    below: 500
+  condition: []
+  action:
+  - if:
+    - condition: numeric_state
+      entity_id: sensor.estimated_illuminance
+      below: 500
+    then:
+    - service: scene.turn_on
+      target:
+        entity_id: scene.outside_lights_on
+      data: {}
+    else:
+    - service: scene.turn_on
+      target:
+        entity_id: scene.outside_lights_off
+      data: {}
+  mode: single
+- id: '1669409026105'
+  alias: Zwave - Office Desk Light Switch
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 74
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.property_key == "001" and trigger.event.data.value
+          == "KeyPressed" }}'
+      sequence:
+      - service: switch.turn_on
+        target:
+          entity_id: switch.office_desk_light
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.property_key == "002" and trigger.event.data.value
+          == "KeyPressed" }}'
+      sequence:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.office_desk_light
   mode: single

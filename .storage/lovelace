@@ -91,9 +91,6 @@
                     }
                   },
                   {
-                    "entity_id": "switch.floating_switch"
-                  },
-                  {
                     "domain": "automation",
                     "state": "off"
                   }
@@ -104,6 +101,9 @@
                   },
                   {
                     "entity_id": "light.outside_*"
+                  },
+                  {
+                    "entity_id": "binary_sensor.garage_door"
                   }
                 ]
               },
@@ -148,16 +148,13 @@
                     "entity_id": "media_player.*_speakers"
                   },
                   {
-                    "entity_id": "media_player.family_room_sound_bar"
+                    "entity_id": "media_player.*_bar"
                   },
                   {
-                    "entity_id": "media_player.house_audio",
+                    "entity_id": "media_player.house_speakers_cast",
                     "options": {
                       "type": "custom:mini-media-player"
                     }
-                  },
-                  {
-                    "entity_id": "media_player.*_android_tv"
                   }
                 ],
                 "exclude": [
@@ -370,9 +367,22 @@
                   "type": "button",
                   "tap_action": {
                     "action": "navigate",
-                    "navigation_path": "/lovelace/area-primary"
+                    "navigation_path": "/lovelace/area-primary-bedroom"
                   },
-                  "name": "Primary",
+                  "name": "Primary Bedroom",
+                  "hold_action": {
+                    "action": "none"
+                  }
+                },
+                {
+                  "show_name": true,
+                  "show_icon": false,
+                  "type": "button",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/area-primary-bathroom"
+                  },
+                  "name": "Primary Bathroom",
                   "hold_action": {
                     "action": "none"
                   }
@@ -616,6 +626,12 @@
                     "options": {
                       "secondary_info": "last-changed"
                     }
+                  },
+                  {
+                    "entity_id": "light.primary_bedroom_controller",
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
                   }
                 ],
                 "exclude": []
@@ -782,80 +798,53 @@
           "badges": [],
           "cards": [
             {
-              "type": "picture-elements",
-              "entity": "camera.amcrest_camera",
-              "camera_image": "camera.amcrest_camera",
-              "camera_view": "live",
-              "elements": [
+              "type": "custom:frigate-card",
+              "cameras": [
                 {
-                  "type": "icon",
-                  "icon": "mdi:arrow-up",
-                  "style": {
-                    "background": "rgba(255, 255, 255, 0.25)",
-                    "right": "25px",
-                    "bottom": "50px"
-                  },
-                  "tap_action": {
-                    "action": "call-service",
-                    "service": "amcrest.ptz_control",
-                    "data": {
-                      "entity_id": "camera.amcrest_camera",
-                      "movement": "up"
-                    }
-                  }
-                },
-                {
-                  "type": "icon",
-                  "icon": "mdi:arrow-down",
-                  "style": {
-                    "background": "rgba(255, 255, 255, 0.25)",
-                    "right": "25px",
-                    "bottom": "0px"
-                  },
-                  "tap_action": {
-                    "action": "call-service",
-                    "service": "amcrest.ptz_control",
-                    "data": {
-                      "entity_id": "camera.amcrest_camera",
-                      "movement": "down"
-                    }
-                  }
-                },
-                {
-                  "type": "icon",
-                  "icon": "mdi:arrow-left",
-                  "style": {
-                    "background": "rgba(255, 255, 255, 0.25)",
-                    "right": "50px",
-                    "bottom": "25px"
-                  },
-                  "tap_action": {
-                    "action": "call-service",
-                    "service": "amcrest.ptz_control",
-                    "data": {
-                      "entity_id": "camera.amcrest_camera",
-                      "movement": "left"
-                    }
-                  }
-                },
-                {
-                  "type": "icon",
-                  "icon": "mdi:arrow-right",
-                  "style": {
-                    "background": "rgba(255, 255, 255, 0.25)",
-                    "right": "0px",
-                    "bottom": "25px"
-                  },
-                  "tap_action": {
-                    "action": "call-service",
-                    "service": "amcrest.ptz_control",
-                    "data": {
-                      "entity_id": "camera.amcrest_camera",
-                      "movement": "right"
-                    }
+                  "live_provider": "webrtc-card",
+                  "camera_entity": "camera.amcrest_camera",
+                  "webrtc_card": {
+                    "entity": "camera.amcrest_camera"
                   }
                 }
-              ]
+              ],
+              "elements": [
+                {
+                  "type": "custom:frigate-card-ptz",
+                  "style": {
+                    "transform": "none",
+                    "right": "20px",
+                    "top": "20px"
+                  },
+                  "service": "amcrest.ptz_control",
+                  "data_left": {
+                    "entity_id": "camera.amcrest_camera",
+                    "movement": "left"
+                  },
+                  "data_right": {
+                    "entity_id": "camera.amcrest_camera",
+                    "movement": "right"
+                  },
+                  "data_up": {
+                    "entity_id": "camera.amcrest_camera",
+                    "movement": "up"
+                  },
+                  "data_down": {
+                    "entity_id": "camera.amcrest_camera",
+                    "movement": "down"
+                  }
+                }
+              ],
+              "menu": {
+                "buttons": {
+                  "frigate": {
+                    "enabled": false
+                  }
+                }
+              },
+              "live": {
+                "draggable": false
+              }
             },
             {
               "show_state": false,
@@ -1092,6 +1081,9 @@
                   },
                   {
                     "entity_id": "sun.sun"
+                  },
+                  {
+                    "entity_id": "sensor.estimated_illuminance"
                   }
                 ],
                 "exclude": [
@@ -1202,21 +1194,6 @@
                         "action": "toggle"
                       }
                     }
-                  },
-                  {
-                    "entity_id": "switch.floating_switch",
-                    "options": {
-                      "name": "Family Room Floor Lamp",
-                      "icon": "mdi:floor-lamp",
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "more-info"
-                      },
-                      "tap_action": {
-                        "action": "toggle"
-                      }
-                    }
                   }
                 ],
                 "exclude": [
@@ -1243,13 +1220,10 @@
               "filter": {
                 "include": [
                   {
-                    "area": "Family Room",
-                    "domain": "/(automation|timer|sensor|binary_sensor)/"
-                  }
-                ],
-                "exclude": [
+                    "entity_id": "binary_sensor.family_room_door"
+                  },
                   {
-                    "entity_id": "*node_status"
+                    "entity_id": "sensor.family_room_floor_lamp_switch_electric_consumption_w"
                   }
                 ]
               },
@@ -1272,10 +1246,11 @@
         },
         {
           "theme": "Backend-selected",
-          "title": "Area - Primary",
-          "path": "area-primary",
+          "title": "Area - Primary Bedroom",
+          "path": "area-primary-bedroom",
           "subview": true,
           "type": "sidebar",
+          "badges": [],
           "cards": [
             {
               "type": "custom:auto-entities",
@@ -1285,7 +1260,7 @@
               "filter": {
                 "include": [
                   {
-                    "area": "/(Primary)/",
+                    "area": "/(Primary Bedroom)/",
                     "domain": "/(light|climate|lock|media_player|vacuum|fan)/",
                     "options": {
                       "type": "custom:button-card",
@@ -1313,7 +1288,96 @@
               "filter": {
                 "include": [
                   {
-                    "area": "/(Primary)/",
+                    "area": "/(Primary Bedroom)/",
+                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "*node_status"
+                  },
+                  {
+                    "device": "Primary Bedroom Office Monitor Switch"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "entity_id": "switch.primary_bedroom_office_monitor_switch"
+                  },
+                  {
+                    "entity_id": "sensor.primary_bedroom_office_monitor_switch_electric_consumption_w"
+                  },
+                  {
+                    "entity_id": "sensor.primary_bedroom_office_monitor_switch_electric_consumption_kwh"
+                  }
+                ],
+                "exclude": []
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Area - Primary Bathroom",
+          "path": "area-primary-bathroom",
+          "type": "sidebar",
+          "subview": true,
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "/(Primary Bathroom)/",
+                    "domain": "/(light|climate|lock|media_player|vacuum|fan)/",
+                    "options": {
+                      "type": "custom:button-card",
+                      "size": "10%",
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "tap_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "domain"
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "/(Primary Bathroom)/",
                     "domain": "/(automation|timer|sensor|binary_sensor)/"
                   }
                 ],

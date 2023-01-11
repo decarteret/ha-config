@@ -6,9 +6,15 @@
     "items": [
       {
         "tag_id": "8c3fcd2a-35a9-424e-a333-2773186667c5",
-        "last_scanned": "2022-11-02T01:18:00.262144+00:00",
+        "last_scanned": "2022-12-09T19:57:26.345395+00:00",
         "id": "8c3fcd2a-35a9-424e-a333-2773186667c5",
         "name": "Main Door"
+      },
+      {
+        "tag_id": "32866474-cc6d-4eeb-a3d7-d3f7a2ff15c9",
+        "name": "Office Light",
+        "id": "32866474-cc6d-4eeb-a3d7-d3f7a2ff15c9",
+        "last_scanned": "2022-11-23T19:13:49.750015+00:00"
       }
     ]
   }

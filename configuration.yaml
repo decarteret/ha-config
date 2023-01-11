@@ -2,6 +2,7 @@ homeassistant:
   latitude: !secret home_latitude
   longitude: !secret home_longitude
   elevation: 172
+  country: US
   customize: !include customize.yaml
   allowlist_external_dirs:
     - /config/www
@@ -94,5 +95,5 @@ spotcast:
 
 amcrest:
   host: 192.168.0.134
-  username: admin
-  password: Secure7.
+  username: !secret amcrest_username
+  password: !secret amcrest_password
