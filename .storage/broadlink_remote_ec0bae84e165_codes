@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "broadlink_remote_ec0bae84e165_codes",
+  "data": {
+    "fan": {
+      "oscillate": "JgBIAEUcGDMXGxgaGDMXGxgZGBoYNBgaGDMXGxgzFxsXGhgyFwAMa0cbFzQXGxgaGDMWGxgaGBkYNBgbGDMYGhgyFxsYGhgyFwANBQ==",
+      "speed_up": "JgBIAEYbGDMYGhgaGDMYGhgZGBoYHBczGBoYMxgaGDMXMxcaFwAMZEYcFzMYGxcbFzMYGxcaFxsXHBgzFxsXNBcbFzMYMhgaFwANBQ==",
+      "speed_down": "JgBIAEYcFzMYGhgbFzMYGhcbFxsWNRc0GDMXNBcyGDMYGhcaGAAMuUYcGDMXGxgaGDMXGxcaGBkYNRc0FzMYMxczFzQXGhcbFwANBQ==",
+      "timer_up": "JgBIAEUbFzUWHBcbFzMXGxcbFhsYGxgzFzQXMxgzGBoYGRgzFwAMUUcbGDMYGhgaGDMYGRgaGBoXHRY1FzMYMxczFxsXGxY0FwANBQ==",
+      "timer_down": "JgBIAEUcFzQXGxcbFzQXGxYbFxoYNRY0FxwXGxczFzMYMxYbFwAMTEUcFzMYGxcbFzMYGhcbFxoXNRc0FxsYGxczFzMYMhcbFwANBQ==",
+      "power": "JgBIAEcaGDQYGhgaGDMYGhgZGBsXHBccFxsYGhgaGBsXMhgaGAAMt0YcFzMYHBYcFzIYGxcbFxoXHRgaGBoYGxccFhsXMxgaFwANBQ=="
+    }
+  }
+}
