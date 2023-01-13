@@ -15,7 +15,7 @@
         "id": "b4ae71a44e814db78aae8374ae61d8a0"
       },
       {
-        "url": "/local/auto-entities.js",
+        "url": "/local/auto-entities.js?v=1.12.1",
         "type": "module",
         "id": "73d5d57d81284cb68a68409ee76b54cd"
       },
@@ -58,6 +58,11 @@
         "url": "/webrtc/webrtc-camera.js?v2.3.1",
         "type": "module",
         "id": "65484b9abad34010b267e1814cb5e19e"
+      },
+      {
+        "url": "/local/valetudo-map-card.js?v=2022.12.0",
+        "type": "module",
+        "id": "acb80e663f4543cf9cca5e991df07b3e"
       }
     ]
   }

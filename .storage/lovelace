@@ -29,7 +29,7 @@
                   "icon": "mdi:television-box"
                 },
                 {
-                  "entity": "vacuum.robot_vacuum"
+                  "entity": "vacuum.valetudo_robot_vacuum"
                 },
                 {
                   "entity": "sensor.garbage_pickup_sensor"
@@ -82,7 +82,7 @@
                     }
                   },
                   {
-                    "entity_id": "vacuum.robot_vacuum",
+                    "entity_id": "vacuum.valetudo_robot_vacuum",
                     "not": {
                       "state": "docked"
                     },
@@ -845,13 +845,6 @@
               "live": {
                 "draggable": false
               }
-            },
-            {
-              "show_state": false,
-              "show_name": false,
-              "camera_view": "auto",
-              "type": "picture-entity",
-              "entity": "camera.rockrobo_map"
             }
           ]
         },
@@ -939,6 +932,9 @@
                   },
                   {
                     "entity_id": "*_lock_*"
+                  },
+                  {
+                    "device": "Robot Vacuum"
                   }
                 ]
               },
@@ -948,6 +944,11 @@
               "view_layout": {
                 "position": "sidebar"
               }
+            },
+            {
+              "type": "custom:valetudo-map-card",
+              "vacuum": "valetudo_robot_vacuum",
+              "title": "Robot Vacuum"
             }
           ]
         },
@@ -996,15 +997,6 @@
             {
               "type": "media-control",
               "entity": "media_player.media_room_box"
-            },
-            {
-              "type": "custom:vacuum-card",
-              "entity": "vacuum.robot_vacuum",
-              "image": "default",
-              "compact_view": false,
-              "show_name": false,
-              "show_status": true,
-              "show_toolbar": true
             },
             {
               "type": "custom:auto-entities",
