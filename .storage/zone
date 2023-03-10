@@ -3,6 +3,25 @@
   "minor_version": 1,
   "key": "zone",
   "data": {
-    "items": []
+    "items": [
+      {
+        "latitude": 47.52248995396472,
+        "longitude": -122.36731052398683,
+        "name": "Westwood Village",
+        "icon": "mdi:map-marker",
+        "passive": false,
+        "radius": 236.0,
+        "id": "westwood_village"
+      },
+      {
+        "latitude": 47.51271890395919,
+        "longitude": -122.35547661781312,
+        "name": "206 South",
+        "icon": "mdi:map-marker",
+        "passive": false,
+        "radius": 50.0,
+        "id": "206_south"
+      }
+    ]
   }
 }

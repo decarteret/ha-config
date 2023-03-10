@@ -10,14 +10,19 @@ sensor:
 
   - name: HVAC Status Sensor
     unique_id: hvacstatussensor
-    state: "{{ state_attr( 'climate.thermostat', 'hvac_action' ) + ( ' (with aux)' if state_attr( 'climate.thermostat', 'aux_heat' ) == 'on' else '' ) }}"
+    state: >
+      {% if state_attr( 'climate.thermostat', 'hvac_action' ) %}
+        {{ state_attr( 'climate.thermostat', 'hvac_action' ) + ( ' (with aux)' if state_attr( 'climate.thermostat', 'aux_heat' ) == 'on' else '' ) }}
+      {% else %}
+        Unavailable
+      {% endif %}
     icon: "mdi:thermostat"
 
   - name: Garbage Pickup Sensor
     unique_id: garbagepickupsummary
     state: >
       {% set now = now().isocalendar() %}
-      {{ iif( iif( now[2]>2, (now[1]+1)%2, now[1]%2 ), 'No recycling', 'Recycling') + ' ' + ('tomorrow' if now[2]==1 else 'today' if now[2]==2 else 'next Tuesday') }}
+      {{ iif( iif( now[2]>2, (now[1]+1)%2, now[1]%2 ), 'No recycling', 'Recycling') + ' ' + ( 'tomorrow' if now[2]==1 else 'today' if now[2]==2 else 'next Tuesday' ) }}
     icon: >
       {% set now = now().isocalendar() %}
       {{ iif( iif( now[2]>2, (now[1]+1)%2, now[1]%2 ), 'mdi:delete', 'mdi:recycle' ) }}
@@ -30,6 +35,10 @@ binary_sensor:
   - name: Basement Hallway Hybrid Sensor
     unique_id: basementhallwayhybridsensor
     state: "{{ is_state( 'binary_sensor.basement_hallway_sensor_motion', 'on' ) or is_state( 'binary_sensor.basement_stair_sensor_motion', 'on' ) }}"
+
+  - name: Laundry Hybrid Sensor
+    unique_id: laundryhybridsensor
+    state: "{{ is_state( 'binary_sensor.garage_entry_door', 'on' ) or is_state( 'binary_sensor.laundry_sensor_motion', 'on' ) }}"
 
   - name: Entryway Motion
     unique_id: entrywaymotion

@@ -6,7 +6,8 @@
     "items": [
       {
         "device_trackers": [
-          "device_tracker.pixel_7"
+          "device_tracker.pixel_7",
+          "device_tracker.jason_s8"
         ],
         "id": "649f799485a34b3ab008cdc6fe4973e4",
         "name": "Jason",

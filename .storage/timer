@@ -87,6 +87,18 @@
         "name": "Basement Light Timer",
         "duration": "0:00:00",
         "restore": false
+      },
+      {
+        "id": "main_stair_accent_timer",
+        "name": "Main Stair Accent Timer",
+        "duration": "0:00:00",
+        "restore": false
+      },
+      {
+        "id": "basement_stair_accent_timer",
+        "name": "Basement Stair Accent Timer",
+        "duration": "0:00:00",
+        "restore": false
       }
     ]
   }

@@ -110,7 +110,7 @@
     - conditions:
       - condition: template
         value_template: '{{ trigger.event.data.property_key == "004" and trigger.event.data.value
-          == "KeyPressed2x" }}'
+          == "KeyPressed" }}'
       sequence:
       - service: switch.toggle
         data: {}
@@ -159,28 +159,27 @@
     - binary_sensor.laundry_sensor_motion
   condition:
   - condition: template
-    value_template: '{% set is_playing = is_state( ''media_player.media_room_box'',
-      ''playing'' ) %}
+    value_template: '{% set is_motion = is_state( ''binary_sensor.laundry_sensor_motion'',
+      ''on'' ) %}
 
-      {% set is_motion = is_state( ''binary_sensor.laundry_sensor_motion'', ''on''
-      ) %}
+      {% set is_door = is_state( ''binary_sensor.garage_entry_door'', ''on'' ) %}
 
-      {{ not (is_playing and is_motion) }}'
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: light.laundry_light
-      state: 'on'
-    - condition: numeric_state
-      entity_id: sensor.laundry_sensor_illuminance
-      below: 75
-    enabled: false
+      {% set is_playing = is_state( ''media_player.media_room_box'', ''playing'' )
+      %}
+
+      {% set is_bright = states( ''sensor.laundry_sensor_illuminance'' )|int(0) >=
+      50 %}
+
+      {{ not (is_motion and (is_playing or is_bright)) and not (is_door and is_bright)
+      }}'
   action:
   - service: script.light_timer
     data:
       light_entity_id: light.laundry_light
       on_when: always
-      sensor_entity_id: binary_sensor.laundry_sensor_motion
+      sensor_entity_id: binary_sensor.laundry_hybrid_sensor
+      duration: 60
+      brightness_pct: 25
   mode: single
 - id: timer_garage_light
   alias: Timer - Garage Light
@@ -282,6 +281,12 @@
       light_entity_id: light.main_stair_light
       on_when: never
       sensor_entity_id: binary_sensor.entryway_motion
+  - service: script.light_timer
+    data:
+      duration: 300
+      on_when: never
+      light_entity_id: light.main_stair_accent
+      sensor_entity_id: binary_sensor.entryway_motion
   mode: restart
 - id: generic_light_timer_idle
   alias: Generic Light Timer idle
@@ -315,14 +320,14 @@
     from: 'on'
     to: 'off'
   condition:
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: light.upstairs_bathroom_light
-      state: 'on'
-    - condition: numeric_state
-      entity_id: sensor.upstairs_bathroom_sensor_illuminance
-      below: 75
+  - condition: template
+    value_template: '{% set is_motion = is_state(''binary_sensor.upstairs_bathroom_hybrid_sensor'',
+      ''on'') %}
+
+      {% set is_bright = states( ''sensor.upstairs_bathroom_sensor_illuminance'' )|int(0)
+      >= 60 %}
+
+      {{ not(is_motion and is_bright) }}'
   action:
   - service: script.light_timer
     data:
@@ -330,6 +335,7 @@
       sensor_entity_id: binary_sensor.upstairs_bathroom_hybrid_sensor
       brightness_pct: 50
       on_when: always
+      duration: 60
   mode: single
 - id: media_room_box_changed
   alias: Media Room Box changed
@@ -388,7 +394,7 @@
   - if:
     - condition: template
       value_template: '{% set bathroom = states("sensor.upstairs_bathroom_sensor_humidity")|float(0)
-        %} {% set main = states("sensor.thermostat_humidity")|float(0) %} {{ bathroom
+        %} {% set main = states("sensor.thermostat_humidity")|float(40) %} {{ bathroom
         >  main + 7.5 }}'
     then:
     - service: fan.turn_on
@@ -415,9 +421,20 @@
       light_entity_id: light.basement_stair_light
       on_when: always
       sensor_entity_id: binary_sensor.basement_hallway_hybrid_sensor
+      duration: 60
+      brightness_pct: 25
   - service: script.light_timer
     data:
       light_entity_id: light.basement_hallway_light
+      sensor_entity_id: binary_sensor.basement_hallway_hybrid_sensor
+      duration: 60
+      brightness_pct: 25
+      on_when: dark
+  - service: script.light_timer
+    data:
+      duration: 300
+      on_when: never
+      light_entity_id: light.basement_stair_accent
       sensor_entity_id: binary_sensor.basement_hallway_hybrid_sensor
   mode: single
 - id: timer_kitchen_pantry_light
@@ -531,21 +548,48 @@
       - service: automation.turn_on
         data: {}
         target:
-          entity_id: automation.timer_basement_light
+          entity_id:
+          - automation.timer_basement_light
+          - automation.timer_basement_hallway_light
+      - service: light.turn_on
+        data: {}
+        target:
+          entity_id:
+          - light.basement_light
+          - light.basement_hallway_light
+          - light.basement_stair_light
+      - service: timer.start
+        data:
+          duration: 0
+        target:
+          entity_id:
+          - timer.basement_light_timer
+          - timer.basement_hallway_light_timer
     - conditions:
       - condition: template
         value_template: '{{ trigger.event.data.property_key == "002" and trigger.event.data.value
           == "KeyPressed3x" }}'
       sequence:
       - service: automation.turn_off
+        data:
+          stop_actions: true
+        target:
+          entity_id:
+          - automation.timer_basement_light
+          - automation.timer_basement_hallway_light
+      - service: light.turn_off
         data: {}
         target:
-          entity_id: automation.timer_basement_light
+          entity_id:
+          - light.basement_light
+          - light.basement_hallway_light
+          - light.basement_stair_light
       - service: timer.cancel
         data: {}
         target:
           entity_id:
           - timer.basement_light_timer
+          - timer.basement_hallway_light_timer
   mode: single
 - id: tag_main_door
   alias: Tag - Main Door
@@ -661,4 +705,35 @@
       - service: switch.turn_off
         target:
           entity_id: switch.office_desk_light
+  mode: single
+- id: '1675194600522'
+  alias: Notification - Litter Robot
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.litter_robot_status_code
+  condition:
+  - condition: template
+    value_template: '{{ states( "sensor.litter_robot_status_code" ) not in ["rdy","ccc","ccp","cst",
+      "offline"] }}'
+  action:
+  - service: notify.devices
+    data:
+      message: '{{ state_attr(''vacuum.litter_robot_litter_box'', ''status'') }}'
+      title: Litter Robot
+  mode: single
+- id: '1676141905184'
+  alias: Thermostat is unavailable
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - climate.thermostat
+    to: unavailable
+  condition: []
+  action:
+  - service: notify.mobile_app_pixel_7
+    data:
+      message: Thermostat is unavailable.
   mode: single

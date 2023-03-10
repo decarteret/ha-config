@@ -32,6 +32,11 @@
                   "entity": "vacuum.valetudo_robot_vacuum"
                 },
                 {
+                  "entity": "sensor.litter_robot_status_code",
+                  "name": "Litter Robot",
+                  "icon": "mdi:cat"
+                },
+                {
                   "entity": "sensor.garbage_pickup_sensor"
                 }
               ],
@@ -739,6 +744,25 @@
                     "entity_id": "media_player.*_cast"
                   }
                 ]
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities",
+                "title": "Battery Levels"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "entity_id": "sensor.*_battery_level"
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "state",
+                "numeric": true
               }
             }
           ]
@@ -1845,11 +1869,31 @@
                 "exclude": [
                   {
                     "entity_id": "/(node_status|battery|tamper)/"
+                  },
+                  {
+                    "device": "Litter Robot"
                   }
                 ]
               },
               "sort": {
                 "method": "domain"
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "device": "Stinky"
+                  }
+                ],
+                "exclude": []
               },
               "view_layout": {
                 "position": "sidebar"
