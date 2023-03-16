@@ -167,8 +167,10 @@
       {% set is_playing = is_state( ''media_player.media_room_box'', ''playing'' )
       %}
 
-      {% set is_bright = states( ''sensor.laundry_sensor_illuminance'' )|int(0) >=
-      50 %}
+      {% set is_light = is_state( ''light.laundry_light'', ''on'' ) %}
+
+      {% set is_bright = (states( ''sensor.laundry_sensor_illuminance'' )|int(0) >=
+      50) and not is_light %}
 
       {{ not (is_motion and (is_playing or is_bright)) and not (is_door and is_bright)
       }}'
@@ -324,8 +326,10 @@
     value_template: '{% set is_motion = is_state(''binary_sensor.upstairs_bathroom_hybrid_sensor'',
       ''on'') %}
 
-      {% set is_bright = states( ''sensor.upstairs_bathroom_sensor_illuminance'' )|int(0)
-      >= 60 %}
+      {% set is_light = is_state( ''light.upstairs_bathroom_light'', ''on'' ) %}
+
+      {% set is_bright = (states( ''sensor.upstairs_bathroom_sensor_illuminance''
+      )|int(0) >= 60) and not is_light %}
 
       {{ not(is_motion and is_bright) }}'
   action:

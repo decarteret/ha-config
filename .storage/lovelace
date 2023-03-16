@@ -793,7 +793,7 @@
               "filter": {
                 "include": [
                   {
-                    "device": "Pixel 7"
+                    "device": "Jason Pixel 7"
                   }
                 ],
                 "exclude": []
