@@ -737,7 +737,7 @@
     to: unavailable
   condition: []
   action:
-  - service: notify.mobile_app_pixel_7
+  - service: notify.mobile_app_jason_pixel_7
     data:
       message: Thermostat is unavailable.
   mode: single

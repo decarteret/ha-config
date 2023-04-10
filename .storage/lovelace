@@ -807,6 +807,20 @@
               "filter": {
                 "include": [
                   {
+                    "device": "Jason S8"
+                  }
+                ],
+                "exclude": []
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
                     "device": "iPhone 13"
                   }
                 ],
@@ -821,6 +835,10 @@
           "path": "cameras",
           "badges": [],
           "cards": [
+            {
+              "type": "custom:webrtc-camera",
+              "entity": "camera.amcrest_camera"
+            },
             {
               "type": "custom:frigate-card",
               "cameras": [
