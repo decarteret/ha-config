@@ -24,6 +24,13 @@
         "content_type": "image/jpeg",
         "name": "jason.jpg",
         "uploaded_at": "2022-08-31T22:19:57.826818+00:00"
+      },
+      {
+        "id": "abe0443cf5089690d4bb83eb6ff81ab0",
+        "filesize": 1627769,
+        "content_type": "image/png",
+        "name": "christina.png",
+        "uploaded_at": "2023-07-11T05:20:51.327333+00:00"
       }
     ]
   }

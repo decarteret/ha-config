@@ -133,19 +133,24 @@ light_timer:
     - service: timer.pause
       data:
         entity_id: '{{ timer_entity_id }}'
-test:
-  alias: Test
-  mode: single
-  fields:
-    entities:
-      name: Entities
-      required: true
-      selector:
-        entity:
-          domain: light
-          multiple: true
+add_time_network_devices_timer:
+  alias: Add Time Network Devices Timer
   sequence:
-  - service: light.turn_on
-    data: {}
-    target:
-      entity_id: '{{ entities }}'
+  - if:
+    - condition: state
+      entity_id: timer.network_devices_timer
+      state: active
+    then:
+    - service: timer.start
+      data_template:
+        entity_id: timer.network_devices_timer
+        duration: '{% set f = state_attr(''timer.network_devices_timer'', ''finishes_at'')
+          %} {% set x = (as_datetime(f) - now()).total_seconds() + (30*60) %}  {{
+          x  | timestamp_custom(''%H:%M:%S'', false)}}'
+    else:
+    - service: timer.start
+      data:
+        duration: 00:30:00
+      target:
+        entity_id: timer.network_devices_timer
+  mode: single

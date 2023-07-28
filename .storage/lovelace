@@ -61,7 +61,10 @@
                     }
                   },
                   {
-                    "entity_id": "binary_sensor.*_door"
+                    "entity_id": "binary_sensor.*_door",
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
                   },
                   {
                     "entity_id": "cover.garage_door",
@@ -507,6 +510,9 @@
                 },
                 {
                   "entity": "media_player.outside_speakers"
+                },
+                {
+                  "entity": "media_player.family_room_bar"
                 }
               ],
               "title": "House Speakers",
@@ -514,13 +520,6 @@
               "show_header_toggle": true,
               "view_layout": {
                 "position": "main"
-              }
-            },
-            {
-              "type": "media-control",
-              "entity": "media_player.family_room_bar",
-              "view_layout": {
-                "position": "sidebar"
               }
             },
             {
@@ -535,6 +534,84 @@
               "type": "media-control",
               "view_layout": {
                 "position": "sidebar"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "icon": "mdi:timer-plus-outline",
+              "size": "40px",
+              "show_state": true,
+              "entity": "timer.network_devices_timer",
+              "layout": "icon_name_state2nd",
+              "tap_action": {
+                "action": "call-service",
+                "service": "script.add_time_network_devices_timer"
+              },
+              "double_tap_action": {
+                "action": "more-info",
+                "entity": "timer.network_devices_timer"
+              }
+            },
+            {
+              "type": "custom:mini-media-player",
+              "entity": "media_player.basement_box",
+              "artwork": "full-cover",
+              "hide": {
+                "name": true,
+                "icon": true,
+                "info": true,
+                "power": true,
+                "source": true,
+                "sound_mode": true,
+                "controls": true,
+                "prev": true,
+                "next": true,
+                "play_pause": true,
+                "play_stop": true,
+                "jump": true,
+                "volume": true,
+                "volume_level": true,
+                "mute": true,
+                "progress": true,
+                "runtime": true,
+                "runtime_remaining": true,
+                "artwork_border": true,
+                "power_state": true,
+                "icon_state": true,
+                "shuffle": true,
+                "repeat": true,
+                "state_label": true
+              }
+            },
+            {
+              "type": "custom:mini-media-player",
+              "entity": "media_player.media_room_box",
+              "artwork": "full-cover",
+              "hide": {
+                "name": true,
+                "icon": true,
+                "info": true,
+                "power": true,
+                "source": true,
+                "sound_mode": true,
+                "controls": true,
+                "prev": true,
+                "next": true,
+                "play_pause": true,
+                "play_stop": true,
+                "jump": true,
+                "volume": true,
+                "volume_level": true,
+                "mute": true,
+                "progress": true,
+                "runtime": true,
+                "runtime_remaining": true,
+                "artwork_border": true,
+                "power_state": true,
+                "icon_state": true,
+                "shuffle": true,
+                "repeat": true,
+                "state_label": true
               }
             }
           ]
@@ -886,6 +963,9 @@
               },
               "live": {
                 "draggable": false
+              },
+              "dimensions": {
+                "aspect_ratio_mode": "static"
               }
             }
           ]

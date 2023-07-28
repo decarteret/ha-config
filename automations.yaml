@@ -398,8 +398,11 @@
   - if:
     - condition: template
       value_template: '{% set bathroom = states("sensor.upstairs_bathroom_sensor_humidity")|float(0)
-        %} {% set main = states("sensor.thermostat_humidity")|float(40) %} {{ bathroom
-        >  main + 7.5 }}'
+        %}
+
+        {% set main = states("sensor.thermostat_humidity")|float(100) %}
+
+        {{ bathroom > main + 7.5 }}'
     then:
     - service: fan.turn_on
       data: {}
@@ -740,4 +743,18 @@
   - service: notify.mobile_app_jason_pixel_7
     data:
       message: Thermostat is unavailable.
+  mode: single
+- id: '1690435780267'
+  alias: Timer - Network Devices Off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - timer.network_devices_timer
+    to: idle
+    from: active
+  condition: []
+  action:
+  - service: rest_command.badkids_devices_off
+    data: {}
   mode: single
