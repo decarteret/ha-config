@@ -67,6 +67,12 @@
                     }
                   },
                   {
+                    "entity_id": "binary_sensor.*_gate",
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
+                  },
+                  {
                     "entity_id": "cover.garage_door",
                     "state": "open",
                     "options": {
@@ -93,6 +99,15 @@
                     "entity_id": "vacuum.valetudo_robot_vacuum",
                     "not": {
                       "state": "docked"
+                    },
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
+                  },
+                  {
+                    "entity_id": "binary_sensor.outside_main_gate_sensor",
+                    "not": {
+                      "state": "open"
                     },
                     "options": {
                       "secondary_info": "last-changed"
@@ -242,15 +257,15 @@
                   "name": "Main"
                 },
                 {
-                  "entity": "sensor.laundry_sensor_temperature",
+                  "entity": "sensor.laundry_temperature",
                   "name": "Laundry"
                 },
                 {
-                  "entity": "sensor.basement_hallway_sensor_temperature",
+                  "entity": "sensor.basement_hallway_temperature",
                   "name": "Basement"
                 },
                 {
-                  "entity": "sensor.outdoor_temperature_sensor",
+                  "entity": "sensor.outdoor_temperature",
                   "name": "Outdoor"
                 }
               ],
@@ -274,7 +289,7 @@
               "layout": "minimal",
               "series": [
                 {
-                  "entity": "sensor.upstairs_bathroom_sensor_humidity",
+                  "entity": "sensor.upstairs_bathroom_humidity",
                   "name": "Upstairs Bathroom"
                 },
                 {
@@ -282,11 +297,11 @@
                   "name": "Main"
                 },
                 {
-                  "entity": "sensor.laundry_sensor_humidity",
+                  "entity": "sensor.laundry_humidity",
                   "name": "Laundry"
                 },
                 {
-                  "entity": "sensor.basement_hallway_sensor_humidity",
+                  "entity": "sensor.basement_hallway_humidity",
                   "name": "Basement"
                 }
               ],
@@ -300,9 +315,12 @@
           "theme": "Backend-selected",
           "title": "Areas",
           "path": "areas",
+          "badges": [],
           "cards": [
             {
-              "type": "vertical-stack",
+              "type": "grid",
+              "square": false,
+              "columns": 1,
               "cards": [
                 {
                   "show_name": true,
@@ -430,6 +448,19 @@
                     "navigation_path": "/lovelace/area-upstairs"
                   },
                   "name": "Upstairs",
+                  "hold_action": {
+                    "action": "none"
+                  }
+                },
+                {
+                  "show_name": true,
+                  "show_icon": false,
+                  "type": "button",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/area-main-bathroom"
+                  },
+                  "name": "Main Bathroom",
                   "hold_action": {
                     "action": "none"
                   }
@@ -632,13 +663,25 @@
               "filter": {
                 "include": [
                   {
-                    "entity_id": "binary_sensor.*motion",
+                    "entity_id": "binary_sensor.*gate",
                     "options": {
                       "secondary_info": "last-changed"
                     }
                   },
                   {
                     "entity_id": "binary_sensor.*door",
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
+                  },
+                  {
+                    "entity_id": "binary_sensor.*motion",
+                    "options": {
+                      "secondary_info": "last-changed"
+                    }
+                  },
+                  {
+                    "entity_id": "binary_sensor.*occupancy",
                     "options": {
                       "secondary_info": "last-changed"
                     }
@@ -980,44 +1023,30 @@
             {
               "type": "custom:auto-entities",
               "card": {
-                "type": "entities"
+                "type": "grid",
+                "columns": 1,
+                "square": false
               },
+              "card_param": "cards",
+              "unique": "entity",
               "filter": {
                 "include": [
                   {
                     "area": "Main",
-                    "domain": "/(light|fan)/",
+                    "domain": "/(light|fan|lock)/",
                     "options": {
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "more-info"
-                      },
-                      "tap_action": {
-                        "action": "toggle"
-                      }
-                    }
-                  },
-                  {
-                    "area": "Main",
-                    "domain": "lock",
-                    "options": {
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "toggle"
-                      },
-                      "tap_action": {
-                        "action": "more-info"
-                      }
+                      "type": "tile",
+                      "features": [
+                        {
+                          "type": "light-brightness"
+                        }
+                      ]
                     }
                   }
-                ],
-                "exclude": []
+                ]
               },
               "sort": {
-                "method": "domain",
-                "reverse": false
+                "method": "name"
               }
             },
             {
@@ -1084,22 +1113,24 @@
             {
               "type": "custom:auto-entities",
               "card": {
-                "type": "entities"
+                "type": "grid",
+                "columns": 1,
+                "square": false
               },
+              "card_param": "cards",
+              "unique": "entity",
               "filter": {
                 "include": [
                   {
                     "area": "Media Room",
                     "domain": "/(light|fan|media_player|remote)/",
                     "options": {
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "more-info"
-                      },
-                      "tap_action": {
-                        "action": "toggle"
-                      }
+                      "type": "tile",
+                      "features": [
+                        {
+                          "type": "light-brightness"
+                        }
+                      ]
                     }
                   }
                 ],
@@ -1157,26 +1188,34 @@
             {
               "type": "custom:auto-entities",
               "card": {
-                "type": "entities"
+                "type": "grid",
+                "columns": 1,
+                "square": false
               },
+              "card_param": "cards",
+              "unique": "entity",
               "filter": {
                 "include": [
                   {
                     "area": "Outside",
                     "domain": "/(light|fan|media_player)/",
                     "options": {
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "more-info"
-                      },
-                      "tap_action": {
-                        "action": "toggle"
-                      }
+                      "type": "tile",
+                      "features": [
+                        {
+                          "type": "light-brightness"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "/Irrigation/",
+                    "domain": "switch",
+                    "options": {
+                      "type": "tile"
                     }
                   }
-                ],
-                "exclude": []
+                ]
               },
               "sort": {
                 "method": "domain"
@@ -1202,7 +1241,7 @@
                 ],
                 "exclude": [
                   {
-                    "entity_id": "*node_status"
+                    "entity_id": "*node_status*"
                   },
                   {
                     "entity_id": "*main_accent_*"
@@ -1229,23 +1268,27 @@
             {
               "type": "custom:auto-entities",
               "card": {
-                "type": "entities"
+                "type": "grid",
+                "columns": 1,
+                "square": false
               },
+              "card_param": "cards",
+              "unique": "entity",
               "filter": {
                 "include": [
                   {
                     "area": "Kitchen",
                     "domain": "/(light|fan|climate|lock|media_player|vacuum)/",
                     "options": {
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "more-info"
-                      }
+                      "type": "tile",
+                      "features": [
+                        {
+                          "type": "light-brightness"
+                        }
+                      ]
                     }
                   }
-                ],
-                "exclude": []
+                ]
               },
               "sort": {
                 "method": "domain"
@@ -1291,22 +1334,24 @@
             {
               "type": "custom:auto-entities",
               "card": {
-                "type": "entities"
+                "type": "grid",
+                "columns": 1,
+                "square": false
               },
+              "card_param": "cards",
+              "unique": "entity",
               "filter": {
                 "include": [
                   {
                     "area": "Family Room",
                     "domain": "/(light|fan|climate|lock|media_player|vacuum)/",
                     "options": {
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "more-info"
-                      },
-                      "tap_action": {
-                        "action": "toggle"
-                      }
+                      "type": "tile",
+                      "features": [
+                        {
+                          "type": "light-brightness"
+                        }
+                      ]
                     }
                   }
                 ],
@@ -1369,26 +1414,27 @@
             {
               "type": "custom:auto-entities",
               "card": {
-                "type": "entities"
+                "type": "grid",
+                "columns": 1,
+                "square": false
               },
+              "card_param": "cards",
+              "unique": "entity",
               "filter": {
                 "include": [
                   {
-                    "area": "/(Primary Bedroom)/",
+                    "area": "Primary Bedroom",
                     "domain": "/(light|climate|lock|media_player|vacuum|fan)/",
                     "options": {
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "more-info"
-                      },
-                      "tap_action": {
-                        "action": "toggle"
-                      }
+                      "type": "tile",
+                      "features": [
+                        {
+                          "type": "light-brightness"
+                        }
+                      ]
                     }
                   }
-                ],
-                "exclude": []
+                ]
               },
               "sort": {
                 "method": "domain"
@@ -1458,29 +1504,30 @@
             {
               "type": "custom:auto-entities",
               "card": {
-                "type": "entities"
+                "type": "grid",
+                "columns": 1,
+                "square": false
               },
+              "card_param": "cards",
+              "unique": "entity",
               "filter": {
                 "include": [
                   {
-                    "area": "/(Primary Bathroom)/",
+                    "area": "Primary Bathroom",
                     "domain": "/(light|climate|lock|media_player|vacuum|fan)/",
                     "options": {
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "more-info"
-                      },
-                      "tap_action": {
-                        "action": "toggle"
-                      }
+                      "type": "tile",
+                      "features": [
+                        {
+                          "type": "light-brightness"
+                        }
+                      ]
                     }
                   }
-                ],
-                "exclude": []
+                ]
               },
               "sort": {
-                "method": "domain"
+                "method": "name"
               }
             },
             {
@@ -1520,26 +1567,27 @@
             {
               "type": "custom:auto-entities",
               "card": {
-                "type": "entities"
+                "type": "grid",
+                "columns": 1,
+                "square": false
               },
+              "card_param": "cards",
+              "unique": "entity",
               "filter": {
                 "include": [
                   {
                     "area": "Upstairs",
                     "domain": "/(light|climate|lock|media_player|vacuum|fan)/",
                     "options": {
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "more-info"
-                      },
-                      "tap_action": {
-                        "action": "toggle"
-                      }
+                      "type": "tile",
+                      "features": [
+                        {
+                          "type": "light-brightness"
+                        }
+                      ]
                     }
                   }
-                ],
-                "exclude": []
+                ]
               },
               "sort": {
                 "method": "domain"
@@ -1572,6 +1620,12 @@
               "view_layout": {
                 "position": "sidebar"
               }
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "switch.siren"
+              ]
             }
           ]
         },
@@ -1586,26 +1640,27 @@
             {
               "type": "custom:auto-entities",
               "card": {
-                "type": "entities"
+                "type": "grid",
+                "columns": 1,
+                "square": false
               },
+              "card_param": "cards",
+              "unique": "entity",
               "filter": {
                 "include": [
                   {
                     "area": "Laundry",
                     "domain": "/(light|climate|lock|media_player|vacuum|fan)/",
                     "options": {
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "more-info"
-                      },
-                      "tap_action": {
-                        "action": "toggle"
-                      }
+                      "type": "tile",
+                      "features": [
+                        {
+                          "type": "light-brightness"
+                        }
+                      ]
                     }
                   }
-                ],
-                "exclude": []
+                ]
               },
               "sort": {
                 "method": "domain"
@@ -1649,44 +1704,40 @@
             {
               "type": "custom:auto-entities",
               "card": {
-                "type": "entities"
+                "type": "grid",
+                "columns": 1,
+                "square": false
               },
+              "card_param": "cards",
+              "unique": "entity",
               "filter": {
                 "include": [
                   {
                     "area": "Garage",
                     "domain": "/(light|media_player|fan)/",
                     "options": {
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "more-info"
-                      },
-                      "tap_action": {
-                        "action": "toggle"
-                      }
-                    }
-                  },
-                  {
-                    "area": "Garage",
-                    "domain": "cover",
-                    "options": {
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "toggle"
-                      },
-                      "tap_action": {
-                        "action": "more-info"
-                      }
+                      "type": "tile",
+                      "features": [
+                        {
+                          "type": "light-brightness"
+                        }
+                      ]
                     }
                   }
-                ],
-                "exclude": []
+                ]
               },
               "sort": {
                 "method": "domain"
               }
+            },
+            {
+              "type": "tile",
+              "entity": "cover.garage_door",
+              "features": [
+                {
+                  "type": "cover-open-close"
+                }
+              ]
             },
             {
               "type": "custom:auto-entities",
@@ -1726,29 +1777,30 @@
             {
               "type": "custom:auto-entities",
               "card": {
-                "type": "entities"
+                "type": "grid",
+                "columns": 1,
+                "square": false
               },
+              "card_param": "cards",
+              "unique": "entity",
               "filter": {
                 "include": [
                   {
                     "area": "Upstairs Bathroom",
                     "domain": "/(light|media_player|fan)/",
                     "options": {
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "more-info"
-                      },
-                      "tap_action": {
-                        "action": "toggle"
-                      }
+                      "type": "tile",
+                      "features": [
+                        {
+                          "type": "light-brightness"
+                        }
+                      ]
                     }
                   }
-                ],
-                "exclude": []
+                ]
               },
               "sort": {
-                "method": "domain"
+                "method": "name"
               }
             },
             {
@@ -1789,26 +1841,27 @@
             {
               "type": "custom:auto-entities",
               "card": {
-                "type": "entities"
+                "type": "grid",
+                "columns": 1,
+                "square": false
               },
+              "card_param": "cards",
+              "unique": "entity",
               "filter": {
                 "include": [
                   {
                     "area": "Olive Bedroom",
                     "domain": "/(light|media_player|fan)/",
                     "options": {
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "more-info"
-                      },
-                      "tap_action": {
-                        "action": "toggle"
-                      }
+                      "type": "tile",
+                      "features": [
+                        {
+                          "type": "light-brightness"
+                        }
+                      ]
                     }
                   }
-                ],
-                "exclude": []
+                ]
               },
               "sort": {
                 "method": "domain"
@@ -1852,26 +1905,27 @@
             {
               "type": "custom:auto-entities",
               "card": {
-                "type": "entities"
+                "type": "grid",
+                "columns": 1,
+                "square": false
               },
+              "card_param": "cards",
+              "unique": "entity",
               "filter": {
                 "include": [
                   {
                     "area": "Lincoln Bedroom",
                     "domain": "/(light|media_player|fan)/",
                     "options": {
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "more-info"
-                      },
-                      "tap_action": {
-                        "action": "toggle"
-                      }
+                      "type": "tile",
+                      "features": [
+                        {
+                          "type": "light-brightness"
+                        }
+                      ]
                     }
                   }
-                ],
-                "exclude": []
+                ]
               },
               "sort": {
                 "method": "domain"
@@ -1923,29 +1977,30 @@
             {
               "type": "custom:auto-entities",
               "card": {
-                "type": "entities"
+                "type": "grid",
+                "columns": 1,
+                "square": false
               },
+              "card_param": "cards",
+              "unique": "entity",
               "filter": {
                 "include": [
                   {
                     "area": "Basement",
-                    "domain": "/(light|fan)/",
+                    "domain": "/(light|media_player|fan)/",
                     "options": {
-                      "type": "custom:button-card",
-                      "size": "10%",
-                      "double_tap_action": {
-                        "action": "more-info"
-                      },
-                      "tap_action": {
-                        "action": "toggle"
-                      }
+                      "type": "tile",
+                      "features": [
+                        {
+                          "type": "light-brightness"
+                        }
+                      ]
                     }
                   }
-                ],
-                "exclude": []
+                ]
               },
               "sort": {
-                "method": "domain"
+                "method": "name"
               }
             },
             {
@@ -1992,6 +2047,69 @@
                   }
                 ],
                 "exclude": []
+              },
+              "view_layout": {
+                "position": "sidebar"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Area - Main Bathroom",
+          "path": "area-main-bathroom",
+          "type": "sidebar",
+          "subview": true,
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "grid",
+                "columns": 1,
+                "square": false
+              },
+              "card_param": "cards",
+              "unique": "entity",
+              "filter": {
+                "include": [
+                  {
+                    "area": "Main Bathroom",
+                    "domain": "/(light|fan)/",
+                    "options": {
+                      "type": "tile",
+                      "features": [
+                        {
+                          "type": "light-brightness"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "sort": {
+                "method": "name"
+              }
+            },
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "area": "Main Bathroom",
+                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "*node_status"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "domain"
               },
               "view_layout": {
                 "position": "sidebar"

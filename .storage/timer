@@ -105,6 +105,30 @@
         "name": "Network Devices Timer",
         "restore": false,
         "duration": "0:45:00"
+      },
+      {
+        "id": "primary_bathroom_light_timer",
+        "name": "Primary Bathroom Light Timer",
+        "restore": false,
+        "duration": "0:00:00"
+      },
+      {
+        "id": "family_room_couch_light_timer",
+        "name": "Family Room Couch Light Timer",
+        "restore": false,
+        "duration": "0:00:00"
+      },
+      {
+        "id": "family_room_table_light_timer",
+        "name": "Family Room Table Light Timer",
+        "restore": false,
+        "duration": "0:00:00"
+      },
+      {
+        "id": "main_bathroom_light_timer",
+        "name": "Main Bathroom Light Timer",
+        "duration": "0:00:00",
+        "restore": false
       }
     ]
   }

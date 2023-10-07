@@ -99,7 +99,8 @@ light_timer:
     is_motion: '{{ is_state(sensor_entity_id, ''on'') }}'
     is_idle: '{{ is_state(timer_entity_id, ''idle'') }}'
     is_light_on: '{{ is_state(light_entity_id, ''on'') }}'
-    is_dark: '{{ states( ''sensor.estimated_illuminance'' )|int(8000) < 8000 }}'
+    is_dark: '{{ states( ''sensor.kitchen_presence_light_sensor_light_level'' )|int(9999)
+      < 55 }}'
     on_when: '{{ ''dark'' if on_when is undefined else on_when }}'
     is_allowed_on: '{{ (on_when == ''always'') or (on_when == ''dark'' and is_dark)
       }}'

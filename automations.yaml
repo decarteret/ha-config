@@ -154,12 +154,17 @@
   - platform: state
     entity_id:
     - binary_sensor.garage_entry_door
+    enabled: false
   - platform: state
     entity_id:
-    - binary_sensor.laundry_sensor_motion
+    - binary_sensor.laundry_motion
+    enabled: false
+  - platform: state
+    entity_id:
+    - binary_sensor.laundry_hybrid
   condition:
   - condition: template
-    value_template: '{% set is_motion = is_state( ''binary_sensor.laundry_sensor_motion'',
+    value_template: '{% set is_motion = is_state( ''binary_sensor.laundry_motion'',
       ''on'' ) %}
 
       {% set is_door = is_state( ''binary_sensor.garage_entry_door'', ''on'' ) %}
@@ -169,8 +174,8 @@
 
       {% set is_light = is_state( ''light.laundry_light'', ''on'' ) %}
 
-      {% set is_bright = (states( ''sensor.laundry_sensor_illuminance'' )|int(0) >=
-      50) and not is_light %}
+      {% set is_bright = (states( ''sensor.laundry_illuminance'' )|int(0) >= 50) and
+      not is_light %}
 
       {{ not (is_motion and (is_playing or is_bright)) and not (is_door and is_bright)
       }}'
@@ -179,7 +184,7 @@
     data:
       light_entity_id: light.laundry_light
       on_when: always
-      sensor_entity_id: binary_sensor.laundry_hybrid_sensor
+      sensor_entity_id: binary_sensor.laundry_hybrid
       duration: 60
       brightness_pct: 25
   mode: single
@@ -240,13 +245,13 @@
   trigger:
   - platform: state
     entity_id:
-    - binary_sensor.upstairs_hallway_sensor_motion
+    - binary_sensor.upstairs_hallway_motion
   condition: []
   action:
   - service: script.light_timer
     data:
       light_entity_id: light.upstairs_hallway_light
-      sensor_entity_id: binary_sensor.upstairs_hallway_sensor_motion
+      sensor_entity_id: binary_sensor.upstairs_hallway_motion
       brightness_pct: 15
   mode: single
 - id: timer_kitchen_light
@@ -261,12 +266,12 @@
   - service: script.light_timer
     data:
       light_entity_id: light.kitchen_light
-      sensor_entity_id: binary_sensor.kitchen_sensor_motion
+      sensor_entity_id: binary_sensor.kitchen_motion
       duration: 120
   - service: script.light_timer
     data:
       light_entity_id: light.kitchen_pantry_light
-      sensor_entity_id: binary_sensor.kitchen_sensor_motion
+      sensor_entity_id: binary_sensor.kitchen_motion
       on_when: never
   mode: single
 - id: timer_main_stair_light
@@ -289,6 +294,7 @@
       on_when: never
       light_entity_id: light.main_stair_accent
       sensor_entity_id: binary_sensor.entryway_motion
+    enabled: false
   mode: restart
 - id: generic_light_timer_idle
   alias: Generic Light Timer idle
@@ -298,7 +304,7 @@
     event_type: timer.finished
   condition:
   - condition: template
-    value_template: '{{ trigger.event.data.entity_id[-12:] == ''_light_timer'' }}'
+    value_template: '{{ trigger.event.data.entity_id[-6:] == ''_timer'' }}'
   action:
   - service: light.turn_off
     data:
@@ -313,22 +319,22 @@
   trigger:
   - platform: state
     entity_id:
-    - binary_sensor.upstairs_bathroom_hybrid_sensor
+    - binary_sensor.upstairs_bathroom_hybrid
     from: 'off'
     to: 'on'
   - platform: state
     entity_id:
-    - binary_sensor.upstairs_bathroom_hybrid_sensor
+    - binary_sensor.upstairs_bathroom_hybrid
     from: 'on'
     to: 'off'
   condition:
   - condition: template
-    value_template: '{% set is_motion = is_state(''binary_sensor.upstairs_bathroom_hybrid_sensor'',
+    value_template: '{% set is_motion = is_state(''binary_sensor.upstairs_bathroom_hybrid'',
       ''on'') %}
 
       {% set is_light = is_state( ''light.upstairs_bathroom_light'', ''on'' ) %}
 
-      {% set is_bright = (states( ''sensor.upstairs_bathroom_sensor_illuminance''
+      {% set is_bright = (states( ''sensor.upstairs_bathroom_illuminance''
       )|int(0) >= 60) and not is_light %}
 
       {{ not(is_motion and is_bright) }}'
@@ -336,10 +342,10 @@
   - service: script.light_timer
     data:
       light_entity_id: light.upstairs_bathroom_light
-      sensor_entity_id: binary_sensor.upstairs_bathroom_hybrid_sensor
-      brightness_pct: 50
+      sensor_entity_id: binary_sensor.upstairs_bathroom_hybrid
       on_when: always
       duration: 60
+      brightness_pct: 60
   mode: single
 - id: media_room_box_changed
   alias: Media Room Box changed
@@ -392,12 +398,12 @@
   trigger:
   - platform: state
     entity_id:
-    - sensor.upstairs_bathroom_sensor_humidity
+    - sensor.upstairs_bathroom_humidity
   condition: []
   action:
   - if:
     - condition: template
-      value_template: '{% set bathroom = states("sensor.upstairs_bathroom_sensor_humidity")|float(0)
+      value_template: '{% set bathroom = states("sensor.upstairs_bathroom_humidity")|float(0)
         %}
 
         {% set main = states("sensor.thermostat_humidity")|float(100) %}
@@ -420,29 +426,27 @@
   trigger:
   - platform: state
     entity_id:
-    - binary_sensor.basement_hallway_hybrid_sensor
+    - binary_sensor.basement_hallway_hybrid
   condition: []
   action:
   - service: script.light_timer
     data:
       light_entity_id: light.basement_stair_light
       on_when: always
-      sensor_entity_id: binary_sensor.basement_hallway_hybrid_sensor
+      sensor_entity_id: binary_sensor.basement_hallway_hybrid
       duration: 60
-      brightness_pct: 25
   - service: script.light_timer
     data:
       light_entity_id: light.basement_hallway_light
-      sensor_entity_id: binary_sensor.basement_hallway_hybrid_sensor
+      sensor_entity_id: binary_sensor.basement_hallway_hybrid
       duration: 60
-      brightness_pct: 25
       on_when: dark
   - service: script.light_timer
     data:
       duration: 300
       on_when: never
       light_entity_id: light.basement_stair_accent
-      sensor_entity_id: binary_sensor.basement_hallway_hybrid_sensor
+      sensor_entity_id: binary_sensor.basement_hallway_hybrid
   mode: single
 - id: timer_kitchen_pantry_light
   alias: Timer - Kitchen Pantry Light
@@ -456,7 +460,7 @@
   - service: script.light_timer
     data:
       light_entity_id: light.kitchen_pantry_light
-      sensor_entity_id: binary_sensor.kitchen_sensor_motion
+      sensor_entity_id: binary_sensor.kitchen_motion
       on_when: never
   mode: single
 - id: timer_basement_light
@@ -731,7 +735,7 @@
       title: Litter Robot
   mode: single
 - id: '1676141905184'
-  alias: Thermostat is unavailable
+  alias: Notification - Thermostat is unavailable
   description: ''
   trigger:
   - platform: state
@@ -757,4 +761,160 @@
   action:
   - service: rest_command.badkids_devices_off
     data: {}
+  mode: single
+- id: '1694194961905'
+  alias: Timer - Primary Bathroom Light
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.primary_bathroom_motion
+  condition: []
+  action:
+  - service: script.light_timer
+    data:
+      light_entity_id: light.primary_bathroom_light
+      sensor_entity_id: binary_sensor.primary_bathroom_motion
+      on_when: always
+  mode: single
+- id: '1694550375788'
+  alias: Test Living Room Occupancy
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.kitchen_presence_living_room_occupancy
+  condition: []
+  action:
+  - service: script.light_timer
+    data:
+      sensor_entity_id: binary_sensor.kitchen_presence_living_room_occupancy
+      light_entity_id: light.family_room_couch_light
+      brightness_pct: 5
+      duration: 20
+  mode: single
+- id: '1694552292334'
+  alias: Test Dining Room Occupancy
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.kitchen_presence_dining_room_occupancy
+  condition: []
+  action:
+  - service: script.light_timer
+    data:
+      sensor_entity_id: binary_sensor.kitchen_presence_dining_room_occupancy
+      light_entity_id: light.family_room_table_light
+      duration: 20
+  mode: single
+- id: '1694552315680'
+  alias: Test Kitchen Occupancy
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.kitchen_presence_kitchen_occupancy
+  condition: []
+  action:
+  - service: script.light_timer
+    data:
+      sensor_entity_id: binary_sensor.kitchen_presence_kitchen_occupancy
+      light_entity_id: light.kitchen_light
+      duration: 20
+  mode: single
+- id: '1694552341150'
+  alias: Test Kitchen Pantry Occupancy
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.kitchen_presence_kitchen_pantry_occupancy
+  condition: []
+  action:
+  - service: script.light_timer
+    data:
+      sensor_entity_id: binary_sensor.kitchen_presence_kitchen_pantry_occupancy
+      light_entity_id: light.kitchen_pantry_light
+      duration: 20
+  mode: single
+- id: '1694552365921'
+  alias: Test Entry Presence
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.main_presence_entry_occupancy
+  condition: []
+  action:
+  - service: script.light_timer
+    data:
+      sensor_entity_id: binary_sensor.main_presence_entry_occupancy
+      light_entity_id: light.entryway_light
+      duration: 20
+      brightness_pct: 50
+  mode: single
+- id: '1694552388605'
+  alias: Test Main Stair Occupancy
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.kitchen_presence_main_stair_occupancy
+  condition: []
+  action:
+  - service: script.light_timer
+    data:
+      sensor_entity_id: binary_sensor.kitchen_presence_main_stair_occupancy
+      light_entity_id: light.main_stair_accent
+  mode: restart
+- id: '1695507609244'
+  alias: Test Main Bathroom Occupancy
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.kitchen_presence_main_bathroom_occupancy
+  condition:
+  - condition: state
+    entity_id: binary_sensor.main_bathroom_door
+    state: 'on'
+  action:
+  - service: script.light_timer
+    data:
+      sensor_entity_id: binary_sensor.kitchen_presence_main_bathroom_occupancy
+      light_entity_id: light.main_bathroom_light
+      duration: 20
+  mode: single
+- id: '1695510684568'
+  alias: Test Basement Stair Occupancy
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.kitchen_presence_basement_stair_occupancy
+  condition: []
+  action:
+  - service: script.light_timer
+    data:
+      sensor_entity_id: binary_sensor.kitchen_presence_basement_stair_occupancy
+      duration: 30
+      light_entity_id: light.basement_stair_light
+  mode: single
+- id: '1696462786863'
+  alias: Notification - Gate Open
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.outside_front_gate
+    - binary_sensor.outside_back_gate
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: notify.devices
+    data:
+      title: '{{ trigger.to_state.attributes.friendly_name }}'
+      message: Gate is open.
   mode: single

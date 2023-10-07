@@ -14,8 +14,6 @@ default_config:
 
 http: !include http.yaml
 
-discovery:
-
 conversation:
 
 recorder:
