@@ -105,15 +105,6 @@
                     }
                   },
                   {
-                    "entity_id": "binary_sensor.outside_main_gate_sensor",
-                    "not": {
-                      "state": "open"
-                    },
-                    "options": {
-                      "secondary_info": "last-changed"
-                    }
-                  },
-                  {
                     "domain": "automation",
                     "state": "off"
                   }
@@ -127,6 +118,9 @@
                   },
                   {
                     "entity_id": "binary_sensor.garage_door"
+                  },
+                  {
+                    "entity_id": "binary_sensor.main_bathroom_door"
                   }
                 ]
               },
@@ -458,9 +452,9 @@
                   "type": "button",
                   "tap_action": {
                     "action": "navigate",
-                    "navigation_path": "/lovelace/area-main-bathroom"
+                    "navigation_path": "/lovelace/area-upstairs-bathroom"
                   },
-                  "name": "Main Bathroom",
+                  "name": "Upstairs Bathroom",
                   "hold_action": {
                     "action": "none"
                   }
@@ -471,9 +465,9 @@
                   "type": "button",
                   "tap_action": {
                     "action": "navigate",
-                    "navigation_path": "/lovelace/area-upstairs-bathroom"
+                    "navigation_path": "/lovelace/area-main-bathroom"
                   },
-                  "name": "Upstairs Bathroom",
+                  "name": "Main Bathroom",
                   "hold_action": {
                     "action": "none"
                   }
@@ -963,11 +957,7 @@
               "type": "custom:frigate-card",
               "cameras": [
                 {
-                  "live_provider": "webrtc-card",
-                  "camera_entity": "camera.amcrest_camera",
-                  "webrtc_card": {
-                    "entity": "camera.amcrest_camera"
-                  }
+                  "camera_entity": "camera.valetudo_robot_vacuum_map_data"
                 }
               ],
               "elements": [

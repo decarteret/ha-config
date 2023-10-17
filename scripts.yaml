@@ -74,12 +74,13 @@ light_timer:
           min: 1
           max: 100
           unit_of_measurement: '%'
-    sensor_entity_id:
-      name: Sensor entity
-      description: Which sensor to monitor
+    sensor_entity_ids:
+      name: Sensor entities
+      description: Array of sensors to monitor
       selector:
         entity:
           domain: binary_sensor
+          multiple: true
     on_when:
       name: Turn on when
       description: When this light can automatically turn on.
@@ -91,23 +92,26 @@ light_timer:
           - always
           - never
   variables:
-    sensor_entity_id: '{{ '''' if sensor_entity_id is undefined else sensor_entity_id
+    sensor_entity_ids: '{{ [] if sensor_entity_ids is undefined else sensor_entity_ids
       }}'
+    sensor_states: '{{ expand(''binary_sensor'', sensor_entity_ids) | map(attribute=''state'')
+      | list }}'
     timer_entity_id: timer.{{ light_entity_id[6:] }}_timer
     brightness: '{{ 25 if brightness_pct is undefined else brightness_pct }}'
     duration: '{{ 60 if duration is undefined else duration }}'
-    is_motion: '{{ is_state(sensor_entity_id, ''on'') }}'
+    is_motion: '{{ ''on'' in sensor_states }}'
     is_idle: '{{ is_state(timer_entity_id, ''idle'') }}'
     is_light_on: '{{ is_state(light_entity_id, ''on'') }}'
-    is_dark: '{{ states( ''sensor.kitchen_presence_light_sensor_light_level'' )|int(9999)
-      < 55 }}'
+    is_dark: "{{ \n  state_attr('sun.sun', 'elevation') < 6 \n  or states('sensor.kitchen_presence_light_sensor_light_level'
+      )|int < 25 \n  or states('sensor.upstairs_presence_light_sensor_light_level'
+      )|int < 25\n}}"
     on_when: '{{ ''dark'' if on_when is undefined else on_when }}'
     is_allowed_on: '{{ (on_when == ''always'') or (on_when == ''dark'' and is_dark)
       }}'
   sequence:
   - if:
     - condition: template
-      value_template: '{{ is_motion and not ( is_allowed_on or is_light_on ) }}'
+      value_template: '{{ is_motion and not (is_allowed_on or is_light_on) }}'
     then:
     - stop: Nothing to do.
   - if:

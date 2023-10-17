@@ -4,18 +4,18 @@
     light.outside_basement_light:
       supported_color_modes:
       - brightness
-      friendly_name: Outside Basement Light
-      supported_features: 32
       color_mode: brightness
       brightness: 39
+      friendly_name: Outside Basement Light
+      supported_features: 32
       state: 'on'
     light.outside_entryway_light:
       supported_color_modes:
       - brightness
-      friendly_name: Outside Entryway Light
-      supported_features: 32
       color_mode: brightness
       brightness: 90
+      friendly_name: Outside Entryway Light
+      supported_features: 32
       state: 'on'
     light.outside_garage_light:
       supported_color_modes:
@@ -27,24 +27,24 @@
     light.outside_main_light:
       supported_color_modes:
       - brightness
-      friendly_name: Outside Main Light
-      supported_features: 32
       color_mode: brightness
       brightness: 3
+      friendly_name: Outside Main Light
+      supported_features: 32
       state: 'on'
     light.outside_main_accent:
       supported_color_modes:
       - onoff
+      color_mode: onoff
       friendly_name: Outside Main Accent
       supported_features: 0
-      color_mode: onoff
       state: 'on'
     light.primary_bedroom_controller:
       supported_color_modes:
       - onoff
+      color_mode: onoff
       friendly_name: Primary Bedroom Accent
       supported_features: 0
-      color_mode: onoff
       state: 'on'
   metadata:
     light.outside_basement_light:

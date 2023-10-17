@@ -83,7 +83,8 @@
   - service: script.light_timer
     data:
       light_entity_id: light.entryway_light
-      sensor_entity_id: binary_sensor.entryway_motion
+      sensor_entity_ids:
+      - binary_sensor.entryway_motion
       brightness_pct: 40
   mode: single
 - id: zwave_primary_bedroom_accent
@@ -184,7 +185,8 @@
     data:
       light_entity_id: light.laundry_light
       on_when: always
-      sensor_entity_id: binary_sensor.laundry_hybrid
+      sensor_entity_ids:
+      - binary_sensor.laundry_hybrid
       duration: 60
       brightness_pct: 25
   mode: single
@@ -205,7 +207,8 @@
     data:
       light_entity_id: light.garage_light
       duration: 120
-      sensor_entity_id: binary_sensor.garage_entry_door
+      sensor_entity_ids:
+      - binary_sensor.garage_entry_door
       on_when: always
   mode: single
 - id: home_zone_changed
@@ -245,14 +248,16 @@
   trigger:
   - platform: state
     entity_id:
-    - binary_sensor.upstairs_hallway_motion
+    - binary_sensor.upstairs_presence_upstairs_hallway_occupancy
   condition: []
   action:
   - service: script.light_timer
     data:
       light_entity_id: light.upstairs_hallway_light
-      sensor_entity_id: binary_sensor.upstairs_hallway_motion
+      sensor_entity_ids:
+      - binary_sensor.upstairs_presence_upstairs_hallway_occupancy
       brightness_pct: 15
+      duration: 20
   mode: single
 - id: timer_kitchen_light
   alias: Timer - Kitchen Light
@@ -266,12 +271,14 @@
   - service: script.light_timer
     data:
       light_entity_id: light.kitchen_light
-      sensor_entity_id: binary_sensor.kitchen_motion
+      sensor_entity_ids:
+      - binary_sensor.kitchen_motion
       duration: 120
   - service: script.light_timer
     data:
       light_entity_id: light.kitchen_pantry_light
-      sensor_entity_id: binary_sensor.kitchen_motion
+      sensor_entity_ids:
+      - binary_sensor.kitchen_motion
       on_when: never
   mode: single
 - id: timer_main_stair_light
@@ -287,13 +294,15 @@
     data:
       light_entity_id: light.main_stair_light
       on_when: never
-      sensor_entity_id: binary_sensor.entryway_motion
+      sensor_entity_ids:
+      - binary_sensor.entryway_motion
   - service: script.light_timer
     data:
       duration: 300
       on_when: never
       light_entity_id: light.main_stair_accent
-      sensor_entity_id: binary_sensor.entryway_motion
+      sensor_entity_ids:
+      - binary_sensor.entryway_motion
     enabled: false
   mode: restart
 - id: generic_light_timer_idle
@@ -334,15 +343,16 @@
 
       {% set is_light = is_state( ''light.upstairs_bathroom_light'', ''on'' ) %}
 
-      {% set is_bright = (states( ''sensor.upstairs_bathroom_illuminance''
-      )|int(0) >= 60) and not is_light %}
+      {% set is_bright = (states( ''sensor.upstairs_bathroom_illuminance'' )|int(0)
+      >= 60) and not is_light %}
 
       {{ not(is_motion and is_bright) }}'
   action:
   - service: script.light_timer
     data:
       light_entity_id: light.upstairs_bathroom_light
-      sensor_entity_id: binary_sensor.upstairs_bathroom_hybrid
+      sensor_entity_ids:
+      - binary_sensor.upstairs_bathroom_hybrid
       on_when: always
       duration: 60
       brightness_pct: 60
@@ -354,6 +364,14 @@
   - platform: state
     entity_id:
     - media_player.media_room_box
+    from: idle
+    to: playing
+  - platform: state
+    entity_id:
+    - media_player.media_room_box
+    from: idle
+    to: 'off'
+  condition: []
   action:
   - choose:
     - conditions:
@@ -433,12 +451,14 @@
     data:
       light_entity_id: light.basement_stair_light
       on_when: always
-      sensor_entity_id: binary_sensor.basement_hallway_hybrid
+      sensor_entity_ids:
+      - binary_sensor.basement_hallway_hybrid
       duration: 60
   - service: script.light_timer
     data:
       light_entity_id: light.basement_hallway_light
-      sensor_entity_id: binary_sensor.basement_hallway_hybrid
+      sensor_entity_ids:
+      - binary_sensor.basement_hallway_hybrid
       duration: 60
       on_when: dark
   - service: script.light_timer
@@ -446,7 +466,8 @@
       duration: 300
       on_when: never
       light_entity_id: light.basement_stair_accent
-      sensor_entity_id: binary_sensor.basement_hallway_hybrid
+      sensor_entity_ids:
+      - binary_sensor.basement_hallway_hybrid
   mode: single
 - id: timer_kitchen_pantry_light
   alias: Timer - Kitchen Pantry Light
@@ -460,7 +481,8 @@
   - service: script.light_timer
     data:
       light_entity_id: light.kitchen_pantry_light
-      sensor_entity_id: binary_sensor.kitchen_motion
+      sensor_entity_ids:
+      - binary_sensor.kitchen_motion
       on_when: never
   mode: single
 - id: timer_basement_light
@@ -475,7 +497,8 @@
   - service: script.light_timer
     data:
       light_entity_id: light.basement_light
-      sensor_entity_id: binary_sensor.basement_motion
+      sensor_entity_ids:
+      - binary_sensor.basement_motion
       duration: 300
   mode: single
 - id: zwave_kitchen_accent
@@ -630,7 +653,8 @@
   - service: script.light_timer
     data:
       light_entity_id: light.media_room_light
-      sensor_entity_id: binary_sensor.entryway_motion
+      sensor_entity_ids:
+      - binary_sensor.entryway_motion
       on_when: never
       duration: 120
   mode: single
@@ -647,7 +671,8 @@
     data:
       light_entity_id: light.main_hallway_light
       on_when: never
-      sensor_entity_id: binary_sensor.entryway_motion
+      sensor_entity_ids:
+      - binary_sensor.entryway_motion
   mode: single
 - id: '1669057661233'
   alias: Tag - Office Light
@@ -666,28 +691,35 @@
   alias: Darkness turns outside lights on
   description: ''
   trigger:
-  - platform: numeric_state
-    entity_id: sensor.estimated_illuminance
-    above: 500
-  - platform: numeric_state
-    entity_id: sensor.estimated_illuminance
-    below: 500
+  - platform: sun
+    event: sunset
+    id: sunset
+    offset: -00:10:00
+  - platform: sun
+    event: sunrise
+    id: sunrise
+    offset: 00:10:00
   condition: []
   action:
-  - if:
-    - condition: numeric_state
-      entity_id: sensor.estimated_illuminance
-      below: 500
-    then:
-    - service: scene.turn_on
-      target:
-        entity_id: scene.outside_lights_on
-      data: {}
-    else:
-    - service: scene.turn_on
-      target:
-        entity_id: scene.outside_lights_off
-      data: {}
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - sunset
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.outside_lights_on
+        metadata: {}
+    - conditions:
+      - condition: trigger
+        id:
+        - sunrise
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.outside_lights_off
+        metadata: {}
   mode: single
 - id: '1669409026105'
   alias: Zwave - Office Desk Light Switch
@@ -774,7 +806,8 @@
   - service: script.light_timer
     data:
       light_entity_id: light.primary_bathroom_light
-      sensor_entity_id: binary_sensor.primary_bathroom_motion
+      sensor_entity_ids:
+      - binary_sensor.primary_bathroom_motion
       on_when: always
   mode: single
 - id: '1694550375788'
@@ -788,7 +821,8 @@
   action:
   - service: script.light_timer
     data:
-      sensor_entity_id: binary_sensor.kitchen_presence_living_room_occupancy
+      sensor_entity_ids:
+      - binary_sensor.kitchen_presence_living_room_occupancy
       light_entity_id: light.family_room_couch_light
       brightness_pct: 5
       duration: 20
@@ -804,7 +838,8 @@
   action:
   - service: script.light_timer
     data:
-      sensor_entity_id: binary_sensor.kitchen_presence_dining_room_occupancy
+      sensor_entity_ids:
+      - binary_sensor.kitchen_presence_dining_room_occupancy
       light_entity_id: light.family_room_table_light
       duration: 20
   mode: single
@@ -819,7 +854,8 @@
   action:
   - service: script.light_timer
     data:
-      sensor_entity_id: binary_sensor.kitchen_presence_kitchen_occupancy
+      sensor_entity_ids:
+      - binary_sensor.kitchen_presence_kitchen_occupancy
       light_entity_id: light.kitchen_light
       duration: 20
   mode: single
@@ -834,7 +870,8 @@
   action:
   - service: script.light_timer
     data:
-      sensor_entity_id: binary_sensor.kitchen_presence_kitchen_pantry_occupancy
+      sensor_entity_ids:
+      - binary_sensor.kitchen_presence_kitchen_pantry_occupancy
       light_entity_id: light.kitchen_pantry_light
       duration: 20
   mode: single
@@ -849,7 +886,8 @@
   action:
   - service: script.light_timer
     data:
-      sensor_entity_id: binary_sensor.main_presence_entry_occupancy
+      sensor_entity_ids:
+      - binary_sensor.main_presence_entry_occupancy
       light_entity_id: light.entryway_light
       duration: 20
       brightness_pct: 50
@@ -861,12 +899,18 @@
   - platform: state
     entity_id:
     - binary_sensor.kitchen_presence_main_stair_occupancy
+  - platform: state
+    entity_id:
+    - binary_sensor.upstairs_presence_main_stair_occupancy
   condition: []
   action:
   - service: script.light_timer
     data:
-      sensor_entity_id: binary_sensor.kitchen_presence_main_stair_occupancy
+      sensor_entity_ids:
+      - binary_sensor.kitchen_presence_main_stair_occupancy
+      - binary_sensor.upstairs_presence_main_stair_occupancy
       light_entity_id: light.main_stair_accent
+      duration: 30
   mode: restart
 - id: '1695507609244'
   alias: Test Main Bathroom Occupancy
@@ -882,7 +926,8 @@
   action:
   - service: script.light_timer
     data:
-      sensor_entity_id: binary_sensor.kitchen_presence_main_bathroom_occupancy
+      sensor_entity_ids:
+      - binary_sensor.kitchen_presence_main_bathroom_occupancy
       light_entity_id: light.main_bathroom_light
       duration: 20
   mode: single
@@ -897,7 +942,8 @@
   action:
   - service: script.light_timer
     data:
-      sensor_entity_id: binary_sensor.kitchen_presence_basement_stair_occupancy
+      sensor_entity_ids:
+      - binary_sensor.kitchen_presence_basement_stair_occupancy
       duration: 30
       light_entity_id: light.basement_stair_light
   mode: single
@@ -911,7 +957,10 @@
     - binary_sensor.outside_back_gate
     from: 'off'
     to: 'on'
-  condition: []
+  condition:
+  - condition: state
+    entity_id: lock.main_door_lock
+    state: locked
   action:
   - service: notify.devices
     data:
