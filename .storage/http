@@ -11,11 +11,11 @@
     ],
     "ip_ban_enabled": true,
     "login_attempts_threshold": 10,
-    "ssl_profile": "modern",
     "use_x_frame_options": true,
-    "server_port": 8123,
     "cors_allowed_origins": [
       "https://cast.home-assistant.io"
-    ]
+    ],
+    "server_port": 8123,
+    "ssl_profile": "modern"
   }
 }

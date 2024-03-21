@@ -3,6 +3,21 @@
   "minor_version": 1,
   "key": "input_boolean",
   "data": {
-    "items": []
+    "items": [
+      {
+        "id": "olive_in_room",
+        "name": "Olive In Room",
+        "icon": "mdi:bed"
+      },
+      {
+        "id": "lincoln_in_room",
+        "name": "Lincoln In Room",
+        "icon": "mdi:bed"
+      },
+      {
+        "id": "is_dark_outside",
+        "name": "Is Dark Outside"
+      }
+    ]
   }
 }

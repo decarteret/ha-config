@@ -2,4 +2,5 @@ quick_devices:
   name: Quick Devices
   entities:
     - cover.garage_door
-    - lock.main_door_lock
+    - script.toggle_media_room_light
+    - script.unlock_main_door

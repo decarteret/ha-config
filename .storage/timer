@@ -104,7 +104,7 @@
         "id": "network_devices_timer",
         "name": "Network Devices Timer",
         "restore": false,
-        "duration": "0:45:00"
+        "duration": "0:44:00"
       },
       {
         "id": "primary_bathroom_light_timer",

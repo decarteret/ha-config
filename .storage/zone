@@ -14,12 +14,12 @@
         "id": "westwood_village"
       },
       {
-        "latitude": 47.51271890395919,
-        "longitude": -122.35547661781312,
-        "name": "206 South",
-        "icon": "mdi:map-marker",
+        "latitude": 47.46596515534244,
+        "longitude": -122.33563899993898,
+        "name": "Boxing",
+        "icon": "mdi:boxing-glove",
         "passive": false,
-        "radius": 50.0,
+        "radius": 158.38558702049357,
         "id": "206_south"
       }
     ]

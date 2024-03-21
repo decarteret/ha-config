@@ -24,11 +24,6 @@
                   "entity": "cover.garage_door"
                 },
                 {
-                  "entity": "remote.media_room_remote",
-                  "name": "Media Room TV",
-                  "icon": "mdi:television-box"
-                },
-                {
                   "entity": "vacuum.valetudo_robot_vacuum"
                 },
                 {
@@ -643,6 +638,86 @@
         },
         {
           "theme": "Backend-selected",
+          "title": "Camera",
+          "path": "cameras",
+          "type": "panel",
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:webrtc-camera",
+              "entity": "camera.amcrest_camera",
+              "style": ".ptz {top: unset; left: 15px; bottom: 15px;} .shortcuts {left: 15px; top: 15px; display: flex; gap: 15px;}",
+              "ptz": {
+                "service": "amcrest.ptz_control",
+                "data_left": {
+                  "entity_id": "camera.amcrest_camera",
+                  "movement": "left"
+                },
+                "data_right": {
+                  "entity_id": "camera.amcrest_camera",
+                  "movement": "right"
+                },
+                "data_up": {
+                  "entity_id": "camera.amcrest_camera",
+                  "movement": "up"
+                },
+                "data_down": {
+                  "entity_id": "camera.amcrest_camera",
+                  "movement": "down"
+                }
+              },
+              "shortcuts": [
+                {
+                  "name": 1,
+                  "icon": "mdi:numeric-1-circle",
+                  "service": "amcrest.goto_preset",
+                  "service_data": {
+                    "entity_id": "camera.amcrest_camera",
+                    "preset": 1
+                  }
+                },
+                {
+                  "name": 2,
+                  "icon": "mdi:numeric-2-circle",
+                  "service": "amcrest.goto_preset",
+                  "service_data": {
+                    "entity_id": "camera.amcrest_camera",
+                    "preset": 2
+                  }
+                },
+                {
+                  "name": 3,
+                  "icon": "mdi:numeric-3-circle",
+                  "service": "amcrest.goto_preset",
+                  "service_data": {
+                    "entity_id": "camera.amcrest_camera",
+                    "preset": 3
+                  }
+                },
+                {
+                  "name": 4,
+                  "icon": "mdi:numeric-4-circle",
+                  "service": "amcrest.goto_preset",
+                  "service_data": {
+                    "entity_id": "camera.amcrest_camera",
+                    "preset": 4
+                  }
+                },
+                {
+                  "name": 5,
+                  "icon": "mdi:numeric-5-circle",
+                  "service": "amcrest.goto_preset",
+                  "service_data": {
+                    "entity_id": "camera.amcrest_camera",
+                    "preset": 5
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
           "title": "Groups",
           "path": "groups",
           "badges": [],
@@ -882,8 +957,9 @@
           ]
         },
         {
-          "title": "Car",
-          "path": "car",
+          "title": "Cars",
+          "path": "cars",
+          "badges": [],
           "cards": [
             {
               "type": "button",
@@ -891,6 +967,29 @@
                 "action": "toggle"
               },
               "entity": "switch.garage_door_opener"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "sensor.tesla_model_3_battery"
+                },
+                {
+                  "entity": "sensor.tesla_model_3_range"
+                },
+                {
+                  "entity": "button.tesla_model_3_wake_up"
+                },
+                {
+                  "entity": "sensor.tesla_model_y_battery"
+                },
+                {
+                  "entity": "sensor.tesla_model_y_range"
+                },
+                {
+                  "entity": "button.tesla_model_y_wake_up"
+                }
+              ]
             }
           ]
         },
@@ -899,6 +998,20 @@
           "title": "Phones",
           "path": "phones",
           "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities"
+              },
+              "filter": {
+                "include": [
+                  {
+                    "device": "Jason S24+"
+                  }
+                ],
+                "exclude": []
+              }
+            },
             {
               "type": "custom:auto-entities",
               "card": {
@@ -935,70 +1048,10 @@
               "filter": {
                 "include": [
                   {
-                    "device": "iPhone 13"
+                    "device": "Christina iPhone 13"
                   }
                 ],
                 "exclude": []
-              }
-            }
-          ]
-        },
-        {
-          "theme": "Backend-selected",
-          "title": "Cameras",
-          "path": "cameras",
-          "badges": [],
-          "cards": [
-            {
-              "type": "custom:webrtc-camera",
-              "entity": "camera.amcrest_camera"
-            },
-            {
-              "type": "custom:frigate-card",
-              "cameras": [
-                {
-                  "camera_entity": "camera.valetudo_robot_vacuum_map_data"
-                }
-              ],
-              "elements": [
-                {
-                  "type": "custom:frigate-card-ptz",
-                  "style": {
-                    "transform": "none",
-                    "right": "20px",
-                    "top": "20px"
-                  },
-                  "service": "amcrest.ptz_control",
-                  "data_left": {
-                    "entity_id": "camera.amcrest_camera",
-                    "movement": "left"
-                  },
-                  "data_right": {
-                    "entity_id": "camera.amcrest_camera",
-                    "movement": "right"
-                  },
-                  "data_up": {
-                    "entity_id": "camera.amcrest_camera",
-                    "movement": "up"
-                  },
-                  "data_down": {
-                    "entity_id": "camera.amcrest_camera",
-                    "movement": "down"
-                  }
-                }
-              ],
-              "menu": {
-                "buttons": {
-                  "frigate": {
-                    "enabled": false
-                  }
-                }
-              },
-              "live": {
-                "draggable": false
-              },
-              "dimensions": {
-                "aspect_ratio_mode": "static"
               }
             }
           ]
@@ -1113,7 +1166,7 @@
                 "include": [
                   {
                     "area": "Media Room",
-                    "domain": "/(light|fan|media_player|remote)/",
+                    "domain": "/(light|fan|media_player)/",
                     "options": {
                       "type": "tile",
                       "features": [
@@ -1150,7 +1203,7 @@
                 "include": [
                   {
                     "area": "Media Room",
-                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                    "domain": "/(automation|timer|sensor|binary_sensor|script)/"
                   }
                 ],
                 "exclude": [
@@ -1220,7 +1273,7 @@
                 "include": [
                   {
                     "area": "Outside",
-                    "domain": "/(automation|timer|sensor|binary_sensor|scene)/"
+                    "domain": "/(automation|timer|sensor|binary_sensor|scene|input_boolean)/"
                   },
                   {
                     "entity_id": "sun.sun"
@@ -1235,6 +1288,9 @@
                   },
                   {
                     "entity_id": "*main_accent_*"
+                  },
+                  {
+                    "name": "/seen|detected|level/"
                   }
                 ]
               },
@@ -1866,7 +1922,7 @@
                 "include": [
                   {
                     "area": "Olive Bedroom",
-                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                    "domain": "/(automation|timer|sensor|binary_sensor|input_boolean)/"
                   }
                 ],
                 "exclude": [
@@ -1930,7 +1986,7 @@
                 "include": [
                   {
                     "area": "Lincoln Bedroom",
-                    "domain": "/(automation|timer|sensor|binary_sensor)/"
+                    "domain": "/(automation|timer|sensor|binary_sensor|input_boolean)/"
                   }
                 ],
                 "exclude": [

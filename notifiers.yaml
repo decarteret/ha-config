@@ -46,4 +46,5 @@
   platform: group
   services:
     - service: mobile_app_jason_pixel_7
-    - service: mobile_app_iphone_13
+    - service: mobile_app_christina_iphone_13
+    - service: mobile_app_jason_s24

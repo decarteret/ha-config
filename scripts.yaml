@@ -47,7 +47,6 @@ play_chill_music:
 light_timer:
   alias: Light Timer
   mode: queued
-  max: 10
   fields:
     light_entity_id:
       name: Light entity
@@ -94,17 +93,15 @@ light_timer:
   variables:
     sensor_entity_ids: '{{ [] if sensor_entity_ids is undefined else sensor_entity_ids
       }}'
-    sensor_states: '{{ expand(''binary_sensor'', sensor_entity_ids) | map(attribute=''state'')
-      | list }}'
+    sensor_states: "{{ \n  expand('binary_sensor', sensor_entity_ids) | map(attribute='state')
+      | list\n}}"
     timer_entity_id: timer.{{ light_entity_id[6:] }}_timer
     brightness: '{{ 25 if brightness_pct is undefined else brightness_pct }}'
     duration: '{{ 60 if duration is undefined else duration }}'
     is_motion: '{{ ''on'' in sensor_states }}'
     is_idle: '{{ is_state(timer_entity_id, ''idle'') }}'
     is_light_on: '{{ is_state(light_entity_id, ''on'') }}'
-    is_dark: "{{ \n  state_attr('sun.sun', 'elevation') < 6 \n  or states('sensor.kitchen_presence_light_sensor_light_level'
-      )|int < 25 \n  or states('sensor.upstairs_presence_light_sensor_light_level'
-      )|int < 25\n}}"
+    is_dark: '{{ is_state(''input_boolean.is_dark_outside'', ''on'') }}'
     on_when: '{{ ''dark'' if on_when is undefined else on_when }}'
     is_allowed_on: '{{ (on_when == ''always'') or (on_when == ''dark'' and is_dark)
       }}'
@@ -138,6 +135,7 @@ light_timer:
     - service: timer.pause
       data:
         entity_id: '{{ timer_entity_id }}'
+  icon: mdi:timer-cog
 add_time_network_devices_timer:
   alias: Add Time Network Devices Timer
   sequence:
@@ -159,3 +157,45 @@ add_time_network_devices_timer:
       target:
         entity_id: timer.network_devices_timer
   mode: single
+unlock_main_door:
+  alias: Unlock Main Door
+  sequence:
+  - service: lock.unlock
+    data: {}
+    target:
+      entity_id: lock.main_door_lock
+  mode: single
+  icon: mdi:door-closed-lock
+toggle_media_room_light:
+  alias: Toggle Media Room Light
+  sequence:
+  - if:
+    - condition: state
+      entity_id: light.media_room_light
+      state: 'on'
+    then:
+    - service: light.turn_off
+      data: {}
+      target:
+        entity_id: light.media_room_light
+    else:
+    - service: light.turn_on
+      data:
+        brightness_pct: 5
+      target:
+        entity_id: light.media_room_light
+  mode: single
+  icon: mdi:light-recessed
+projector_off:
+  alias: Projector Off
+  sequence:
+  - service: remote.send_command
+    data:
+      device: Formovie X5
+      command: Sleep
+      delay_secs: 0.4
+      num_repeats: 2
+    target:
+      entity_id: remote.media_room_remote
+  mode: single
+  icon: mdi:projector-off

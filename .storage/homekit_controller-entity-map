@@ -5,7 +5,7 @@
   "data": {
     "pairings": {
       "AE:7A:8B:8F:A5:DF": {
-        "config_num": 54,
+        "config_num": 57,
         "accessories": [
           {
             "aid": 1,
@@ -74,7 +74,7 @@
                       "pr"
                     ],
                     "format": "string",
-                    "value": "1.2.2",
+                    "value": "1.2.5",
                     "description": "Firmware Revision",
                     "maxLen": 64
                   },
@@ -232,7 +232,7 @@
                       "hd"
                     ],
                     "format": "string",
-                    "value": "1.2.2",
+                    "value": "1.2.5",
                     "description": "Firmware Version",
                     "maxLen": 64
                   },
@@ -352,7 +352,7 @@
                       "ev"
                     ],
                     "format": "float",
-                    "value": 16,
+                    "value": 135,
                     "description": "Current Ambient Light Level",
                     "unit": "lux",
                     "minValue": 0,
@@ -728,7 +728,7 @@
         "state_num": null
       },
       "3F:AB:6C:0C:06:B6": {
-        "config_num": 8,
+        "config_num": 11,
         "accessories": [
           {
             "aid": 1,
@@ -797,7 +797,7 @@
                       "pr"
                     ],
                     "format": "string",
-                    "value": "1.2.2",
+                    "value": "1.2.5",
                     "description": "Firmware Revision",
                     "maxLen": 64
                   },
@@ -955,7 +955,7 @@
                       "hd"
                     ],
                     "format": "string",
-                    "value": "1.2.2",
+                    "value": "1.2.5",
                     "description": "Firmware Version",
                     "maxLen": 64
                   },
@@ -1075,7 +1075,7 @@
                       "ev"
                     ],
                     "format": "float",
-                    "value": 1,
+                    "value": 8,
                     "description": "Current Ambient Light Level",
                     "unit": "lux",
                     "minValue": 0,

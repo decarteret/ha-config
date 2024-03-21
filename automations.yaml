@@ -1,5 +1,5 @@
 - id: notification_garage
-  alias: Notification - Garage Door
+  alias: Notification - Garage Door left open
   description: ''
   trigger:
   - platform: state
@@ -18,6 +18,10 @@
       title: Garage Door
       message: '{{ "Someone" if trigger.to_state is undefined else trigger.to_state.attributes.friendly_name
         }} left home and the door is open.'
+      data:
+        actions:
+        - action: close_garage_door
+          title: Close Door
   mode: single
 - id: lights_off_midnight
   alias: Lights off at midnight
@@ -35,7 +39,7 @@
       - light.primary_bedroom_controller
   mode: single
 - id: notification_main_door
-  alias: Notification - Main Door Lock
+  alias: Notification - Main Door Lock left unlocked
   description: ''
   trigger:
   - platform: state
@@ -51,9 +55,13 @@
   action:
   - service: notify.devices
     data:
-      title: Main Door Lock
+      title: Main Door
       message: '{{ "Someone" if trigger.to_state is undefined else trigger.to_state.attributes.friendly_name
         }} left home and the door is unlocked.'
+      data:
+        actions:
+        - action: lock_main_door
+          title: Lock Door
   mode: single
 - id: timer_entryway_light
   alias: Timer - Entryway Light
@@ -86,6 +94,7 @@
       sensor_entity_ids:
       - binary_sensor.entryway_motion
       brightness_pct: 40
+      on_when: never
   mode: single
 - id: zwave_primary_bedroom_accent
   alias: Zwave - Primary Bedroom Controller
@@ -226,11 +235,10 @@
         entity_id: zone.home
         above: 0
       sequence:
-      - device_id: c04b21ba8b2647aab4729b24b902f2b4
-        domain: climate
-        entity_id: climate.thermostat
-        type: set_preset_mode
-        preset_mode: none
+      - service: ecobee.resume_program
+        data:
+          resume_all: true
+          entity_id: climate.thermostat
     - conditions:
       - condition: numeric_state
         entity_id: zone.home
@@ -371,6 +379,11 @@
     - media_player.media_room_box
     from: idle
     to: 'off'
+  - platform: state
+    entity_id:
+    - media_player.media_room_box
+    from: idle
+    to: standby
   condition: []
   action:
   - choose:
@@ -394,9 +407,14 @@
         target:
           entity_id: light.media_room_light
     - conditions:
-      - condition: state
-        entity_id: media_player.media_room_box
-        state: 'off'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: media_player.media_room_box
+          state: 'off'
+        - condition: state
+          entity_id: media_player.media_room_box
+          state: standby
       sequence:
       - condition: state
         entity_id: sun.sun
@@ -557,11 +575,8 @@
         value_template: '{{ trigger.event.data.property_key == "002" and trigger.event.data.value
           == "KeyPressed3x" }}'
       sequence:
-      - service: select.select_option
-        data:
-          option: PowerOff
-        target:
-          entity_id: select.media_room_remote_activities
+      - service: script.projector_off
+        data: {}
   mode: single
 - id: zwave_basement_light
   alias: Zwave - Basement Light
@@ -711,6 +726,11 @@
         target:
           entity_id: scene.outside_lights_on
         metadata: {}
+      - service: input_boolean.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.is_dark_outside
     - conditions:
       - condition: trigger
         id:
@@ -720,6 +740,11 @@
         target:
           entity_id: scene.outside_lights_off
         metadata: {}
+      - service: input_boolean.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.is_dark_outside
   mode: single
 - id: '1669409026105'
   alias: Zwave - Office Desk Light Switch
@@ -758,8 +783,8 @@
     - sensor.litter_robot_status_code
   condition:
   - condition: template
-    value_template: '{{ states( "sensor.litter_robot_status_code" ) not in ["rdy","ccc","ccp","cst",
-      "offline"] }}'
+    value_template: '{{ states( "sensor.litter_robot_status_code" ) not in ["rdy","ccc","ccp","cst","br","offline"]
+      }}'
   action:
   - service: notify.devices
     data:
@@ -776,7 +801,7 @@
     to: unavailable
   condition: []
   action:
-  - service: notify.mobile_app_jason_pixel_7
+  - service: notify.mobile_app_jason_s24
     data:
       message: Thermostat is unavailable.
   mode: single
@@ -858,7 +883,7 @@
       - binary_sensor.kitchen_presence_kitchen_occupancy
       light_entity_id: light.kitchen_light
       duration: 20
-  mode: single
+  mode: restart
 - id: '1694552341150'
   alias: Test Kitchen Pantry Occupancy
   description: ''
@@ -946,9 +971,9 @@
       - binary_sensor.kitchen_presence_basement_stair_occupancy
       duration: 30
       light_entity_id: light.basement_stair_light
-  mode: single
+  mode: restart
 - id: '1696462786863'
-  alias: Notification - Gate Open
+  alias: Notification - Gate opened
   description: ''
   trigger:
   - platform: state
@@ -957,13 +982,193 @@
     - binary_sensor.outside_back_gate
     from: 'off'
     to: 'on'
-  condition:
-  - condition: state
-    entity_id: lock.main_door_lock
-    state: locked
   action:
   - service: notify.devices
     data:
       title: '{{ trigger.to_state.attributes.friendly_name }}'
       message: Gate is open.
+      data:
+        ttl: 0
+        priority: high
+        actions:
+        - action: unlock_main_door
+          title: Unlock Main Door
   mode: single
+- id: '1699071918643'
+  alias: Actions - iOS
+  description: ''
+  trigger:
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: garage_open
+    id: garage_open
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: garage_close
+    id: garage_close
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - garage_open
+      sequence:
+      - service: script.open_garage_door
+        data: {}
+    - conditions:
+      - condition: trigger
+        id:
+        - garage_close
+      sequence:
+      - service: script.close_garage_door
+        data: {}
+  mode: single
+- id: '1699074309544'
+  alias: Actions - Mobile App Notification
+  description: ''
+  trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: lock_main_door
+    id: lock_main_door
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: unlock_main_door
+    id: unlock_main_door
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: close_garage_door
+    id: close_garage_door
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - lock_main_door
+      sequence:
+      - service: lock.lock
+        target:
+          entity_id: lock.main_door_lock
+    - conditions:
+      - condition: trigger
+        id:
+        - unlock_main_door
+      sequence:
+      - service: lock.unlock
+        target:
+          entity_id: lock.main_door_lock
+    - conditions:
+      - condition: trigger
+        id:
+        - close_garage_door
+      sequence:
+      - service: script.close_garage_door
+  mode: single
+- id: '1699145310742'
+  alias: Occupancy - Calculate In Room
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.upstairs_presence_olive_occupancy
+    to: 'on'
+    id: olive
+  - platform: state
+    entity_id:
+    - binary_sensor.upstairs_presence_lincoln_occupancy
+    to: 'on'
+    id: lincoln
+  condition: []
+  action:
+  - variables:
+      hallway: '{{   (states(''binary_sensor.upstairs_presence_upstairs_hallway_occupancy'')==''on'')
+
+        or
+
+        (now() - states.binary_sensor.upstairs_presence_upstairs_hallway_occupancy.last_updated
+        < timedelta(seconds=2)) }}'
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - olive
+      sequence:
+      - service: 'input_boolean.turn_{{ iif(hallway, ''on'', ''off'') }}
+
+          '
+        target:
+          entity_id: input_boolean.olive_bedroom_occupancy
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - lincoln
+      sequence:
+      - service: 'input_boolean.turn_{{ iif(hallway, ''on'', ''off'') }}
+
+          '
+        target:
+          entity_id: input_boolean.lincoln_bedroom_occupancy
+  mode: single
+- id: '1700245037760'
+  alias: Notification - Garage Door changed
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - cover.garage_door
+    from: closed
+    to: open
+    id: garage_opened
+  - platform: state
+    entity_id:
+    - cover.garage_door
+    from: open
+    to: closed
+    id: garage_closed
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - garage_opened
+      sequence:
+      - service: notify.devices
+        data:
+          ttl: 0
+          priority: high
+          message: Door opened.
+          title: Garage Door
+    - conditions:
+      - condition: trigger
+        id:
+        - garage_closed
+      sequence:
+      - service: notify.devices
+        data:
+          ttl: 0
+          priority: high
+          message: Door closed.
+          title: Garage Door
+  mode: single
+- id: '1709783664000'
+  alias: Set Indicator Light for SWITCH on Scene Controller with State Overwrite
+  description: ''
+  use_blueprint:
+    path: sle118/set-zen32-indicator-for-switch-with-onoff-state-overwrite.yaml
+    input:
+      zooz_switch: 9e71253c03c324ff864662baae930247
+      target_light: switch.primary_bedroom_office_light
+      scene_button: '4'
+      off_state: '2'
+      off_color: '3'
+      on_state: '3'
+      on_color: '1'

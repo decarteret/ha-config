@@ -67,13 +67,6 @@ switch: !include switches.yaml
 
 zone: !include zones.yaml
 
-proximity:
-  home:
-    devices:
-      - person.jason
-      - person.christina
-    unit_of_measurement: mi
-
 konnected: !include konnected.yaml
 
 alarm_control_panel:
